@@ -1,0 +1,33 @@
+# Django-specific files
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+
+# Media files
+media/
+
+# Static files (if not using a CDN)
+static/
+
+# Virtual environment
+venv/
+.env
+
+# Compiled files and build artifacts
+*.so
+*.pyc
+*.pyo
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE-specific files
+.idea/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
