@@ -1,4 +1,4 @@
-{% extends "templates/base_beta.html" %} {% block content %}
+{% extends 'base_beta.html' %} {% block content %}
 <!-- Tab Menu -->
 {% include 'partials/_tabmenu.html'%}
 <div class="page-heading-container">
@@ -9,19 +9,19 @@
   <div class="row add-filter-search">
     <div class="col-md-9">
       <div class="row">
-        <div class="col-3">
+        <div class="col-md-3">
           <!-- Add New Campaign Button -->
 
           <div class="add-new-campaign">
             <button class="btn btn-secondary">Add a Campaign</button>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-md-4">
           <!-- Sort Ads Container -->
 
           <div class="sort-ads-container">
             <label for="">Sort By:</label>
-            <select class="form-select form-select-sm" aria-label=".form-select-sm campaign-select">
+            <select class="form-control form-select-sm" aria-label=".form-select-sm campaign-select">
               <option selected>Open this select menu</option>
               <option value="1">One</option>
               <option value="2">Two</option>

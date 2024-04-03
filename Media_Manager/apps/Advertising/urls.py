@@ -154,6 +154,8 @@ urlpatterns = [
 	path('adadmin/financial', views.adminFinancial, name='adminFinancial'),
     path('adadmin/financial/fiscal', views.adminFinancialFiscal, name='adminFinancialFiscal'),
     path('adadmin/financial/new-magazine', views.adminNewMagazine, name='adminNewMagazine'),
+	path('admin/financial/new-newspaper', views.adminNewNewspaper, name='adminNewNewspaper'),
+	path('admin/financial/new-digital', views.adminNewDigital, name='adminNewDigital'),
 
 	# Admin Routes 
 	path('admin/', admin.view_admin_panel, name='view_admin_panel'),

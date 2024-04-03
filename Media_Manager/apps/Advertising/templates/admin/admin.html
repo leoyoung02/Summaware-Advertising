@@ -1,4 +1,4 @@
-{% extends 'base_beta.html' %} {% block content %}
+{% extends 'base_gamma.html' %} {% block content %}
 
 <div class="admin-landing-container container mt-5">
   <div class="heading-container text-center">
@@ -10,7 +10,7 @@
   </div>
 
   <div class="admin-blocks mt-5">
-    <div class="row mb-4">
+    <div class="row top">
       <div class="col-md-4">
         <a class="admin-block-link" href="{% url 'adminGeneral' %}">
           <div class="admin-block general">
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="row justify-content-md-center">
+    <div class="row bottom">
       <div class="col-md-4">
         <a class="admin-block-link" href="{% url 'adminFinancial' %}">
           <div class="admin-block financial">

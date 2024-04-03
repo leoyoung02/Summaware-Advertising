@@ -35,3 +35,9 @@ def adminNewMagazine(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	return render(request, 'admin/products/new-magazine.html')
+
+def adminNewNewspaper(request):
+  return render(request, 'admin/products/new-newspaper.html')
+
+def adminNewDigital(request):
+  return render(request, 'admin/products/new-digital.html')

@@ -1,5 +1,5 @@
-{% extends 'base_beta.html' %} {% block content %} {% include 'partials/modal/admin/financial/_edit-fiscal-year.html'%} {% include 'partials/modal/admin/financial/_edit-accounting-year.html'%}{% include 'partials/modal/admin/financial/_new-accounting-year.html'%}
-<div class="landing-container container mt-5">
+{% extends 'base_gamma.html' %} {% block content %} {% include 'partials/modal/admin/financial/_edit-fiscal-year.html'%} {% include 'partials/modal/admin/financial/_edit-accounting-year.html'%}{% include 'partials/modal/admin/financial/_new-accounting-year.html'%}
+<div class="landing-container mt-5">
   <div class="heading-container text-center">
     <h3 class="heading">Fiscal Year Name Goes Here</h3>
   </div>
@@ -8,8 +8,8 @@
     <a href="{% url 'admin' %}">Admin Home</a>
   </div>
 
-  <div class="content-container pb-3">
-    <div class="d-flex justify-content-end mb-5">
+  <div class="content-container custom-border pb-3">
+    <div class="save-container">
       <button class="btn btn-secondary-light">Save Changes</button>
     </div>
 
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-end">
+    <div class="save-container">
       <button class="btn btn-secondary-light">Save Changes</button>
     </div>
   </div>
