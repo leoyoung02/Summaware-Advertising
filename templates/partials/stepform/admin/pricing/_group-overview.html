@@ -1,0 +1,63 @@
+{% include 'partials/modal/admin/pricing/_new-adjustment.html'%} 
+{% include 'partials/modal/admin/pricing/_edit-adjustment.html'%} 
+{% include 'partials/modal/admin/financial/_new-company-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-company-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-location-code.html'%} 
+{% include 'partials/modal/admin/financial/_new-location-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-department-code.html'%} 
+{% include 'partials/modal/admin/financial/_new-department-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-profit-code.html'%} 
+{% include 'partials/modal/admin/financial/_new-profit-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-gl-code.html'%} 
+{% include 'partials/modal/admin/financial/_new-gl-code.html'%} 
+{% include 'partials/modal/admin/financial/_edit-code-layout.html'%}
+<div class="multisteps-form__panel p-4 rounded js-active" data-animation="scaleIn">
+  <div class="heading-arrows-container d-flex justify-content-between">
+    <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
+    <h3 class="multisteps-form__title text-center">Group Overview</h3>
+    <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <div class="multisteps-form__content">
+    <div class="">
+      <div class="save-container">
+        <button class="btn btn-secondary-light">Save Changes</button>
+      </div>
+
+      <div class="">
+        <div class="tabcontent">
+          <div class="btn-search-container">
+            <div class="row">
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('editInfo').style.display='block'"><i class="fa fa-solid fa-plus"></i> Edit Info </button>
+                </div>
+              </div>
+            </div>
+            <hr />
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div id="default_styles_content">
+                        <h3 class="multisteps-form__title">Assigned Publications</h3>
+                        <hr />
+                        <div id="default_styles_table">
+                            <div class="default-styles-row">
+                                <textarea rows="10" style="width: 100%;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="save-container d-flex justify-content-end mt-5">
+        <button class="btn btn-secondary-light">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

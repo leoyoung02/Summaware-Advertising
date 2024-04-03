@@ -1244,10 +1244,6 @@
   border-bottom-right-radius: 8px;
 }
 
-.my-modal.chase-modal .modal-content:after {
-  background-image: none !important;
-}
-
 .modal-button {
   border: none !important;
   background: none;
