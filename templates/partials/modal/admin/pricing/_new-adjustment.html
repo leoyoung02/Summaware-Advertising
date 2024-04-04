@@ -13,126 +13,123 @@
     <br>
     <br>
     <br>
-    <br> 
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <div class="form-group mb-4">
-          <label for=""><strong>Adjustment Name:</strong></label>
-          <input type="text" name="" id="" class="form-control" />
+      <div class="col-md-8">        
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <div class="form-group mb-4">
+              <label for=""><strong>Adjustment Name:</strong></label>
+              <input type="text" name="" id="" class="form-control" />
+            </div>
+          </div>      
+          <div class="col-md-2"></div>
         </div>
-      </div>      
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for=""><strong>Code:</strong></label>
+              <input type="text" name="" id="" class="form-control" />
+            </div>
+          </div>      
+          <div class="col-md-3"></div>
+        </div>  
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for=""><strong>Apply Level:</strong></label>
+              <select name="" id="" class="form-control">
+                <option>select</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for=""><strong>Section(optional):</strong></label>
+              <select name="" id="" class="form-control">
+                <option>select</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for=""><strong>Value Type:</strong></label>
+              <select name="" id="" class="form-control">
+                <option>select</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-4">
+              <label for=""><strong>Value:</strong></label>
+              <select name="" id="" class="form-control">
+                <option>$</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mt-4" style="padding-top: 10px">
+              <br>
+              <input type="checkbox" class="form-check-input" id="tearsheets" name="tearsheets">
+              <label class="form-check-label" for="tearsheets">Prompt For Value?</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for="gl-code"><strong>Credit/Debit:</strong></label>
+              <select name="" id="" class="form-control">
+                <option>select</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-4">
+              <label for=""><strong>Assign GL Code(optional):</strong></label>
+              <select name="" id="" class="form-control">
+                <option>select</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="item-select-container mt-5">
+              <div class="available-pubs">
+                Available Publications:<br />
+                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 100px;">
+                  <option value="times-leader-print-edition">Pub 1</option>
+                  <option value="times-leader-e-edition">Pub 2</option>
+                  <option value="times-leader-e-edition">Pub 3</option>
+                </select>
+              </div>
+              <div class="transferBtns">
+                <br />
+                <a id="btnLeft" style="width: 70px;" > >> </a>
+                <br>
+                <a id="btnRight" style="width: 70px;"> > </a>
+                <br />
+                <a id="" style="width: 70px;"> < </a>
+                <br>
+                <a id="" style="width: 70px;"> << </a>
+              </div>
+              <div class="selected-pubs">
+                Selected Publications:<br />
+                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 100px;"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-2"></div>
-    </div>  
-
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Code:</strong></label>
-          <input type="text" name="" id="" class="form-control" />
-        </div>
-      </div>      
-      <div class="col-md-3"></div>
-    </div>  
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Apply Level:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Section(optional):</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
     </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Value Type:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group mb-4">
-          <label for=""><strong>Value:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>$</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group mt-4" style="padding-top: 10px">
-          <br>
-          <input type="checkbox" class="form-check-input" id="tearsheets" name="tearsheets">
-          <label class="form-check-label" for="tearsheets">Prompt For Value?</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for="gl-code"><strong>Credit/Debit:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Assign GL Code(optional):</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="item-select-container mt-5">
-          <div class="available-pubs">
-            Available Publications:<br />
-            <select multiple="multiple" id="lstBox1" class="form-select">
-              <option value="times-leader-print-edition">Pub 1</option>
-              <option value="times-leader-e-edition">Pub 2</option>
-              <option value="times-leader-e-edition">Pub 3</option>
-            </select>
-          </div>
-          <div class="transferBtns">
-            <input type="button" id="btnLeft" style="width: 70px;" value="  >>  " />
-            <br />
-            <br />
-            <input class="mb-2" type="button" id="btnRight" style="width: 70px;" value="  >  " />
-            <br />
-            <br />
-            <br />
-            <br /><input type="button" id="btnLeft" style="width: 70px;" value="  <  " />
-            <br />
-            <br />
-            <br /><input type="button" id="btnLeft" style="width: 70px;" value="  <<  " />
-          </div>
-          <div class="selected-pubs">
-            Selected Publications:<br />
-            <select multiple="multiple" id="lstBox2" class="form-select"></select>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <br>
-
+    <br>
     <div class="btn-container text-center">
       <button class="btn btn-secondary px-5"> Create Adjustment </button>
     </div>
