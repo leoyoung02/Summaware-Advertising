@@ -91,13 +91,10 @@ function advertiser_next() {
     var advertiser = document.getElementById("select2-search-select-container").innerText;
     if (advertiser_id === "") {
         $.toastr.warning("please select advertiser");
-
         return;
     }
-
     document.getElementById("sum-advertiser-id").innerHTML = advertiser_id;
     document.getElementById("sum-advertiser-name").innerHTML = advertiser;
-
     showSection(2);
 }
 

@@ -196,9 +196,12 @@
                 </ul>
             </li>
 			{% endif %}
+			<li class="advertise-sidebar-li">
+				<a class="adiversite-sidebar-link" href="{{url}}/advertising/adadmin"><i class="fa fa-gear"></i> <span class="advertise-sidebar-li-span">Admin</span></a>
+            </li>
 			{% if "BI.circulation_access" in menu %}
 			<li class="advertise-sidebar-li">
-				<a href="{{url}}/circulation"><i class="fa fa-undo"></i> <span class="advertise-sidebar-li-span">Return To</span> <img class="advertise-sidebar-li-span" src="{% static "dist/img/summaware-icon-500.png" %}" width="20"  /></a>
+				<a style="cursor: cursor;" href="{{url}}/circulation"><i class="fa fa-undo"></i> <span class="advertise-sidebar-li-span">Return To</span> <img class="advertise-sidebar-li-span" src="{% static "dist/img/summaware-icon-500.png" %}" width="20"  /></a>
 			</li>
 			{% endif %}
 		</ul>

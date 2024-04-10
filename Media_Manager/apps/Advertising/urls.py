@@ -156,6 +156,8 @@ urlpatterns = [
     path('adadmin/financial/new-magazine', views.adminNewMagazine, name='adminNewMagazine'),
 	path('admin/financial/new-newspaper', views.adminNewNewspaper, name='adminNewNewspaper'),
 	path('admin/financial/new-digital', views.adminNewDigital, name='adminNewDigital'),
+	path('adadmin/pricing', views.adminPricing, name='adminPricing'),
+	path('adadmin/pricing/edit-rate', views.adminPricingEditRate, name='adminPricingEditRate'),
 
 	# Admin Routes 
 	path('admin/', admin.view_admin_panel, name='view_admin_panel'),
