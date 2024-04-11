@@ -1,4 +1,3 @@
-<<<<<<< HEAD
     {% extends "templates/base.html" %}
 
     {% block page-header %}<i class="fa fa-id-card"></i> Production{% endblock %}
@@ -107,25 +106,4 @@
 			</div>
 		</div>
 	</form>
-=======
-    {% extends "templates/base.html" %}
-
-    {% block page-header %}<i class="fa fa-id-card"></i> Production{% endblock %}
-
-    {% block breadcrumb %}
-    <li class="active">Production</li>
-    {% endblock %}
-
-	{% block content %}
-    <div id="content">
-		<div class="col-md-10">
-			{% if access == "deny" %}
-			<div id="message">{{ message }}</div>
-			{% else %}
-			<div id="message">{{ message }}</div>
-			<div>Coming soon!</div>
-			{% endif %}
-		</div>
-	</div>
->>>>>>> 7a937277d63f6c5c5670567696935b34e97526a0
 	{% endblock %}
