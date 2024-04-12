@@ -1,3 +1,6 @@
+*.gitignore*
+*settings.py*
+
 # Django-specific files
 *.log
 *.pot
@@ -10,6 +13,7 @@ db.sqlite3
 media/
 
 # Static files (if not using a CDN)
+
 
 # Virtual environment
 venv/

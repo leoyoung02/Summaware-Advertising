@@ -65,7 +65,6 @@ class Account(models.Model):
     tax_id = models.CharField(max_length=50)
     prepay_required = models.BooleanField(default=False)
     # it is extra fields added by Chase - end
-
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100, null=True)
     state = models.CharField(max_length=100, null=True)
