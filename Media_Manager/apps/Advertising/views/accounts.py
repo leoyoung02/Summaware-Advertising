@@ -47,10 +47,10 @@ def advertising_account(request, id):
         days = (date.today() - account.created_at.date()).days
         return JsonResponse({ "message": "Success", "days": days}, status=200)
 
-    company_contacts = [contact for contact in CompanyContact.objects.all() if contact.account_id == account.id and not contact.is_billing]
+    company_contacts = [contact for contact in CompanyContact.objects.all() if contact.account_id == account.id and not contact.active]
 
     try:
-        billing_contact = CompanyContact.objects.get(account_id=account.id, is_billing=True)
+        billing_contact = CompanyContact.objects.get(account_id=account.id, active=True)
     except CompanyContact.DoesNotExist:
         billing_contact = None
 
@@ -351,8 +351,8 @@ def create_account(request):
             industry_code = None
 
         contactName = request.POST.get('first_name')+' '+request.POST.get('last_name')
-        account = Account(name=request.POST.get('name'), contact_name=contactName, address=request.POST.get('address'), city=request.POST.get('city'), state=request.POST.get('state'),
-                            zip_code=request.POST.get('zip_code'), phone=request.POST.get('phone'), email=request.POST.get('email'), billing_email=request.POST.get('billingEmail'),
+        account = Account(name=request.POST.get('name'), contact_name=contactName, contact_name_first=request.POST.get('first_name'), contact_name_last=request.POST.get('last_name'), company_name_1=request.POST.get('company_name_1'), company_name_2=request.POST.get('company_name_2'), address=request.POST.get('address'), address_2=request.POST.get('address2'), country=request.POST.get('country'), city=request.POST.get('city'), state=request.POST.get('state'),
+                            zip_code=request.POST.get('zip_code'), tearsheets=request.POST.get('tearsheets'), phone=request.POST.get('phone'), email=request.POST.get('email'), billing_email=request.POST.get('billingEmail'), tax_id=request.POST.get('tax_id'), prepay_required=request.POST.get('prepay_required'),
                             website=request.POST.get('website'), legacy_id=request.POST.get('legacy_id'), submitter=request.user.username, account_type=accountType,
                             sales_person=salesperson, industry_code=industry_code)
         account.save()
@@ -361,7 +361,7 @@ def create_account(request):
                                         zip_code=request.POST.get('zip_code'), primary=True)
         mainAddress.save()
 
-        contact = CompanyContact(account=account, first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'), default=True, is_billing=True)
+        contact = CompanyContact(account=account, first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'), default=True, active=True)
         contact.save()
 
         if request.POST.get('use-billing-address'):
@@ -387,11 +387,11 @@ def create_account(request):
                 
                 address.save()
 
-        message = 'Account #' + account.id + ': ' + account.name + 'created by ' + request.user.username
+        message = 'Account #' + str(account.id) + ': ' + account.name + 'created by ' + request.user.username
         logging.info(message)
         print(message)
 
-        return HttpResponseRedirect("/advertising/account/" + account.id)
+        return HttpResponseRedirect("/advertising/account/" + str(account.id))
 
     context = {
         "access": "allow",

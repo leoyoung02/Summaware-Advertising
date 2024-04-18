@@ -53,6 +53,19 @@ class Account(models.Model):
     industry_code = models.ForeignKey('IndustryCode', null=True, on_delete=SET_NULL, default=None, related_name='account_industry_code')
     name = models.CharField(max_length=100)
     contact_name = models.CharField(max_length=255)
+
+    # it is extra fields added by Chase - start
+    contact_name_first = models.CharField(max_length=100)
+    contact_name_last = models.CharField(max_length=100)
+    company_name_1 = models.CharField(max_length=255)
+    company_name_2 = models.CharField(max_length=255)
+    address_2 = models.CharField(max_length=255)
+    country = models.CharField(max_length=100)
+    tearsheets = models.CharField(max_length=255)
+    tax_id = models.CharField(max_length=50)
+    prepay_required = models.BooleanField(default=False)
+    # it is extra fields added by Chase - end
+
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100, null=True)
     state = models.CharField(max_length=100, null=True)
