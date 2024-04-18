@@ -605,6 +605,7 @@ def get_salesreps_tasks(request, salesrep_id):
     else:
         return JsonResponse({ "message": "No tasks found.", "name": name }, status=200)
 
+
 def new_salesrep_task(request):
     if request is None or not request.user.is_authenticated:
         return redirect(login_redirect + "advertising")
