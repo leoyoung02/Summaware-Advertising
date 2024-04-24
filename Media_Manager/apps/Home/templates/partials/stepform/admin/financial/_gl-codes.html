@@ -7,18 +7,18 @@
   </div>
 
   <div class="multisteps-form__content">
-    <div class="content-container container">
-      <div class="d-flex justify-content-end mb-5">
-        <button class="btn btn-secondary me-2" onclick="document.getElementById('templateDownload').style.display='block'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
+    <div class="">
+      <div class="content-end">
+        <button class="btn btn-secondary mgr-1" onclick="document.getElementById('templateDownload').style.display='block'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
         <button class="btn btn-dl-template" onclick="document.getElementById('uploadCSV').style.display='block'"><i class="fa fa-solid fa-arrow-up"></i> Upload CSV Files</button>
       </div>
 
-      <div class="text-container text-center my-5">
+      <div class="text-container text-center mgx-3">
         <p class="text w-50 m-auto">Select a section below to view/manage its list of codes.</p>
       </div>
 
-      <div class="tab-menu-container container">
-        <div class="tab row">
+      <div class="tab-menu-container">
+        <div class="tab row content-center">
           <div class="col">
             <button class="btn btn-secondary-light tablinks" onclick="openSection(event, 'Company')">Company</button>
             <input type="text" name="" id="" class="form-control" value="xx" />
@@ -41,20 +41,20 @@
           </div>
         </div>
 
-        <div class="btn-container d-flex justify-content-end mb-5">
+        <div class="btn-container">
           <button class="btn btn-link" onclick="document.getElementById('editCodeLayout').style.display='block'">Edit Layout</button>
         </div>
 
         <div id="Company" class="tabcontent">
           <div class="">
             <div class="row">
-              <div class="col-md-6">
-                <div class="filter-container d-flex">
-                  <button class="btn btn-secondary mb-1" onclick="document.getElementById('newCompanyCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Company Code</button>
-                  <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('newCompanyCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Company Code</button>
+                  <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-lg-6 col-md-12 search-container">
                 <div class="form-group has-search">
                   <input type="text" class="form-control" placeholder="Search..." />
                   <span class="fa fa-search form-control-feedback"></span>
@@ -104,15 +104,15 @@
         </div>
 
         <div id="Location" class="tabcontent">
-          <div class="">
+          <div class="btn-search-container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="filter-container d-flex">
-                  <button class="btn btn-secondary mb-1" onclick="document.getElementById('newLocationCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Location Code</button>
-                  <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('newLocationCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Location Code</button>
+                  <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-lg-6 col-md-12 search-container">
                 <div class="form-group has-search">
                   <input type="text" class="form-control" placeholder="Search..." />
                   <span class="fa fa-search form-control-feedback"></span>
@@ -162,15 +162,15 @@
         </div>
 
         <div id="Department" class="tabcontent">
-          <div class="">
+          <div class="btn-search-container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="filter-container d-flex">
-                  <button class="btn btn-secondary mb-1" onclick="document.getElementById('newDepartmentCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Department Code</button>
-                  <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('newDepartmentCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Department Code</button>
+                  <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-lg-6 col-md-12 search-container">
                 <div class="form-group has-search">
                   <input type="text" class="form-control" placeholder="Search..." />
                   <span class="fa fa-search form-control-feedback"></span>
@@ -220,15 +220,15 @@
         </div>
 
         <div id="Profit" class="tabcontent">
-          <div class="">
+          <div class="btn-search-container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="filter-container d-flex">
-                  <button class="btn btn-secondary mb-1" onclick="document.getElementById('newProfitCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Profit Code</button>
-                  <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('newProfitCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Profit Code</button>
+                  <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-lg-6 col-md-12 search-container">
                 <div class="form-group has-search">
                   <input type="text" class="form-control" placeholder="Search..." />
                   <span class="fa fa-search form-control-feedback"></span>
@@ -278,15 +278,15 @@
         </div>
 
         <div id="GLCode" class="tabcontent">
-          <div class="">
+          <div class="btn-search-container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="filter-container d-flex">
-                  <button class="btn btn-secondary mb-1" onclick="document.getElementById('newGLCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New GL Code</button>
-                  <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
+              <div class="col-lg-6 col-md-12">
+                <div class="filter-container">
+                  <button class="btn btn-secondary" onclick="document.getElementById('newGLCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New GL Code</button>
+                  <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-lg-6 col-md-12 search-container">
                 <div class="form-group has-search">
                   <input type="text" class="form-control" placeholder="Search..." />
                   <span class="fa fa-search form-control-feedback"></span>
