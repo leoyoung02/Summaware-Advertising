@@ -1,5 +1,5 @@
 *.gitignore*
-*settings.py*
+#*settings.py*
 
 # Django-specific files
 *.log
