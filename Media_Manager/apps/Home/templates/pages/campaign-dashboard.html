@@ -1,4 +1,5 @@
-{% extends 'base_beta.html' %} {% block content %} {% include 'partials/modal/_edit-ad-info.html'%}
+{% extends 'base_beta.html' %} {% block content %}
+{% include 'templates/partials/modal/_edit-ad-info.html'%}
 <div class="page-heading-container container">
   <h1>Campaign Dashboard</h1>
   <hr />
@@ -10,7 +11,7 @@
 </div>
 <div class="container">
   <!-- Step Form -->
-  {% include 'partials/stepform/_stepform.html'%}
+  {% include 'templates/partials/stepform/_stepform.html'%}
 </div>
 
 {% endblock %}
