@@ -1,6 +1,6 @@
 {% extends 'templates/base_gamma.html' %} {% block content %}
-{% include 'partials/modal/admin/pricing/_new-adjustment.html'%} 
-{% include 'partials/modal/admin/pricing/_edit-adjustment.html'%} 
+{% include 'templates/partials/modal/admin/pricing/_new-adjustment.html'%} 
+{% include 'templates/partials/modal/admin/pricing/_edit-adjustment.html'%} 
 
 <div class="landing-container container mt-5">
   <div class="heading-container text-center">
@@ -33,11 +33,11 @@
                 <div class="col-12 m-auto">
                   <div class="multisteps-form__form">
                     <!--single form panel-->
-                    {% include 'partials/stepform/admin/pricing/_group-overview.html'%}
+                    {% include 'templates/partials/stepform/admin/pricing/_group-overview.html'%}
                     <!--single form panel-->
-                    {% include 'partials/stepform/admin/pricing/_print-rate.html'%}
+                    {% include 'templates/partials/stepform/admin/pricing/_print-rate.html'%}
                     <!--single form panel-->
-                    {% include 'partials/stepform/admin/financial/_fiscal.html'%}
+                    {% include 'templates/partials/stepform/admin/financial/_fiscal.html'%}
                   </div>
                 </div>
               </div>
