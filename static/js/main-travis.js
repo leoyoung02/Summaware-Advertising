@@ -344,9 +344,11 @@ var div2Observer = new MutationObserver(function (mutations) {
     });
   });
 });
-
-// Start observing changes in div2
-div2Observer.observe(document.getElementById('div2'), { childList: true });
+var elementDiv2 = document.getElementById('div2');
+if (elementDiv2) {
+  // Start observing changes in div2
+  div2Observer.observe(elementDiv2, { childList: true });
+}
 
 // Observe changes in div1 to detect button addition
 var div1Observer = new MutationObserver(function (mutations) {
@@ -363,5 +365,8 @@ var div1Observer = new MutationObserver(function (mutations) {
   });
 });
 
-// Start observing changes in div1
-div1Observer.observe(document.getElementById('div1'), { childList: true });
+var elementDiv1 = document.getElementById('div1');
+if (elementDiv1) {
+  // Start observing changes in div2
+  div1Observer.observe(elementDiv2, { childList: true });
+}
