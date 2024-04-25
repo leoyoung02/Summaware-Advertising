@@ -74,7 +74,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/var/www/Dev_Media_Manager/templates/','.', './templates/',
+            '/var/www/Dev_Media_Manager/templates',
             #['/var/www/Dev_Media_Manager/templates', '/var/www/Dev_Media_Manager/Media_Manager/', '.', './templates/'],
         ],
         #'DIRS': [os.path.join(BASE_DIR,'templates')],
