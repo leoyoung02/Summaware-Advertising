@@ -1,0 +1,324 @@
+{% extends 'templates/base_gamma.html' %} {% block content %}{% load static %}
+<style>
+.stepper-wrapper {
+    position: relative;    
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    z-index: 100;
+}
+.stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+}
+
+.stepper-item::before {
+    position: absolute;
+    content: "";
+    border-bottom: 8px solid #fff;
+    width: 100%;
+    top: 17px;
+    left: -50%;
+    z-index: 2;
+}
+
+.stepper-item::after {
+    position: absolute;
+    content: "";
+    border-bottom: 2px solid #fff;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 2;
+}
+
+.stepper-item .step-counter {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    margin-bottom: 6px;
+    color:white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.stepper-item.active {
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.stepper-item.completed .step-counter {
+    background-color: #f26722;
+}
+
+.stepper-item.completed::after {
+    position: absolute;
+    content: "";
+    border-bottom: 10px solid #f26722;
+    width: 100%;
+    top: 16px;
+    left: 50%;
+    z-index: 3;
+}
+
+.stepper-item:first-child::before {
+    content: none;
+}
+.stepper-item:last-child::after {
+    content: none;
+}
+.content-container.custom-border:after {
+    height: 236px;
+}
+.rounded-pill {
+    border-radius:20px;
+}
+.none {
+    display: none;
+}
+</style>
+<div class="container mt-5">
+    <div class="heading-container product-magazine text-center">
+        <h3 class="heading">New Publication Setup</h3>
+    </div>
+    <div id="new_publication_step_general_info" class="content-container custom-border custom-container" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <br>
+        <div class="row multistep-content">            
+            <div class="col-lg-3"></div>
+            <div class="col-md-12 col-lg-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group mb-5">
+                            <label for="product-mag">*Publication Name:</label>
+                            <input type="text" name="" id="product-mag" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="columns">Address Line 1:</label>
+                            <input type="text" name="" id="columns" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="page-width">*City</label>
+                            <input type="text" name="" id="page-width" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="page-height">*State:</label>
+                            <select type="text" name="" id="page-height" class="form-control">
+                                <option> Please select State</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="page-width">*Zip Code</label>
+                            <input type="text" name="" id="page-width" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="page-height">*Location</label>
+                            <select type="text" name="" id="page-height" class="form-control">
+                                <option> Please select Location</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="btn-container text-center">
+                    <button class="btn btn-secondary pull-right" onclick="showHideStepModal('new_publication_step_scheduling', 'new_publication_step_general_info')">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_scheduling" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <label for=""><strong>Calendar Type:</strong></label> 
+                            <br>           
+                            <div class="switch2">
+                                <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
+                                <label for="cc-toggle" style="width:200px"></label>                
+                                <span class="active"> Repeat </span>
+                                <span class="deactivate"> Non-repeating </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-width">Name:</label>
+                            <input type="text" name="" id="page-width" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-height">Product Type:</label>
+                            <select type="text" name="" id="page-height" class="form-control">
+                                <option> </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-width">GL Override(optional):</label>
+                            <br>           
+                            <div class="switch2">
+                                <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
+                                <label for="cc-toggle"></label>                
+                                <span class="active"> Yes </span>
+                                <span class="deactivate"> No </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-height">GL Code:</label>
+                            <select type="text" name="" id="page-height" class="form-control">
+                                <option> </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-width">Select your schedule:</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="page-height">Frequency:</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a style="color:inherit"> &nbsp; Daily &nbsp; </a>
+                            <a class="button rounded-pill inline-block" style="background-color: rgba(33, 33, 95, 0.5); display: inline-block;padding: 8px; color: white;"> &nbsp; Weekly &nbsp; </a>
+                            <a style="color:inherit">  &nbsp; Monthly &nbsp; </a>
+                            <a style="color:inherit">  &nbsp; Yearly &nbsp; </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Repeat every <input type="text" style="width: 60px;"> week(s)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="btn-container text-center">
+                    <button class="btn btn-secondary pull-right">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
