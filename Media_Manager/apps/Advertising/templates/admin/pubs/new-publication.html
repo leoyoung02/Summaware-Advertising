@@ -129,7 +129,6 @@
             </div>
             <div class="col-md-2"></div>
         </div>
-        <br>
         <div class="row multistep-content">            
             <div class="col-lg-3"></div>
             <div class="col-md-12 col-lg-6">
@@ -311,10 +310,485 @@
             </div>
             <div class="col-lg-2"></div>
         </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <img src="{% static "images/week-calendar.png" %}" alt="week calendar" width="400">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label for=""><strong>Start Date:</strong></label>
+                            <input type="date" id="start-date" class="sel-date form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label for=""><strong>End Date(optional):</strong></label>
+                            <input type="date" id="end-date" class="sel-date form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <label for=""><strong>Manage Days:</strong></label><br>
+                <img src="{% static "images/month-calendar.png" %}" alt="week calendar" width="400">
+            </div>
+        </div>
         <div class="row multistep-content mb-5">  
             <div class="col-md-12">
-                <div class="btn-container text-center">
-                    <button class="btn btn-secondary pull-right">Next</button>
+                <div class="row btn-container">
+                    <div class="col-md-6 text-left">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_general_info', 'new_publication_step_scheduling')"> Previous  </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_rate_groups', 'new_publication_step_scheduling')"> Next  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_rate_groups" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <br>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <h4>Select which rate groups you'd like to be <br> assign to this publications</h4>                             
+                        </div>
+                    </div>
+                </div>
+                <br>                                        
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="item-select-container mt-5">
+                            <div class="available-pubs">
+                                Available Rage Groups:<br />
+                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
+                                    <option value="times-leader-print-edition">Rate Group 1</option>
+                                    <option value="times-leader-e-edition">Rate Group 2</option>
+                                    <option value="times-leader-e-edition">Rate Group 3</option>
+                                </select>
+                            </div>
+                            <div class="transferBtns">
+                                <br />
+                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <br>
+                                <br />
+                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <br />
+                                <br>
+                                <br>
+                                <br />
+                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <br />
+                                <br>
+                                <a id="" class="custom" style="width: 70px;"> << </a>
+                            </div>
+                            <div class="selected-pubs">
+                                Selected Rate Groups:<br />
+                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="row btn-container">
+                    <div class="col-md-6 text-left">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_scheduling', 'new_publication_step_rate_groups')"> Previous  </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_ad_type', 'new_publication_step_rate_groups')"> Next  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_ad_type" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <br>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <h4>Select from the available Ad Types you <br> would like associated with this Publication</h4>                             
+                        </div>
+                    </div>
+                </div>
+                <br>                                        
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="item-select-container mt-5">
+                            <div class="available-pubs">
+                                Available Ad Type:<br />
+                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
+                                    <option value="times-leader-print-edition">Ad Type 1</option>
+                                    <option value="times-leader-e-edition">Ad Type 2</option>
+                                    <option value="times-leader-e-edition">Ad Type 3</option>
+                                </select>
+                            </div>
+                            <div class="transferBtns">
+                                <br />
+                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <br>
+                                <br />
+                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <br />
+                                <br>
+                                <br>
+                                <br />
+                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <br />
+                                <br>
+                                <a id="" class="custom" style="width: 70px;"> << </a>
+                            </div>
+                            <div class="selected-pubs">
+                                Selected Ad Types:<br />
+                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="row btn-container">
+                    <div class="col-md-6 text-left">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_rate_groups', 'new_publication_step_ad_type')"> Previous  </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_adjustment', 'new_publication_step_ad_type')"> Next  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_adjustment" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <br>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <h4>Choose which Adjustments that are <br> assigned to this Publication</h4>                             
+                        </div>
+                    </div>
+                </div>
+                <br>                                        
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="item-select-container mt-5">
+                            <div class="available-pubs">
+                                Available Adjustments:<br />
+                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
+                                    <option value="times-leader-print-edition">Adjustment 1</option>
+                                    <option value="times-leader-e-edition">Adjustment 2</option>
+                                    <option value="times-leader-e-edition">Adjustment 3</option>
+                                </select>
+                            </div>
+                            <div class="transferBtns">
+                                <br />
+                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <br>
+                                <br />
+                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <br />
+                                <br>
+                                <br>
+                                <br />
+                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <br />
+                                <br>
+                                <a id="" class="custom" style="width: 70px;"> << </a>
+                            </div>
+                            <div class="selected-pubs">
+                                Assigned Adjustments:<br />
+                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="row btn-container">
+                    <div class="col-md-6 text-left">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_ad_type', 'new_publication_step_adjustment')"> Previous  </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_sections', 'new_publication_step_adjustment')"> Next  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_sections" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <br>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <h4>Select the sections you would like to be available <br> to use with this Publication</h4>                             
+                        </div>
+                    </div>
+                </div>
+                <br>                                        
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="item-select-container mt-5">
+                            <div class="available-pubs">
+                                Available Sections:<br />
+                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
+                                    <option value="times-leader-print-edition">Section 1</option>
+                                    <option value="times-leader-e-edition">Section 2</option>
+                                    <option value="times-leader-e-edition">Section 3</option>
+                                </select>
+                            </div>
+                            <div class="transferBtns">
+                                <br />
+                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <br>
+                                <br />
+                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <br />
+                                <br>
+                                <br>
+                                <br />
+                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <br />
+                                <br>
+                                <a id="" class="custom" style="width: 70px;"> << </a>
+                            </div>
+                            <div class="selected-pubs">
+                                Assigned Sections:<br />
+                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="row btn-container">
+                    <div class="col-md-6 text-left">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_adjustment', 'new_publication_step_sections')"> Previous  </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_final', 'new_publication_step_sections')"> Next  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_publication_step_final" class="content-container custom-border custom-container none" style="padding-top: 70px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="stepper-wrapper">
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">General Info</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Scheduling</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Rate Groups</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Ad Type</div>
+                    </div>
+                    <div class="stepper-item completed">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Adjustments</div>
+                    </div>
+                    <div class="stepper-item completed active">
+                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                      <div class="step-name">Sections</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row multistep-content">            
+            <div class="col-lg-2"></div>
+            <div class="col-md-12 col-lg-8">
+                <br>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="form-group mb-4 text-center">
+                            <h3 class="success-label"><strong>Publication Has Been Created!</strong></h3>
+                            <br>
+                            <div id="favoriteIcon1" class="mt-2 adsuccess-mark" style="width: 202px; height: 202px;border-radius: 50%;background-color: #03A803;margin-left: auto;margin-right: auto;">
+                                <img src="{% static "svg/Vector (2).svg" %}" style="height: 140px; margin-top: 35px;">
+                            </div>                             
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row multistep-content mb-5">  
+            <div class="col-md-12">
+                <div class="row btn-container">
+                    <div class="col-md-12 text-center">
+                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_general_info', 'new_publication_step_final')"> Create Another Publication  </button>
+                        <a class="btn btn-secondary px-5" href="{% url 'adminGeneral' %}"> Back to Publications  </a>
+                        <a class="btn btn-secondary px-5" onclick=""> View Publication  </a>
+                    </div>
                 </div>
             </div>
         </div>
