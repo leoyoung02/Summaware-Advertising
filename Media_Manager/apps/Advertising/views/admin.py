@@ -42,6 +42,12 @@ def adminPricingEditRate(request):
 		return redirect(login_redirect + '/')
 	return render(request, 'admin/pricing/edit-rate.html')
 
+def adminNewPublication(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	return render(request, 'admin/pubs/new-publication.html')
+
 def adminNewMagazine(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
