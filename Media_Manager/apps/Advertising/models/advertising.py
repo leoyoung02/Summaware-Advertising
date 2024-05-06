@@ -207,7 +207,7 @@ class Adjustment(models.Model):
     active = models.BooleanField(default=True)    
     prompt_for_value = models.BooleanField(default=False)
     section = models.ForeignKey('PublicationSection', on_delete=models.CASCADE, default=None)
-    gross_net = models.CharField(max_length=50)
+    # gross_net = models.CharField(max_length=50)
     
     class Meta:
         db_table = 'advertising_adjustment'

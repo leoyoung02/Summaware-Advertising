@@ -325,7 +325,10 @@
                         <div class="form-group">
                             <label for="page-height">GL Code:</label>
                             <select type="text" name="" id="page-height" class="form-control">
-                                <option> </option>
+                                <option> select GL Code</option>
+                                {% for code in gl_codes %}
+                                <option value="{{ code.id }}">{{ code.code }} - {{ code.description }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -548,10 +551,11 @@
                         <div class="item-select-container mt-5">
                             <div class="available-pubs">
                                 Available Ad Type:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
-                                    <option value="times-leader-print-edition">Ad Type 1</option>
-                                    <option value="times-leader-e-edition">Ad Type 2</option>
-                                    <option value="times-leader-e-edition">Ad Type 3</option>
+                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">                                    
+                                    {% for type in adTypes %}
+                                        <option value="{{ type.id }}">{{ type.name }} {{ type.code }}</option>
+                                    {% empty %}
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">
@@ -643,9 +647,9 @@
                             <div class="available-pubs">
                                 Available Adjustments:<br />
                                 <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
-                                    <option value="times-leader-print-edition">Adjustment 1</option>
-                                    <option value="times-leader-e-edition">Adjustment 2</option>
-                                    <option value="times-leader-e-edition">Adjustment 3</option>
+                                    {% for item in adjustments %}
+                                    <option value="{{item.id}}">{{item.code}} ${{item.description}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">

@@ -1,4 +1,8 @@
+
+from ..models.orders import *
 from django.shortcuts import render, redirect
+from ..models.companies import *
+from ..models.advertising import *
 
 def admin(request):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -46,7 +50,19 @@ def adminNewPublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/pubs/new-publication.html')
+	
+	adTypes = AdType.objects.all().order_by('name')
+	gl_codes = GLCode.objects.all().order_by('id')
+	adjustments = Adjustment.objects.all().order_by('id')	
+
+	context = {
+        "access": "allow",
+        "message": "",
+        "adTypes": adTypes,
+        "gl_codes": gl_codes,
+        "adjustments": adjustments
+    }
+	return render(request, 'admin/pubs/new-publication.html', context)
 
 def adminNewMagazine(request):
 	# Check if user is logged in, if not, redirect  to login screen
