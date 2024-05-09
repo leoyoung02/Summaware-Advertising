@@ -143,14 +143,15 @@
             document.getElementById('edit-adjustment-value').value = adjustment.value;
             document.getElementById('edit-adjustment-prompt-for-value').value = adjustment.prompt_for_value;
             document.getElementById('edit-adjustment-gl-code').value = adjustment.gl_code;
+            document.getElementById('adminadjustment-active').textContent = adjustment.active == true ? 'Deactivate' : 'Active';
             var select = document.querySelector(".edit-adjustment-lstBox1");
-            assigned_publications.forEach(function(item) {
-              var option = new Option(item.name, item.value);
+            unsigned_publications.forEach(function(item) {
+              var option = new Option(item.name, item.id);
               select.add(option);
             });
             var select = document.querySelector(".edit-adjustment-lstBox2");
-            unsigned_publications.forEach(function(item) {
-              var option = new Option(item.name, item.value);
+            assigned_publications.forEach(function(item) {
+              var option = new Option(item.name, item.id);
               select.add(option);
             });
         })

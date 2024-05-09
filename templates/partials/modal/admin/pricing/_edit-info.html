@@ -78,9 +78,9 @@
                 </form>
                 <div class="row">  
                     <div class="btn-container text-center">
-                        <button class="btn btn-danger active-rategroup">Deactivate</button>
-                        <button class="btn btn-gray status-rategroup">Archive</button>
-                        <button class="btn btn-secondary edit-rategroup">Save Changes</button>
+                        <button class="btn btn-danger active-rategroup" onclick="saveChange(1, `{{rategroup.active}}`)">{% if rategroup.active %} Deactivate {% else %} Active {% endif %}</button>
+                        <button class="btn btn-gray status-rategroup" onclick="saveChange(2)">Archive</button>
+                        <button class="btn btn-secondary edit-rategroup" onclick="saveChange(3)">Save Changes</button>
                     </div>
                 </div>
             </div>
@@ -88,8 +88,7 @@
         </div>
     </div>
     <script>
-        document.querySelector('.edit-rategroup').addEventListener('click', function(e) {
-            e.preventDefault();  // Prevent the default form submission
+        function saveChange(index, value = null) {
             let form = $('#edit-rategroup-form');
             var formData = new FormData(form[0]);
             let data = {};
@@ -97,8 +96,15 @@
             for (const [key, value] of formData) {
                 data[key] = value;
             }
-            data['active'] = true;
-            data['status'] = 1;
+            data['status'] = -1;
+            data['active'] = -1;
+            console.log(index, value);
+            if(index == 2) {
+                data['status'] = 2;
+            } else if(index == 1) {
+                data['active'] = value == 'True' ? false : true;
+            }
+            
             var selectElement = document.querySelector('.edit_lstBox2');
             var values = [];
             
@@ -121,7 +127,7 @@
             success:
                 window.location.href = redirect
             })
-        });
+        };
     </script>
   </div>
   

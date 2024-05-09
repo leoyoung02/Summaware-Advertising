@@ -39,11 +39,15 @@ def adminAdjustmentDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adjustment = AdminAdjustment.objects.get(pk=data['id'])
+	print(adjustment.id)
 	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment.id).select_related('publication')
-	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments] 
+	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments]
+	pub_ids = []
+	for pub_adjustment in pub_adjustments:
+		pub_ids.append(pub_adjustment.publication.id)
 
-	pub_adjustments = PubAdjustment.objects.exclude(adminadjustment=adjustment.id).select_related('publication')
-	unsigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments] 
+	pub_adjustments = Publication.objects.exclude(id__in=pub_ids)
+	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adjustments] 
 
 	response_data = {
 			'id': adjustment.id,
@@ -88,6 +92,16 @@ def adminEditAdjustment(request):
 	adjustment.active = data['active']
 	adjustment.status = data['status']
 	adjustment.save()
+	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment)
+	for pub_adjustment in pub_adjustments:
+		pub_adjustment.delete()
+
+	pub_ids = json.loads(data['publication_id'])
+	print(pub_ids)
+	for id in pub_ids:
+		publication = Publication.objects.get(pk=id)
+		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, publication=publication)
+		new_pub_adjustment.save()
 
 	return JsonResponse({"errors": []}, status=200)
 
@@ -122,6 +136,10 @@ def adminPricingSaveRate(request, groupId):
 	rategroup.name = data['name']
 	rategroup.description = data['description']
 	rategroup.assigned_publications = data['assigned_publications']
+	if data['status'] != -1:
+		rategroup.status = data['status']
+	if data['active'] != -1:
+		rategroup.active = data['active']
 	rategroup.save()
 	return JsonResponse({"errors": []}, status=200)
 

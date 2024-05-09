@@ -210,7 +210,7 @@ class AdminAdjustment(models.Model):
     type = models.CharField(max_length=20) # ['credit', 'debit']
     # type = models.CharField(max_length=20) # ['gross', 'net']
     active = models.BooleanField(default=True)
-    status = models.IntegerField()
+    status = models.IntegerField(default=1)
     prompt_for_value = models.BooleanField(default=False)
     gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
     section = models.ForeignKey('PublicationSection', on_delete=models.CASCADE, default=None)
