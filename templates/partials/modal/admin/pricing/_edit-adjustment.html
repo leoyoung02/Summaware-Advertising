@@ -15,13 +15,14 @@
       <br>
       <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8">        
+        <div class="col-md-8">
+          <form method="post" id="edit-adjustment-form">
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
               <div class="form-group mb-4">
                 <label for=""><strong>Adjustment Name:</strong></label>
-                <input type="text" name="" id="" class="form-control" />
+                <input type="text" name="name" id="edit-adjustment-name" class="form-control" value=""/>
               </div>
             </div>      
             <div class="col-md-2"></div>
@@ -31,7 +32,7 @@
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for=""><strong>Code:</strong></label>
-                <input type="text" name="" id="" class="form-control" />
+                <input type="text" name="code" id="edit-adjustment-code" class="form-control" />
               </div>
             </div>      
             <div class="col-md-3"></div>
@@ -40,16 +41,19 @@
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for=""><strong>Apply Level:</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>select</option>
+                <select name="apply_level" id="edit-adjustment-apply-level" class="form-control">
+                  <option value="order">Order</option>
+                  <option value="insertion">Insertion</option>
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for=""><strong>Section(optional):</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>select</option>
+                <select name="section" id="edit-adjustment-section" class="form-control">
+                  {% for section in sections %}
+                    <option value="{{ section.id }}">{{ section.name }}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
@@ -58,24 +62,23 @@
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for=""><strong>Value Type:</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>select</option>
+                <select name="value_type" id="edit-adjustment-value-type" class="form-control">
+                  <option value="amount">amount</option>
+                  <option value="percentage">percentage</option>
                 </select>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mb-4">
                 <label for=""><strong>Value:</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>$</option>
-                </select>
+                <input type="text" name="value" id="edit-adjustment-value" class="form-control" />
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mt-4" style="padding-top: 10px">
                 <br>
-                <input type="checkbox" class="form-check-input" id="tearsheets" name="tearsheets">
-                <label class="form-check-label" for="tearsheets">Prompt For Value?</label>
+                <input type="checkbox" class="form-check-input" id="tearsheets" name="prompt_for_value">
+                <label class="form-check-label" for="tearsheets" id="edit-adjustment-prompt-for-value">Prompt For Value?</label>
               </div>
             </div>
           </div>
@@ -83,16 +86,19 @@
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for="gl-code"><strong>Credit/Debit:</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>select</option>
+                <select name="type" id="edit-adjustment-type" class="form-control">
+                  <option value="credit">Credit</option>
+                  <option value="debit">Debit</option>
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group mb-4">
                 <label for=""><strong>Assign GL Code(optional):</strong></label>
-                <select name="" id="" class="form-control">
-                  <option>select</option>
+                <select name="gl_code" id="edit-adjustment-gl-code" class="form-control">
+                  {% for glcode in glcodes %}
+                    <option value="{{ glcode.id }}">{{ glcode.code }}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
@@ -102,29 +108,27 @@
               <div class="item-select-container mt-5">
                 <div class="available-pubs">
                   Available Publications:<br />
-                  <select multiple="multiple" id="lstBox1" class="form-select" style="height: 100px;">
-                    <option value="times-leader-print-edition">Pub 1</option>
-                    <option value="times-leader-e-edition">Pub 2</option>
-                    <option value="times-leader-e-edition">Pub 3</option>
+                  <select multiple="multiple" id="lstBox1" class="form-select edit-adjustment-lstBox1" style="height: 100px;">
                   </select>
                 </div>
                 <div class="transferBtns">
                   <br />
-                  <a id="btnLeft" style="width: 70px;" > >> </a>
+                  <a id="edit-btnRightAll" style="width: 70px;" > >> </a>
                   <br>
-                  <a id="btnRight" style="width: 70px;"> > </a>
+                  <a id="edit-btnRight" style="width: 70px;"> > </a>
                   <br />
-                  <a id="" style="width: 70px;"> < </a>
+                  <a id="edit-btnLeft" style="width: 70px;"> < </a>
                   <br>
-                  <a id="" style="width: 70px;"> << </a>
+                  <a id="edit-btnLeftAll" style="width: 70px;"> << </a>
                 </div>
                 <div class="selected-pubs">
                   Selected Publications:<br />
-                  <select multiple="multiple" id="lstBox2" class="form-select" style="height: 100px;"></select>
+                  <select multiple="multiple" id="lstBox2" class="form-select edit-adjustment-lstBox2" style="height: 100px;"></select>
                 </div>
               </div>
             </div>
           </div>
+        </form>
         </div>
         <div class="col-md-2"></div>
       </div>
@@ -132,11 +136,106 @@
       <br>
       <div class="btn-container text-center">    
         <div class="btn-container text-center">
-          <button class="btn btn-gray">Archive</button>
-          <button class="btn btn-danger">Deactivate</button>
-          <button class="btn btn-secondary">Save Changes</button>
+          <button class="btn btn-gray" onclick="saveChange(1)">Archive</button>
+          <button class="btn btn-danger" onclick="saveChange(2)">Deactivate</button>
+          <button class="btn btn-secondary" onclick="saveChange(3)">Save Changes</button>
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+        $('#edit-btnRight').click(function (e) {
+          var selectedOpts = $('.edit-adjustment-lstBox1 option:selected');
+          if (selectedOpts.length == 0) {
+            alert('Nothing to move.');
+            e.preventDefault();
+          }
+
+          $('.edit-adjustment-lstBox2').append($(selectedOpts).clone());
+          $(selectedOpts).remove();
+          e.preventDefault();
+        });
+
+        $('#edit-btnRightAll').click(function (e) {
+          var allOpts = $('.edit-adjustment-lstBox1 option');
+          if (allOpts.length == 0) {
+              alert('Nothing to move.');
+              e.preventDefault();
+              return; 
+          }
+
+          $('.edit-adjustment-lstBox2').append($(allOpts).clone());
+          $(allOpts).remove();
+          e.preventDefault();
+        });
+
+        $('#edit-btnLeft').click(function (e) {
+          var selectedOpts = $('.edit-adjustment-lstBox2 option:selected');
+          if (selectedOpts.length == 0) {
+            alert('Nothing to move.');
+            e.preventDefault();
+          }
+
+          $('.edit-adjustment-lstBox1').append($(selectedOpts).clone());
+          $(selectedOpts).remove();
+          e.preventDefault();
+        });
+
+        $('#edit-btnLeftAll').click(function (e) {
+          var allOpts = $('.edit-adjustment-lstBox2 option');
+          if (allOpts.length == 0) {
+              alert('Nothing to move.');
+              e.preventDefault();
+              return; 
+          }
+
+          $('.edit-adjustment-lstBox1').append($(allOpts).clone());
+          $(allOpts).remove();
+          e.preventDefault();
+        });
+      });
+      function saveChange(status) {
+        let form = $('#edit-adjustment-form');
+        var formData = new FormData(form[0]);
+        let data = {};
+        data['status'] = localStorage.getItem('edit-adjustment-status');
+        data['active'] = localStorage.getItem('edit-adjustment-active');
+        if(status == 1) {
+          data['status'] = 2;
+        } else if(status == 2) {
+          data['active'] = false
+        }
+        for (const [key, value] of formData) {
+            data[key] = value;
+        }
+        if(data['prompt_for_value']) {
+          data['prompt_for_value'] = true;
+        } else {
+          data['prompt_for_value'] = false;
+        }
+        var selectElement = document.querySelector('.new_lstBox2');
+        var values = [];
+        
+        for (var i = 0; i < selectElement.options.length; i++) {
+            values.push(selectElement.options[i].value);
+        }
+        data['publication_id'] = JSON.stringify(values);
+        data['id'] = localStorage.getItem('edit-adjustment-id');
+        if(!data['section']) data['section'] = '';
+        if(!data['value']) data['value'] = 0;
+        fetch("pricing/edit-adjustment", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              "Accept": "application/json",
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          window.location.href = `{% url 'adminPricing' %}`
+        })
+      };
+    </script>
   </div>
   

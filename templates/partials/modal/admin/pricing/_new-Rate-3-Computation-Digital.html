@@ -20,7 +20,7 @@
         </div>
         <br>
         <h3 class="heading text-center" style="margin-bottom: 0px;">
-            <a style="cursor: pointer;" onclick="document.getElementById('new_rate_3_computation_digital').style.display='none';document.getElementById('new_rate_3_computation').style.display='block';">Digital</a> 
+            <a style="cursor: pointer;">Digital</a> 
         </h3>
         <div class="row">
             <div class="col-md-3"></div>
@@ -39,9 +39,9 @@
                             <div class="col-md-12 text-center">
                                 <strong>Select Impression:</strong>                                
                                 <div class="text-center">
-                                    <div style="cursor: pointer;" onclick="document.getElementById('new_rate_3_computation_digital_1').style.display='block';document.getElementById('new_rate_3_computation_digital').style.display='none';" class="switch2">
-                                        <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                                        <label for="cc-toggle"></label>                        
+                                    <div style="cursor: pointer; " class="switch2">
+                                        <input id="cc-toggle-impression" class="check-toggle check-toggle-round-flat" type="checkbox"/>
+                                        <label for="cc-toggle-impression"></label>                        
                                         <span class="active">Flat Rate</span>
                                         <span class="deactivate">CPM</span>
                                     </div>
@@ -81,8 +81,8 @@
                             <div class="col-md-3 text-center=">
                                 <div class="">
                                     <div class="switch2 custom" style="width: 120px;">
-                                        <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                                        <label for="cc-toggle"></label>                        
+                                        <input id="cc-toggle-digital-override-rate" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                                        <label for="cc-toggle-digital-override-rate"></label>                        
                                         <span class="deactivate">Yes</span>
                                         <span class="active">No</span>
                                     </div>
@@ -90,12 +90,94 @@
                             </div>
                             <div class="col-md-3"></div>
                         </div>
+                        <br>
+                        <div class="cpm" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <div class="table-container mt-2">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" width="25%">Description</th>
+                                                    <th scope="col" width="25%">Size</th>
+                                                    <th scope="col" width="35%">Price</th>
+                                                    <th scope="col" width="15%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Full Page</td>
+                                                    <td>5x11</td>
+                                                    <td>
+                                                        <input class="form-control">
+                                                    </td>
+                                                    <td width="50">
+                                                        <button class="btn btn-success btn-sm" style="width:50px;">Reset</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Full Page</td>
+                                                    <td>5x11</td>
+                                                    <td>
+                                                        <input class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-success btn-sm" style="width:50px;">Reset</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <div class="row btn-container text-right">
+                                        <button class="btn btn-secondary px-5"> Save Price </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <a>Advanced Options <i class="fa fa-chevron-down"></i></a>
+                        <a style="cursor: pointer;" class="show_advanced_options">Advanced Options <i class="fa fa-chevron-down"></i></a>
+                    </div>
+                </div>
+                <div id="digital_advanced_options" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6"><hr></div>
+                        <div class="col-md-3"></div>
+                    </div>  
+                    <br>
+                    <div class="text-center">
+                        Download the template below and input your<br>
+                        data. Them upload the template to import the<br>
+                        data into this system
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-dl-template" style="display: inline-block;">
+                                <div class="btn-content d-flex justify-content-between">
+                                <span>Download Template&nbsp;<i class="fa fa-solid fa-download"></i></span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <button class="btn btn-secondary" style="display: inline-block;">
+                                <div class="btn-content d-flex justify-content-between">
+                                <span>Upload Template&nbsp;<i class="fa fa-solid fa-upload"></i></span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="row btn-container">
@@ -103,10 +185,24 @@
                         <button class="btn px-5 btn-gray" onclick="document.getElementById('new_rate_2_date').style.display='block';document.getElementById('new_rate_3_computation_digital').style.display='none';"> Previous  </button>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="document.getElementById('new_rate_3_computation_digital').style.display='none';document.getElementById('new_rate_4_final').style.display='block';"> Create Rate  </button>
+                        <button class="btn btn-secondary create_digital_rate" onclick="document.getElementById('new_rate_3_computation_digital').style.display='none';document.getElementById('new_rate_4_final').style.display='block';"> Create Rate  </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('cc-toggle-impression').addEventListener('change', function (e) {
+            e.preventDefault();
+            var element = document.querySelector('.cpm');
+            if(element.style.display == 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        })
+        document.querySelector('.create_digital_rate').addEventListener('click', function (e) {
+            e.preventDefault();
+        })
+    </script>
   </div>

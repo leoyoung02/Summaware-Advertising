@@ -191,6 +191,35 @@ class AccountPaymentHistory(models.Model):
         db_table = 'advertising_accountpaymenthistory'
 
 # TODO - Add a model for company contacts history
+class PubAdjustment(models.Model):
+    adminadjustment = models.ForeignKey('AdminAdjustment', on_delete=CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_pub_adjustment'
+
+class AdminAdjustment(models.Model):
+    code = models.CharField(max_length=100, default=None)
+    name = models.CharField(max_length=255, default=None)
+    apply_level = models.CharField(max_length=50) # ['order', 'insertion']
+    value_type = models.CharField(max_length=50) # ['amount', 'percentage']
+    value = models.FloatField(default=0.00)
+    date_created = models.DateTimeField(auto_now=True, null=True)
+    date_updated = models.DateTimeField(auto_now_add=True, null=True)
+    updated_by = models.CharField(max_length=100) # username
+    type = models.CharField(max_length=20) # ['credit', 'debit']
+    # type = models.CharField(max_length=20) # ['gross', 'net']
+    active = models.BooleanField(default=True)
+    status = models.IntegerField()
+    prompt_for_value = models.BooleanField(default=False)
+    gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
+    section = models.ForeignKey('PublicationSection', on_delete=models.CASCADE, default=None)
+    
+    class Meta:
+        db_table = 'advertising_adminadjustment'
+
+    def __str__(self):
+        return self.code
 
 class Adjustment(models.Model):
     code = models.CharField(max_length=100, default=None)
@@ -207,7 +236,7 @@ class Adjustment(models.Model):
     active = models.BooleanField(default=True)    
     prompt_for_value = models.BooleanField(default=False)
     section = models.ForeignKey('PublicationSection', on_delete=models.CASCADE, default=None)
-    # gross_net = models.CharField(max_length=50)
+    gross_net = models.CharField(max_length=50)
     
     class Meta:
         db_table = 'advertising_adjustment'

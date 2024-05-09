@@ -61,29 +61,31 @@
                 </tr>
               </thead>
               <tbody>
+                {% for adjustment in adjustments %}
                 <tr>
-                  <td>0000</td>
-                  <td>Example1</td>
-                  <td>example_1</td>
-                  <td>$0.00</td>
-                  <td>Debit</td>
-                  <td> </td>
-                  <td>All</td>
-                  <td> See List </td>
+                  <td>{{adjustment.id}}</td>
+                  <td>{{adjustment.name}}</td>
+                  <td>{{adjustment.code}}</td>
+                  <td>{{adjustment.value}}{% if adjustment.value_type == 'amount' %}$ {% else %}%{% endif %}</td>
+                  <td>{{adjustment.type}}</td>
+                  <td>{{adjustment.apply_level}}</td>
+                  <td>{{adjustment.section_id}}</td>
+                  <td>{{adjustment.gl_code}}</td>
                   <td>
                     <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
+                      <input id="cc-toggle-{{adjustment.id}}" class="check-toggle check-toggle-round-flat" type="checkbox" {% if not adjustment.active %} checked {% endif %} disabled/>
+                      <label for="cc-toggle-{{adjustment.id}}"></label>
 
                       <span class="active">Active</span>
                       <span class="deactivate">Deactivate</span>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editAdjustment').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="saveAdjustmentIdToLocalStorage(`{{ adjustment.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
             <div class="end-of-list-heading-container text-center py-5">
@@ -97,5 +99,65 @@
         <button class="btn btn-secondary-light">Save Changes</button>
       </div>
     </div>
+    <script>
+      function saveAdjustmentIdToLocalStorage(id) {
+        document.getElementById('editAdjustment').style.display='block';
+        var selectElement = document.querySelector('.edit-adjustment-lstBox1');
+        while (selectElement.firstChild) {
+            selectElement.removeChild(selectElement.firstChild);
+        }
+        var selectElement = document.querySelector('.edit-adjustment-lstBox2');
+        while (selectElement.firstChild) {
+            selectElement.removeChild(selectElement.firstChild);
+        }
+        let data = {'id': id}
+        fetch("pricing/adjustment-detail", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              "Accept": "application/json",
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // parse the JSON from the response
+        })
+        .then((data) => {
+            var adjustment = JSON.parse(data['adjustment']);
+            adjustment = adjustment[0].fields;
+            var assigned_publications = data['assigned_publications'];
+            var unsigned_publications = data['unsigned_publications'];
+            localStorage.setItem('edit-adjustment-id', data['id']);
+            localStorage.setItem('edit-adjustment-active', adjustment.active);
+            localStorage.setItem('edit-adjustment-status', adjustment.status);
+            document.getElementById('edit-adjustment-name').value = adjustment.name;
+            document.getElementById('edit-adjustment-code').value = adjustment.code;
+            document.getElementById('edit-adjustment-apply-level').value = adjustment.apply_level;
+            document.getElementById('edit-adjustment-section').value = adjustment.section;
+            document.getElementById('edit-adjustment-value-type').value = adjustment.value_type;
+            document.getElementById('edit-adjustment-type').value = adjustment.type;
+            document.getElementById('edit-adjustment-value').value = adjustment.value;
+            document.getElementById('edit-adjustment-prompt-for-value').value = adjustment.prompt_for_value;
+            document.getElementById('edit-adjustment-gl-code').value = adjustment.gl_code;
+            var select = document.querySelector(".edit-adjustment-lstBox1");
+            assigned_publications.forEach(function(item) {
+              var option = new Option(item.name, item.value);
+              select.add(option);
+            });
+            var select = document.querySelector(".edit-adjustment-lstBox2");
+            unsigned_publications.forEach(function(item) {
+              var option = new Option(item.name, item.value);
+              select.add(option);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
+    </script>
   </div>
 </div>

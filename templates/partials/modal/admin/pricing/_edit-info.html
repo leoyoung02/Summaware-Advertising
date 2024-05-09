@@ -18,19 +18,20 @@
             <div class="col-md-3"></div>
         </div>
         <br>
-        <div class="row">
+        <div class="row" id="rategroup_id" data-value="{{rategroup.id}}">
             <div class="col-md-2"></div>
-            <div class="col-md-8">                   
+            <div class="col-md-8">        
+                <form method="post" id="edit-rategroup-form">           
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-container">
                             <div class="form-group w-50 m-auto mb-5">
                                 <label for="">Rate Group Name:</label>
-                                <input type="text" name="" id="" class="form-control" />
+                                <input type="text" name="name" id="" class="form-control" value="{{rategroup.name}}"/>
                             </div>
                             <div class="form-group w-50 m-auto mb-5">
                                 <label for="">Description:</label>
-                                <textarea class="form-control" name="" id="" cols="30" rows="9"></textarea>
+                                <textarea class="form-control" name="description" id="" cols="30" rows="9">{{rategroup.description}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -40,46 +41,87 @@
                                 <div class="item-select-container mt-5">
                                     <div class="available-pubs">
                                         Available Publications:<br />
-                                        <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
-                                            <option value="times-leader-print-edition">Pub 1</option>
-                                            <option value="times-leader-e-edition">Pub 2</option>
-                                            <option value="times-leader-e-edition">Pub 3</option>
+                                        <select multiple="multiple" id="lstBox1" class="form-select edit_lstBox1" style="height: 270px;">
+                                            {% for unsigned_publication in unsigned_publications %}
+                                            <option value="{{unsigned_publication.id}}">{{unsigned_publication.name}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                     <div class="transferBtns">
                                         <br />
-                                        <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                        <a id="edit_btnRightAll" class="custom" style="width: 70px;" > >> </a>
                                         <br>
                                         <br />
-                                        <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                        <a id="edit_btnRight" class="custom" style="width: 70px;"> > </a>
                                         <br />
                                         <br>
                                         <br>
                                         <br />
-                                        <a id="" class="custom" style="width: 70px;"> < </a>
+                                        <a id="edit_btnLeft" class="custom" style="width: 70px;"> < </a>
                                         <br />
                                         <br>
-                                        <a id="" class="custom" style="width: 70px;"> << </a>
+                                        <a id="edit_btnLeftAll" class="custom" style="width: 70px;"> << </a>
                                     </div>
                                     <div class="selected-pubs">
                                         Selected Publications:<br />
-                                        <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                                        <select multiple="multiple" id="lstBox2" class="form-select edit_lstBox2" style="height: 270px;">
+                                            {% for assigned_publication in assigned_publications %}
+                                            <option value="{{assigned_publication.id}}">{{assigned_publication.name}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
                 <div class="row">  
                     <div class="btn-container text-center">
-                        <button class="btn btn-danger">Deactivate</button>
-                        <button class="btn btn-gray">Discard Changes</button>
-                        <button class="btn btn-secondary">Save Changes</button>
+                        <button class="btn btn-danger active-rategroup">Deactivate</button>
+                        <button class="btn btn-gray status-rategroup">Archive</button>
+                        <button class="btn btn-secondary edit-rategroup">Save Changes</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-2"></div>
         </div>
     </div>
+    <script>
+        document.querySelector('.edit-rategroup').addEventListener('click', function(e) {
+            e.preventDefault();  // Prevent the default form submission
+            let form = $('#edit-rategroup-form');
+            var formData = new FormData(form[0]);
+            let data = {};
+                
+            for (const [key, value] of formData) {
+                data[key] = value;
+            }
+            data['active'] = true;
+            data['status'] = 1;
+            var selectElement = document.querySelector('.edit_lstBox2');
+            var values = [];
+            
+            for (var i = 0; i < selectElement.options.length; i++) {
+                values.push(selectElement.options[i].value);
+            }
+            data['assigned_publications'] = JSON.stringify(values);
+            var id = document.getElementById('rategroup_id').dataset.value;
+            var baseUrl = `{% url 'adminPricingEditRateGroup' groupId=999 %}`
+            var redirect = baseUrl.replace('999', id);
+            fetch("save", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Accept": "application/json",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            success:
+                window.location.href = redirect
+            })
+        });
+    </script>
   </div>
   

@@ -133,6 +133,7 @@ urlpatterns = [
 	# Adjustments Routes 
 	path('publication/<int:publication_id>/adjustments/', views.list_adjustments, name='list_adjustments'),
 	path('publication/<int:publication_id>/adjustments/new/', views.create_adjustment, name='create_adjustment'),
+  path('publication/<int:publication_id>/adjustments/edit/<int:adjustment_id>/', views.edit_adjustment, name='edit_adjustment'),
 	path('publication/<int:publication_id>/adjustments/<int:adjustment_id>/', views.adjustment_details, name='adjustment_details'),
 
 	# Industry Code Routes
@@ -157,7 +158,12 @@ urlpatterns = [
 	path('admin/financial/new-newspaper', views.adminNewNewspaper, name='adminNewNewspaper'),
 	path('admin/financial/new-digital', views.adminNewDigital, name='adminNewDigital'),
 	path('adadmin/pricing', views.adminPricing, name='adminPricing'),
-	path('adadmin/pricing/edit-rate', views.adminPricingEditRate, name='adminPricingEditRate'),    
+	path('adadmin/pricing/create-adjustment', views.adminCreateAdjustment, name='adminCreateAdjustment'),
+	path('adadmin/pricing/adjustment-detail', views.adminAdjustmentDetail, name='adminAdjustmentDetail'),
+	path('adadmin/pricing/edit-adjustment', views.adminEditAdjustment, name='adminEditAdjustment'),
+	path('adadmin/pricing/edit-rate/<int:groupId>/', views.adminPricingEditRateGroup, name='adminPricingEditRateGroup'),
+	path('adadmin/pricing/edit-rate/<int:groupId>/save', views.adminPricingSaveRate, name='adminPricingSaveRate'),
+	path('adadmin/pricing/edit-rate/<int:groupId>/create-rate', views.adminPricingCreateRate, name='adminPricingCreateRate'),
 	path('adadmin/pubs/new-publication', views.adminNewPublication, name='adminNewPublication'),
 
 	# Admin Routes 

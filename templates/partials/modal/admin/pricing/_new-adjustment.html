@@ -13,125 +13,170 @@
     <br>
     <br>
     <br>
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">        
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <div class="form-group mb-4">
-              <label for=""><strong>Adjustment Name:</strong></label>
-              <input type="text" name="" id="" class="form-control" />
-            </div>
-          </div>      
-          <div class="col-md-2"></div>
-        </div>
-        <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for=""><strong>Code:</strong></label>
-              <input type="text" name="" id="" class="form-control" />
-            </div>
-          </div>      
-          <div class="col-md-3"></div>
-        </div>  
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for=""><strong>Apply Level:</strong></label>
-              <select name="" id="" class="form-control">
-                <option>select</option>
-              </select>
-            </div>
+    <form method="post" id="new-adjustment-form">   
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">        
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+              <div class="form-group mb-4">
+                <label for=""><strong>Adjustment Name:</strong></label>
+                <input type="text" name="name" id="" class="form-control" />
+              </div>
+            </div>      
+            <div class="col-md-2"></div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for=""><strong>Section(optional):</strong></label>
-              <select name="" id="" class="form-control">
-                <option>select</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for=""><strong>Value Type:</strong></label>
-              <select name="" id="" class="form-control">
-                <option>select</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group mb-4">
-              <label for=""><strong>Value:</strong></label>
-              <select name="" id="" class="form-control">
-                <option>$</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group mt-4" style="padding-top: 10px">
-              <br>
-              <input type="checkbox" class="form-check-input" id="tearsheets" name="tearsheets">
-              <label class="form-check-label" for="tearsheets">Prompt For Value?</label>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for="gl-code"><strong>Credit/Debit:</strong></label>
-              <select name="" id="" class="form-control">
-                <option>select</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for=""><strong>Assign GL Code(optional):</strong></label>
-              <select name="" id="" class="form-control">
-                <option>select</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="item-select-container mt-5">
-              <div class="available-pubs">
-                Available Publications:<br />
-                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 100px;">
-                  <option value="times-leader-print-edition">Pub 1</option>
-                  <option value="times-leader-e-edition">Pub 2</option>
-                  <option value="times-leader-e-edition">Pub 3</option>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Code:</strong></label>
+                <input type="text" name="code" id="" class="form-control" />
+              </div>
+            </div>      
+            <div class="col-md-3"></div>
+          </div>  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Apply Level:</strong></label>
+                <select name="apply_level" id="" class="form-control">
+                  <option value="order">Order</option>
+                  <option value="insertion">Insertion</option>
                 </select>
               </div>
-              <div class="transferBtns">
-                <br />
-                <a id="btnLeft" style="width: 70px;" > >> </a>
-                <br>
-                <a id="btnRight" style="width: 70px;"> > </a>
-                <br />
-                <a id="" style="width: 70px;"> < </a>
-                <br>
-                <a id="" style="width: 70px;"> << </a>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Section(optional):</strong></label>
+                <select name="section" id="" class="form-control">
+                  {% for section in sections %}
+                    <option value="{{ section.id }}">{{ section.name }}</option>
+                  {% endfor %}
+                </select>
               </div>
-              <div class="selected-pubs">
-                Selected Publications:<br />
-                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 100px;"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Value Type:</strong></label>
+                <select name="value_type" id="" class="form-control">
+                  <option value="amount">amount</option>
+                  <option value="percentage">percentage</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mb-4">
+                <label for=""><strong>Value:</strong></label>
+                <input type="text" name="value" id="" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mt-4" style="padding-top: 10px">
+                <br>
+                <input type="checkbox" class="form-check-input" id="tearsheets" name="prompt_for_value">
+                <label class="form-check-label" for="tearsheets">Prompt For Value?</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for="gl-code"><strong>Credit/Debit:</strong></label>
+                <select name="type" id="" class="form-control">
+                  <option value="credit">Credit</option>
+                  <option value="debit">Debit</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Assign GL Code(optional):</strong></label>
+                <select name="gl_code" id="" class="form-control">
+                  {% for glcode in glcodes %}
+                    <option value="{{ glcode.id }}">{{ glcode.code }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="item-select-container mt-5">
+                <div class="available-pubs">
+                  Available Publications:<br />
+                  <select multiple="multiple" id="lstBox1" class="form-select new_lstBox1" style="height: 100px;">
+                    {% for publication in publications %}
+                      <option value="{{publication.id}}">{{publication.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="transferBtns">
+                  <br />
+                  <a id="new_btnRightAll" style="width: 70px;" > >> </a>
+                  <br>
+                  <a id="new_btnRight" style="width: 70px;"> > </a>
+                  <br />
+                  <a id="new_btnLeft" style="width: 70px;"> < </a>
+                  <br>
+                  <a id="new_btnLeftAll" style="width: 70px;"> << </a>
+                </div>
+                <div class="selected-pubs">
+                  Selected Publications:<br />
+                  <select multiple="multiple" id="lstBox2" class="form-select new_lstBox2 form-control" style="height: 100px;"></select>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-md-2"></div>
       </div>
-      <div class="col-md-2"></div>
-    </div>
-    <br>
-    <br>
-    <div class="btn-container text-center">
-      <button class="btn btn-secondary px-5"> Create Adjustment </button>
-    </div>
+      <br>
+      <br>
+      <div class="btn-container text-center">
+        <button class="btn btn-secondary px-5" type="submit"> Create Adjustment </button>
+      </div>
+    </form>
   </div>
+  <script>
+    document.getElementById('new-adjustment-form').addEventListener('submit', function(e) {
+      e.preventDefault();  // Prevent the default form submission
+      let form = $('#new-adjustment-form');
+      var formData = new FormData(form[0]);
+      let data = {};
+      
+      for (const [key, value] of formData) {
+          data[key] = value;
+      }
+      if(data['prompt_for_value']) {
+        data['prompt_for_value'] = true;
+      } else {
+        data['prompt_for_value'] = false;
+      }
+      var selectElement = document.querySelector('.new_lstBox2');
+      var values = [];
+      
+      for (var i = 0; i < selectElement.options.length; i++) {
+          values.push(selectElement.options[i].value);
+      }
+      data['publication_id'] = JSON.stringify(values);
+      if(!data['section']) data['section'] = '';
+      if(!data['value']) data['value'] = 0;
+      fetch("pricing/create-adjustment", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        window.location.href = `{% url 'adminPricing' %}`
+      })
+    });
+  </script>
 </div>

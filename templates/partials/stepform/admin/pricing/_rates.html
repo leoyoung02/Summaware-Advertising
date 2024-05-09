@@ -90,30 +90,29 @@
                 </tr>
               </thead>
               <tbody>
+                {% for rategroup in rategroups %}
                 <tr>
-                    <td>0001</td>
-                    <td>Rage Group Name Example </td>
-                    <td>
-                        Brief description example here allows<br>
-                        the user to write some info on what<br>
-                        this group of rates is...
+                    <td>{{rategroup.id}}</td>
+                    <td>{{rategroup.name}}</td>
+                    <td>{{rategroup.description}}
                     </td>
                     <td>
                         See assigned
                     </td>
                     <td>
                         <div class="switch2">
-                        <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                        <label for="cc-toggle"></label>
+                        <input id="cc-toggle-{{rategroup.id}}" class="check-toggle check-toggle-round-flat" type="checkbox" {% if not rategroup.active %} checked {% endif %}/>
+                        <label for="cc-toggle-{{rategroup.id}}"></label>
     
                         <span class="active">Active</span>
                         <span class="deactivate">Deactivate</span>
                         </div>
                     </td>
                     <td>
-                        <a href="{% url 'adminPricingEditRate' %}"><i class="fa fa-solid fa-envelope-open"></i></a>
+                        <a href="{% url 'adminPricingEditRateGroup' groupId=rategroup.id %}"><i class="fa fa-solid fa-envelope-open"></i></a>
                     </td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
             <div class="end-of-list-heading-container text-center py-5">
