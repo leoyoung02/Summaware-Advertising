@@ -133,6 +133,7 @@ def create_task (request):
 
         if data['id'] == 0:
             task = AdvertiserTaskList(
+                id = 1,
                 title=data['title'],
                 due_date=data['due_date'],
                 priority=data['priority'],

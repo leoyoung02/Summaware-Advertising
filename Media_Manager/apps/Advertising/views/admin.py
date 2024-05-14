@@ -3,6 +3,7 @@ from ..models.advertising import *
 from ..models.orders import *
 from ..models.rates import *
 from ..models.publications import *
+from ..models.companies import *
 from .... import views
 from django.core import serializers
 import json
@@ -199,16 +200,77 @@ def adminNewPublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/pubs/new-publication.html')
+	
+	adTypes = AdType.objects.all().order_by('name')
+	gl_codes = GLCode.objects.all().order_by('id')
+	adjustments = Adjustment.objects.all().order_by('id')	
+
+	context = {
+        "access": "allow",
+        "message": "",
+        "adTypes": adTypes,
+        "gl_codes": gl_codes,
+        "adjustments": adjustments
+    }
+	return render(request, 'admin/pubs/new-publication.html', context)
 
 def adminNewMagazine(request):
 	# Check if user is logged in, if not, redirect  to login screen
-	if request is None or not request.user.is_authenticated:
-		return redirect(login_redirect + '/')
-	return render(request, 'admin/products/new-magazine.html')
+	if request.method == 'GET':
+		return render(request, 'admin/products/new-magazine.html')
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	max_id = MagazineProduct.objects.all().order_by("-id").first()
+	if max_id:
+		max_id = max_id.id
+	else:
+		max_id = 0
+	new_id = max_id + 1 if max_id is not None else 1
+	task = MagazineProduct(
+		id=new_id,
+		product_mag =  data['product_mag'],
+		measurement_type = data['measurement_type'],
+		fold_orientation = data['fold_orientation'],
+		height = data['height'],
+		width = data['width'],
+		columns = data['columns'],
+		column_width = data['column_width'],
+		page_width = data['page_width'],
+		page_height = data['page_height'],
+		page_border = data['page_border'],
+		gutter_size = data['gutter_size']
+	)
+	task.save()
+	return JsonResponse(data)
 
 def adminNewNewspaper(request):
-  return render(request, 'admin/products/new-newspaper.html')
+	# Check if user is logged in, if not, redirect  to login screen
+	if request.method == 'GET':
+		return render(request, 'admin/products/new-newspaper.html')
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	max_id = NewspaperProduct.objects.all().order_by("-id").first()
+	if max_id:
+		max_id = max_id.id
+	else:
+		max_id = 0
+	new_id = max_id + 1 if max_id is not None else 1
+	task = NewspaperProduct(
+		id=new_id,
+		product_mag =  data['product_mag'],
+		measurement_type = data['measurement_type'],
+		fold_orientation = data['fold_orientation'],
+		height = data['height'],
+		width = data['width'],
+		columns = data['columns'],
+		column_width = data['column_width'],
+		page_width = data['page_width'],
+		page_height = data['page_height'],
+		page_border = data['page_border'],
+		gutter_size = data['gutter_size']
+	)
+	task.save()
+	return JsonResponse(data)
 
 def adminNewDigital(request):
   return render(request, 'admin/products/new-digital.html')
