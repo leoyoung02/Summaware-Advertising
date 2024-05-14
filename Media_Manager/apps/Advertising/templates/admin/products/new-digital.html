@@ -1,5 +1,98 @@
 {% extends 'templates/base_gamma.html' %} {% block content %}{% load static %}
-
+<script src="{% static "js/admin/digital_control.js" %}"></script>
+<style>
+  .stepper-wrapper {
+      position: relative;    
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      z-index: 100;
+  }
+  .stepper-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+  
+      @media (max-width: 768px) {
+          font-size: 12px;
+      }
+  }
+  
+  .stepper-item::before {
+      position: absolute;
+      content: "";
+      border-bottom: 8px solid #fff;
+      width: 100%;
+      top: 17px;
+      left: -50%;
+      z-index: 2;
+  }
+  
+  .stepper-item::after {
+      position: absolute;
+      content: "";
+      border-bottom: 2px solid #fff;
+      width: 100%;
+      top: 20px;
+      left: 50%;
+      z-index: 2;
+  }
+  
+  .stepper-item .step-counter {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      margin-bottom: 6px;
+      color:white;
+      font-weight: 700;
+      font-size: 18px;
+  }
+  
+  .stepper-item.active {
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px #000000;
+  }
+  
+  .stepper-item.completed .step-counter {
+      background-color: #f26722;
+  }
+  
+  .stepper-item.completed::after {
+      position: absolute;
+      content: "";
+      border-bottom: 10px solid #f26722;
+      width: 100%;
+      top: 16px;
+      left: 50%;
+      z-index: 3;
+  }
+  
+  .stepper-item:first-child::before {
+      content: none;
+  }
+  .stepper-item:last-child::after {
+      content: none;
+  }
+  .content-container.custom-border:after {
+      height: 236px;
+  }
+  .rounded-pill {
+      border-radius:20px;
+  }
+  .none {
+      display: none;
+  }
+</style>
 <div class="container mt-5">
   <div class="heading-container product-digital text-center">
     <h3 class="heading">New Digital Product</h3>
@@ -7,7 +100,27 @@
 
   <div class="breadcrumb"><a href="{% url 'admin' %}">Admin Home</a></div>
 
-  <div class="content-container custom-border custom-container">
+  <div class="content-container custom-border custom-container" id="digital_product_step_product_info">
+    <div class="row" style="margin-bottom: 40px;margin-top: -80px">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+          <div class="stepper-wrapper">
+            <div class="stepper-item completed active">
+              <div class="step-counter"></div>
+              <div class="step-name">Product Info</div>
+            </div>
+            <div class="stepper-item">
+              <div class="step-counter"></div>
+              <div class="step-name">Sizes Setup</div>
+            </div>
+            <div class="stepper-item">
+              <div class="step-counter"></div>
+              <div class="step-name">Review</div>
+            </div>
+          </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
     <div class="row multistep-content">
       <div class="col-lg-6 col-md-12">
         <div class="form-group mb-5">
@@ -20,13 +133,19 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="format">Select Format:</label>
-                <select name="" id="format" class="form-control"></select>
+                <select name="" id="format" class="form-control">
+                  <option value="format1">format1</option>
+                  <option value="format2">format2</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="ad-type">Ad Type:</label>
-                <select name="" id="ad-type" class="form-control"></select>
+                <select name="" id="ad-type" class="form-control">
+                  <option value="adtype1">adType1</option>
+                  <option value="adtype2">adType2</option>
+                </select>
               </div>
             </div>
           </div>
@@ -46,7 +165,8 @@
         </div>
 
         <div class="btn-container text-center">
-          <button class="btn btn-secondary">Next</button>
+          <!-- <button class="btn btn-secondary" onclick="showHideStepModal('digital_product_step_size_setup', 'digital_product_step_product_info')">Next</button> -->
+          <button class="btn btn-secondary" onclick="nextToSizeSetup()">Next</button>
         </div>
       </div>
       <div class="col-lg-6 col-md-12">
@@ -58,7 +178,27 @@
   </div>
 
   <!-- Size Setup -->
-  <div class="content-container custom-border custom-container">
+  <div class="content-container custom-border custom-container none" id="digital_product_step_size_setup">
+    <div class="row" style="margin-bottom: 40px;margin-top: -80px">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+          <div class="stepper-wrapper">
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Product Info</div>
+              </div>
+              <div class="stepper-item completed active">
+                <div class="step-counter"></div>
+                <div class="step-name">Sizes Setup</div>
+              </div>
+              <div class="stepper-item">
+                <div class="step-counter"></div>
+                <div class="step-name">Review</div>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
     <div class="row multistep-content mb-5">
       <div class="col-lg-4 col-md-12">
         <div class="standard-size-container">
@@ -76,11 +216,11 @@
             <div class="row">
               <div class="col-md-6">
                 <label for="width">Width</label>
-                <input type="text" name="" id="width" class="form-control" />
+                <input type="text" name="" id="size-width" class="form-control" />
               </div>
               <div class="col-md-6">
                 <label for="height">Height</label>
-                <input type="text" name="" id="height" class="form-control" />
+                <input type="text" name="" id="size-height" class="form-control" />
               </div>
             </div>
           </div>
@@ -94,7 +234,7 @@
           </div>
 
           <div class="btn-container text-center mb-3">
-            <button class="btn btn-secondary">Create</button>
+            <button class="btn btn-secondary" onclick="createStandardSize()">Create</button>
           </div>
         </div>
       </div>
@@ -142,13 +282,34 @@
     </div>
 
     <div class="btn-container d-flex justify-content-around">
-      <button class="btn btn-gray">Previous</button>
-      <button class="btn btn-secondary">Next</button>
+      <button class="btn btn-gray" onclick="showHideStepModal('digital_product_step_product_info', 'digital_product_step_size_setup')">Previous</button>
+      <button class="btn btn-secondary" onclick="showHideStepModal('digital_product_step_review', 'digital_product_step_size_setup')">Next</button>
+      <!-- <button class="btn btn-secondary" onclick="reviewProduct()">Next</button> -->
     </div>
   </div>
 
   <!-- Review -->
-  <div class="content-container custom-border custom-container">
+  <div class="content-container custom-border custom-container none" id="digital_product_step_review">
+    <div class="row" style="margin-bottom: 40px;margin-top: -80px">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+          <div class="stepper-wrapper">
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Product Info</div>
+              </div>
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Size Setup</div>
+              </div>
+              <div class="stepper-item completed active">
+                <div class="step-counter"></div>
+                <div class="step-name">Review</div>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
     <div class="row multistep-content mb-5">
       <div class="col-lg-4 col-md-12">
         <div class="product-info">
@@ -159,7 +320,7 @@
 
           <div class="info-container">
             <span>Magazine Product:</span>
-            <span class="d-block font-weight-bold">Mini Mag</span>
+            <span class="d-block font-weight-bold" id="span_magazine_product"></span>
           </div>
 
           <div class="info-container">
@@ -167,7 +328,7 @@
           </div>
 
           <div class="info-container">
-            <span>Size: <span class="color-primary">*</span></span>
+            <span>Size: <span class="color-primary" id="span_height"></span>*;<span class="color-primary" id="span_width"></span></span>
           </div>
 
           <div class="info-container">
@@ -246,13 +407,33 @@
       </div>
     </div>
     <div class="btn-container d-flex justify-content-around">
-      <button class="btn btn-gray">Previous</button>
-      <button class="btn btn-secondary">Next</button>
+      <button class="btn btn-gray" onclick="showHideStepModal('digital_product_step_size_setup', 'digital_product_step_review')">Previous</button>
+      <button class="btn btn-secondary" onclick="showHideStepModal('digital_product_step_success', 'digital_product_step_review')">Next</button>
     </div>
   </div>
 
   <!-- Product Complete -->
-  <div class="content-container custom-border custom-container">
+  <div class="content-container custom-border custom-container none" id="digital_product_step_success">
+    <div class="row" style="margin-bottom: 40px;margin-top: -80px">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+          <div class="stepper-wrapper">
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Product Info</div>
+              </div>
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Size Setup</div>
+              </div>
+              <div class="stepper-item completed">
+                <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
+                <div class="step-name">Review</div>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
     <div class="multistep-content">
       <div class="complete-product-container text-center">
         <h3 class="heading">Product has been created!</h3>
@@ -260,8 +441,9 @@
           <i class="fa fa-solid fa-check"></i>
         </div>
         <div class="btn-container d-flex justify-content-around">
-          <button class="btn btn-gray">Create Another Product</button>
-          <button class="btn btn-secondary">Return to Products</button>
+          <button class="btn btn-gray" onclick="showHideStepModal('digital_product_step_product_info', 'digital_product_step_success')">Create Another Product</button>
+          <a class="btn btn-secondary px-5" href="{% url 'adminGeneral' %}"> Return to Products </a>
+        </div>
         </div>
       </div>
     </div>

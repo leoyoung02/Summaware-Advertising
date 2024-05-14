@@ -243,7 +243,46 @@ class Adjustment(models.Model):
 
     def __str__(self):
         return self.code
+class MagazineProduct(models.Model):
+    id = models.AutoField(primary_key=True, default=None)
+    product_mag = models.TextField(null=True)
+    measurement_type = models.TextField(null=True)
+    fold_orientation = models.TextField(null=True)
+    height = models.IntegerField()
+    width = models.IntegerField()
+    columns = models.IntegerField()
+    column_width = models.IntegerField()
+    page_width = models.IntegerField()
+    page_height = models.IntegerField()
+    page_border = models.IntegerField()
+    gutter_size = models.IntegerField()
 
+    class Meta:
+        db_table = 'advertising_magazine_products'
+
+    def __str__(self):
+        return self.code
+    
+class NewspaperProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_mag = models.TextField(null=True)
+    measurement_type = models.TextField(null=True)
+    fold_orientation = models.TextField(null=True)
+    height = models.IntegerField()
+    width = models.IntegerField()
+    columns = models.IntegerField()
+    column_width = models.IntegerField()
+    page_width = models.IntegerField()
+    page_height = models.IntegerField()
+    page_border = models.IntegerField()
+    gutter_size = models.IntegerField()
+
+    class Meta:
+        db_table = 'advertising_newspaper_products'
+
+    def __str__(self):
+        return self.code
+    
 class AccountNote(models.Model):
     account = models.ForeignKey('Account', on_delete=CASCADE)
     note = models.TextField(null=True)
