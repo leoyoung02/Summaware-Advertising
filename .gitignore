@@ -18,8 +18,6 @@ media/
 # Virtual environment
 venv/
 .venv/
-Media_Manager/settings.py
-Media_Manager/apps/BI/urls.py
 .env
 
 # Compiled files and build artifacts
