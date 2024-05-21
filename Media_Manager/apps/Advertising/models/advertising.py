@@ -220,7 +220,24 @@ class AdminAdjustment(models.Model):
 
     def __str__(self):
         return self.code
+class PubAdType(models.Model):
+    adminadtype = models.ForeignKey('AdminAdType', on_delete=CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = 'advertising_pub_adtype'
+class AdminAdType(models.Model):
+    code = models.CharField(max_length=100, default=None)
+    name = models.CharField(max_length=255, default=None)
+    default_rate = models.ForeignKey('Rate', on_delete=models.CASCADE, default=None)
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
+    
+    class Meta:
+        db_table = 'advertising_adminadtype'
+
+    def __str__(self):
+        return self.code
 class Adjustment(models.Model):
     code = models.CharField(max_length=100, default=None)
     description = models.CharField(max_length=255, default=None)

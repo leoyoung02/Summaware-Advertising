@@ -81,7 +81,7 @@
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="saveAdjustmentIdToLocalStorage(`{{ adjustment.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="editAdjustment(`{{ adjustment.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
@@ -100,7 +100,7 @@
       </div>
     </div>
     <script>
-      function saveAdjustmentIdToLocalStorage(id) {
+      function editAdjustment(id) {
         document.getElementById('editAdjustment').style.display='block';
         var selectElement = document.querySelector('.edit-adjustment-lstBox1');
         while (selectElement.firstChild) {

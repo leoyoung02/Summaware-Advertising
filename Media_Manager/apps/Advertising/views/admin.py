@@ -23,8 +23,86 @@ def adminAds(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/ads/ads.html')
+	pub_adtypes = PubAdType.objects.all()
+	adtypes = AdminAdType.objects.all()
+	rates = Rate.objects.all()
+	publications = Publication.objects.all()
+	return render(request, 'admin/ads/ads.html',{'pub_adtypes': pub_adtypes, 'adtypes': adtypes, 'rates': rates, 'publications': publications})
+def adminAdsEditAdType(request):
 
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+
+	if not request.user.has_perm('BI.advertising_access'):
+		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
+	
+	data = json.loads(request.body.decode('utf-8'))
+	adtype = AdminAdType.objects.get(pk=data['id'])
+	adtype.name = data['name']
+	adtype.code = data['code']
+	adtype.default_rate_id = data['default_rate']
+	adtype.active = data['active']
+	adtype.status = data['status']
+	success = True
+	try:
+		adtype.save()
+		pub_adtypes = PubAdType.objects.filter(adminadtype=adtype)
+		for pub_adtype in pub_adtypes:
+			pub_adtype.delete()
+
+		pub_ids = json.loads(data['publication_id'])
+		print(pub_ids)
+		for id in pub_ids:
+			publication = Publication.objects.get(pk=id)
+			new_pub_adtype = PubAdType(adminadtype=adtype, publication=publication)
+			new_pub_adtype.save()
+	except Exception as e:
+		success = False
+
+	return JsonResponse({'success': success, "errors": []}, status=200)
+def adminAdsAdTypeDetail(request):
+
+	data = json.loads(request.body.decode('utf-8'))
+	adtype = AdminAdType.objects.get(pk=data['id'])
+	print(adtype.id)
+	pub_adtypes = PubAdType.objects.filter(adminadtype=adtype.id).select_related('publication')
+	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adtypes]
+	pub_ids = []
+	for pub_adtype in pub_adtypes:
+		pub_ids.append(pub_adtype.publication.id)
+
+	pub_adtypes = Publication.objects.exclude(id__in=pub_ids)
+	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adtypes] 
+
+	response_data = {
+			'id': adtype.id,
+			'adtype': serializers.serialize('json', [adtype]),
+			'assigned_publications': assigned_publications,
+			'unsigned_publications': unsigned_publications,
+	}
+	print(response_data)
+	return JsonResponse(response_data, safe=False)
+
+def adminAdsCreateAdType(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+
+	if not request.user.has_perm('BI.advertising_access'):
+		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
+	data = json.loads(request.body.decode('utf-8'))
+	new_adtype = AdminAdType(code=data['code'], name=data['name'], default_rate_id=data['default_rate'])
+	success = True
+	try:
+		new_adtype.save()
+		pub_ids = json.loads(data['publication_id'])
+		for id in pub_ids:
+			publication = Publication.objects.get(pk=id)
+			new_pub_adtype = PubAdType(adminadtype=new_adtype, publication=publication)
+			new_pub_adtype.save()
+	except Exception as e:
+		success = False
+	
+	return JsonResponse({'success': success, "errors": []}, status=200)
 def adminFinancial(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
