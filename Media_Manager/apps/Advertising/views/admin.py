@@ -24,10 +24,10 @@ def adminAds(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	pub_adtypes = None
-	adtypes = None
-	rates = None
-	publications = None
+	pub_adtypes = PubAdType.objects.all()
+	adtypes = AdminAdType.objects.all()
+	rates = Rate.objects.all()
+	publications = Publication.objects.all()
 	return render(request, 'admin/ads/ads.html',{'pub_adtypes': pub_adtypes, 'adtypes': adtypes, 'rates': rates, 'publications': publications})
 def adminAdsEditAdType(request):
 
