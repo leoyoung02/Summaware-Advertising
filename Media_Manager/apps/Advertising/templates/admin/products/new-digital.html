@@ -1,5 +1,7 @@
 {% extends 'templates/base_gamma.html' %} {% block content %}{% load static %}
+{% block endjs %}
 <script src="{% static "js/admin/digital_control.js" %}"></script>
+{% endblock %}
 <style>
   .stepper-wrapper {
       position: relative;    
@@ -143,8 +145,9 @@
               <div class="form-group">
                 <label for="ad-type">Ad Type:</label>
                 <select name="" id="ad-type" class="form-control">
-                  <option value="adtype1">adType1</option>
-                  <option value="adtype2">adType2</option>
+                  {% for adtype in adtypes %}
+                    <option value="{{adtype.id}}">{{adtype.name}}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
@@ -408,7 +411,7 @@
     </div>
     <div class="btn-container d-flex justify-content-around">
       <button class="btn btn-gray" onclick="showHideStepModal('digital_product_step_size_setup', 'digital_product_step_review')">Previous</button>
-      <button class="btn btn-secondary" onclick="showHideStepModal('digital_product_step_success', 'digital_product_step_review')">Next</button>
+      <button class="btn btn-secondary" onclick="submit()">Next</button>
     </div>
   </div>
 

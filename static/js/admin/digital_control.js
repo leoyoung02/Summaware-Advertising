@@ -9,7 +9,7 @@ var width = document.getElementById("width").value;
 function nextToSizeSetup() {
     product_mag = document.getElementById("product-mag").value;
     format = document.getElementById("format").value;
-    ad_type = document.getElementById("ad-type").value;
+    adminadtype = document.getElementById("ad-type").value;
     height = document.getElementById("height").value;
     width = document.getElementById("width").value;
     showHideStepModal('digital_product_step_size_setup', 'digital_product_step_product_info')
@@ -47,3 +47,40 @@ function createStandardSize() {
 //     // document.getElementById("span_width").textContent = width;
 //     showHideStepModal('magazine_product_step_review', 'magazine_product_step_size_setup')
 // }
+function getCookie(name) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function (el) {
+        let [k, v] = el.split('=');
+        cookie[k.trim()] = v;
+    })
+    return cookie[name];
+}
+
+function submit() {
+    let data = {
+        product_mag : product_mag,
+        format : format,
+        adminadtype : adminadtype,
+        height : height ? height : 0,
+        width : width ? width : 0,
+    }
+    console.log(data);
+    fetch('/advertising/admin/financial/new-digital', {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        $.toastr.success('Saved Success');
+        showHideStepModal('digital_product_step_success', 'digital_product_step_review')
+    })
+    .catch(error => {
+        $.toastr.error("Saved failure");
+    });
+}

@@ -351,4 +351,24 @@ def adminNewNewspaper(request):
 	return JsonResponse(data)
 
 def adminNewDigital(request):
-  return render(request, 'admin/products/new-digital.html')
+	if request.method == 'GET':
+		adtypes = AdminAdType.objects.all()
+		return render(request, 'admin/products/new-digital.html', {'adtypes': adtypes})
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	max_id = DigitalProduct.objects.all().order_by("-id").first()
+	if max_id:
+		max_id = max_id.id
+	else:
+		max_id = 0
+	new_id = max_id + 1 if max_id is not None else 1
+	task = DigitalProduct(
+		id=new_id,
+		product_mag =  data['product_mag'],
+		format = data['format'],
+		adminadtype_id = data['adminadtype'],
+		height = data['height'],
+		width = data['width'],
+	)
+	task.save()
+	return JsonResponse(data)

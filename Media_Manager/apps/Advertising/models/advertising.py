@@ -299,6 +299,20 @@ class NewspaperProduct(models.Model):
 
     def __str__(self):
         return self.code
+
+class DigitalProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_mag = models.TextField(null=True)
+    format = models.TextField(null=True)
+    adminadtype = models.ForeignKey('AdminAdType', on_delete=models.CASCADE)
+    height = models.IntegerField()
+    width = models.IntegerField()
+
+    class Meta:
+        db_table = 'advertising_digital_products'
+
+    def __str__(self):
+        return self.code
     
 class AccountNote(models.Model):
     account = models.ForeignKey('Account', on_delete=CASCADE)
