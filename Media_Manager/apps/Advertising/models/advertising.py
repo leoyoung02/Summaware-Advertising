@@ -364,6 +364,11 @@ class SubCompany(models.Model):
     class Meta:
         db_table = 'advertising_subcompany'
 
+class AllStates(models.Model):
+	name = models.TextField()
+	abbreviation = models.TextField()
+	class Meta:
+		db_table = 'all_states'
 # ------- MODEL METHODS -------
 def getSalesPersonFullName(salesrep_id):
     """

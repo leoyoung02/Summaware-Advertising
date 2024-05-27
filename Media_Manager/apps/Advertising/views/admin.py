@@ -8,17 +8,37 @@ from .... import views
 from django.core import serializers
 import json
 import os
+from datetime import datetime
+
 def admin(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	return render(request, 'admin/admin.html')
 
+def adminUpload(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	success = False
+	if request.method == 'POST' and 'file' in request.FILES:
+		uploaded_file = request.FILES['file']
+		current_time = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]  # Get timestamp with milliseconds
+		file_name = f"{current_time}_{uploaded_file.name}"
+		file_path = os.path.join('uploads', file_name)
+		
+		with open(file_path, 'wb+') as destination:
+			for chunk in uploaded_file.chunks():
+				destination.write(chunk)
+		success = True
+	return JsonResponse({'success': success, "url": f"/uploads/{file_name}"}, status=200)
+
 def adminGeneral(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/admin-general.html')
+	all_states = AllStates.objects.all()
+	return render(request, 'admin/admin-general.html', {'all_states': all_states})
 
 def adminAds(request):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -52,7 +72,6 @@ def adminAdsEditAdType(request):
 			pub_adtype.delete()
 
 		pub_ids = json.loads(data['publication_id'])
-		print(pub_ids)
 		for id in pub_ids:
 			publication = Publication.objects.get(pk=id)
 			new_pub_adtype = PubAdType(adminadtype=adtype, publication=publication)
@@ -65,7 +84,6 @@ def adminAdsAdTypeDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adtype = AdminAdType.objects.get(pk=data['id'])
-	print(adtype.id)
 	pub_adtypes = PubAdType.objects.filter(adminadtype=adtype.id).select_related('publication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adtypes]
 	pub_ids = []
@@ -81,7 +99,6 @@ def adminAdsAdTypeDetail(request):
 			'assigned_publications': assigned_publications,
 			'unsigned_publications': unsigned_publications,
 	}
-	print(response_data)
 	return JsonResponse(response_data, safe=False)
 
 def adminAdsCreateAdType(request):
@@ -119,7 +136,6 @@ def adminAdjustmentDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adjustment = AdminAdjustment.objects.get(pk=data['id'])
-	print(adjustment.id)
 	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment.id).select_related('publication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments]
 	pub_ids = []
@@ -135,7 +151,6 @@ def adminAdjustmentDetail(request):
 			'assigned_publications': assigned_publications,
 			'unsigned_publications': unsigned_publications,
 	}
-	print(response_data)
 	return JsonResponse(response_data, safe=False)
 
 def adminPricing(request):
@@ -177,7 +192,6 @@ def adminEditAdjustment(request):
 		pub_adjustment.delete()
 
 	pub_ids = json.loads(data['publication_id'])
-	print(pub_ids)
 	for id in pub_ids:
 		publication = Publication.objects.get(pk=id)
 		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, publication=publication)
@@ -233,7 +247,6 @@ def adminPricingEditRateGroup(request, groupId):
 	rate_ids = []
 	for rate in rate_id:
 		rate_ids.append(rate.rate.id)
-	print(rate_ids)
 	rates = Rate.objects.filter(id__in=rate_ids)
 	assigned_publications = []
 	unsigned_publications = publications
@@ -252,7 +265,7 @@ def adminPricingEditRateGroup(request, groupId):
 		'adtypes': adtypes,
 		'glcodes': glcodes,
 		'extra_groups': extra_groups,
-		'rates': rates
+		'rates': rates,
 	}
 	return render(request, 'admin/pricing/edit-rate.html', context)
 
@@ -261,7 +274,6 @@ def adminPricingCreateRate(request, groupId):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	data = json.loads(request.body.decode('utf-8'))
-	print(data)
 	new_rate = Rate(name=data['name'], pricing=data['pricing'], measurement_type=data['measurement_type'], tax_category=data['tax_category'], override_privileges=data['override_privileges'], 
 								 assigned_groups=data['assigned_groups'], ad_type_id=data['ad_type'], start_date=data['start_date'], end_date=data['end_date'],
 								 insertion_min=data['insertion_min'], insertion_max=data['insertion_max'], line_for_ad_min=data['line_for_ad_min'], line_for_ad_max=data['line_for_ad_max'],

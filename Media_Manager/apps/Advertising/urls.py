@@ -150,6 +150,7 @@ urlpatterns = [
 
 	# Ad-Admin Routes
 	path('adadmin/', views.admin, name='admin'),
+	path('adadmin/upload', views.adminUpload, name='adminUpload'),
 	path('adadmin/general', views.adminGeneral, name='adminGeneral'),
 	path('adadmin/ads', views.adminAds, name='adminAds'),
 	path('adadmin/ads/create-adtype', views.adminAdsCreateAdType, name='adminAdsCreateAdType'),
