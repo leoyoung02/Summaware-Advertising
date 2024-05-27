@@ -38,7 +38,19 @@ def adminGeneral(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	all_states = AllStates.objects.all()
-	return render(request, 'admin/admin-general.html', {'all_states': all_states})
+	magazines = MagazineProduct.objects.all()
+	newspapers = NewspaperProduct.objects.all()
+	digitals = DigitalProduct.objects.all()
+	context = {
+		'all_states': all_states,
+		'magazines': magazines,
+		'newspapers': newspapers,
+		'total_newspapers': len(newspapers),
+		'total_magazines': len(magazines),
+		'total_digitals': len(digitals),
+		'digitals': digitals,
+	}
+	return render(request, 'admin/admin-general.html', context)
 
 def adminAds(request):
 	# Check if user is logged in, if not, redirect  to login screen

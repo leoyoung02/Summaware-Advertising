@@ -13,14 +13,14 @@ urlpatterns = [
 	path('account/<int:id>/edit/', views.edit_advertising_account, name="edit_account"),
 	path('account/types/new/', views.create_account_type, name='create_account_type'),
 	path('account/import/', views.import_account_data, name='import_account_data'), # TODO - implement this route
-    path('account/names/', views.get_account_names, name="get_account_names"),
+	path('account/names/', views.get_account_names, name="get_account_names"),
 
 	# Sales Person Routes
 	path('salesperson/all/', views.list_salesperson, name='list_salesperson'),
 	path('salesperson/new/', views.create_salesperson, name='create_salesperson'),
-    path('salesperson/success/', views.success_salesperson, name='success_salesperson'),
+	path('salesperson/success/', views.success_salesperson, name='success_salesperson'),
 	path('salesperson/<int:id>/', views.view_salesperson, name='view_salesperson'),
-    path('salesperson/<int:id>/ad-assistants/', views.salesperson_ad_assistants, name='salesperson_ad_assistants'),
+	path('salesperson/<int:id>/ad-assistants/', views.salesperson_ad_assistants, name='salesperson_ad_assistants'),
 
 	path('merge/', views.merge_account, name='merge_account'),
 	# TODO - path('account/<int:id>/merge', views.merge_account, name='merge_account') <- this sets the account from the id as the "account A"
@@ -32,7 +32,7 @@ urlpatterns = [
 	path('account/<int:id>/company-contacts/<int:contact_id>/edit/', views.edit_company_contact, name='edit_company_contact'),
 
 	path('account/<int:accountId>/company-contacts/<int:contactId>/', views.account_contact_details, name='account_contact_details'),
-    path('account/<int:accountId>/company-contacts/<int:contactId>/action', views.account_contact_action, name='account_contact_action'),
+	path('account/<int:accountId>/company-contacts/<int:contactId>/action', views.account_contact_action, name='account_contact_action'),
 
 	# Ad Type Routes
 	path('ad-types/', views.list_ad_types, name='list_ad_types'),
@@ -47,15 +47,15 @@ urlpatterns = [
 	path('publication/new/', views.create_publication, name="create_publication"),
 	path('publication/<int:id>/', views.view_publication, name="view_publication"),
 	path('publication/<int:id>/edit/', views.edit_publication, name='edit_publication'),
-    path('publication/<int:id>/run-days/', views.get_publication_run_days, name="get_publication_run_days"),
+	path('publication/<int:id>/run-days/', views.get_publication_run_days, name="get_publication_run_days"),
 	path('publications/colors/', views.get_spot_colors, name="get_spot_colors"),
-    path('publications/<int:publication_id>/styles/', views.default_styles_details, name="default_styles_details"),
-    path('publications/<int:publication_id>/styles/new/', views.create_default_styles, name="create_default_styles"),
+	path('publications/<int:publication_id>/styles/', views.default_styles_details, name="default_styles_details"),
+	path('publications/<int:publication_id>/styles/new/', views.create_default_styles, name="create_default_styles"),
 
 	# Deadline Routes 
 	path('publication/<int:publication_id>/deadlines/', views.view_ad_deadlines, name="view_ad_deadlines"),
 	path('publication/<int:publication_id>/deadlines/new', views.new_ad_deadline, name="new_ad_deadline"),
-    path('publication/<int:publication_id>/deadlines/<int:deadline_id>/', views.ad_deadlines_details, name="ad_deadlines_details"),
+	path('publication/<int:publication_id>/deadlines/<int:deadline_id>/', views.ad_deadlines_details, name="ad_deadlines_details"),
 	# path('publication/<int:publication_id>/deadlines/<int:deadline_id>/edit', views.edit_ad_deadlines, name="edit_ad_deadlines"),
 
 	# Page Dimension Routes
@@ -65,21 +65,21 @@ urlpatterns = [
     
 	# Publication Section Routes
 	path('publication/<int:publication_id>/sections/new/', views.create_publication_section, name='create_publication_section'),
-    path('publication/<int:publication_id>/sections/<int:section_id>/', views.publication_section_details, name='publication_section_details'), 
+	path('publication/<int:publication_id>/sections/<int:section_id>/', views.publication_section_details, name='publication_section_details'), 
 
 	# Rate Routes
 	path('rate/new/', views.create_rate, name='create_rate'),
 	path('rates/', views.list_rates, name='list_rates'),
 	path('rate/<int:rate_id>', views.view_rate, name='view_rate'),
 	path('rate/<int:id>/edit/', views.edit_rate, name='edit_rate'),
-    path('rate/<int:rate_id>/details/', views.get_rate_details, name='get_rate_details'),
+	path('rate/<int:rate_id>/details/', views.get_rate_details, name='get_rate_details'),
 	path('account/<int:account_id>/rates/', views.list_account_rates, name="list_account_rates"),
-    path('company/rates/', views.list_company_rates, name="list_company_rates"),
+	path('company/rates/', views.list_company_rates, name="list_company_rates"),
     
 	path('rate/gl-codes/', views.view_rate_gl_codes, name='view_rate_gl_codes'),
 	path('rate/<int:rateId>/gl-codes/', views.get_rate_gl_codes, name="get_rate_gl_codes"),
-    path('rate/<int:rateId>/publications/', views.get_rate_publications, name="get_rate_publications"),
-    path('rate/<int:rateId>/publication/gl-codes/', views.get_rate_publication_gl_codes, name="get_rate_publication_gl_codes"),
+	path('rate/<int:rateId>/publications/', views.get_rate_publications, name="get_rate_publications"),
+	path('rate/<int:rateId>/publication/gl-codes/', views.get_rate_publication_gl_codes, name="get_rate_publication_gl_codes"),
 
 	path('special-rates/', views.list_special_rates, name="list_special_rates"),
 
@@ -114,7 +114,7 @@ urlpatterns = [
 	path('gl-codes/', views.list_gl_codes, name='list_gl_codes'),
 	path('create-gl-code/', views.newGlCode, name='newGlCode'),
 	path('gl-codes/new/', views.create_gl_code, name='create_gl_code'),
-    path('gl-codes/<int:code_id>/', views.gl_code_details, name='gl_code_details'),
+	path('gl-codes/<int:code_id>/', views.gl_code_details, name='gl_code_details'),
 	path('gl-codes/<int:code_id>/edit/', views.edit_gl_code, name='edit_gl_code'),
 	
 
@@ -157,8 +157,8 @@ urlpatterns = [
 	path('adadmin/ads/edit-adtype', views.adminAdsEditAdType, name='adminAdsEditAdType'),
 	path('adadmin/ads/adtype-detail', views.adminAdsAdTypeDetail, name='adminAdsAdTypeDetail'),
 	path('adadmin/financial', views.adminFinancial, name='adminFinancial'),
-    path('adadmin/financial/fiscal', views.adminFinancialFiscal, name='adminFinancialFiscal'),
-    path('adadmin/financial/new-magazine', views.adminNewMagazine, name='adminNewMagazine'),
+	path('adadmin/financial/fiscal', views.adminFinancialFiscal, name='adminFinancialFiscal'),
+	path('adadmin/financial/new-magazine', views.adminNewMagazine, name='adminNewMagazine'),
 	path('admin/financial/new-newspaper', views.adminNewNewspaper, name='adminNewNewspaper'),
 	path('admin/financial/new-digital', views.adminNewDigital, name='adminNewDigital'),
 	path('adadmin/pricing', views.adminPricing, name='adminPricing'),
@@ -177,13 +177,13 @@ urlpatterns = [
 	path('admin/invoices/all/', views.list_all_invoices, name='list_all_invoices'),
 	path('admin/invoices/aging-report/', views.view_aging_report, name='view_aging_report'),
 	path('admin/manager-overrides/', admin.view_manager_overrides, name='view_manager_overrides'),
-    path('admin/permissions/custom-size/', views.custom_size_permission, name='custom_size_permission'),
+	path('admin/permissions/custom-size/', views.custom_size_permission, name='custom_size_permission'),
     
 	# Access Control Routes
 	path('admin/publication-access/', admin.view_publication_access, name='view_publication_access'),
 	path('admin/<int:userId>/publication-access/', admin.user_publication_access, name='user_publication_access'),
-    path('admin/account/access/', admin.view_user_account_access, name='view_user_account_access'),
-    path('admin/<int:userId>/account-access/', admin.user_account_access, name='user_account_access'),
+	path('admin/account/access/', admin.view_user_account_access, name='view_user_account_access'),
+	path('admin/<int:userId>/account-access/', admin.user_account_access, name='user_account_access'),
     
 	# Invoicing Routes
 	path('account/<int:account_id>/invoices/', views.view_account_invoices, name='view_account_invoices'),
@@ -203,16 +203,16 @@ urlpatterns = [
 	path('company/<int:company_id>/', views.view_company_details, name='view_company_details'),
 	path('company/<int:company_id>/edit', views.edit_company_details, name='edit_company_details'),
 	path('company/<int:company_id>/credit-limits/', views.view_company_credit_limits, name='view_company_credit_limits'),
-    path('company/current-company/', views.user_current_company, name='user_current_company'), 
-    path('admin/company/access/', views.view_user_company_access, name='view_user_company_access'),
-    path('admin/company/user-access/', views.get_user_company_access, name='get_user_company_access'),
+	path('company/current-company/', views.user_current_company, name='user_current_company'), 
+	path('admin/company/access/', views.view_user_company_access, name='view_user_company_access'),
+	path('admin/company/user-access/', views.get_user_company_access, name='get_user_company_access'),
 
 	path('new-advertiser/', views.create_advertiser, name='create_advertiser'),
 	path('register-advertiser/', views.register_advertiser, name='register_advertiser'),
     
 	# Advertiser Dashboard
 	path('advertiser_dashboard/', views.advertiser_dashboard, name='advertiser_dashboard'),
-    path('advertiser_home', views.advertiser_home, name="advertiser_home"),
+	path('advertiser_home', views.advertiser_home, name="advertiser_home"),
 
 	#advertiser walmart edit
 	path('edit_new_advertiser/', views.edit_new_advertiser, name='edit_new_advertiser'),
@@ -235,9 +235,9 @@ urlpatterns = [
 	path('classifieds/detail/', views.campaign_detail, name='campaign_detail'),
 
 	path('classifieds/graphics/', views.view_classifieds_graphics, name='view_classifieds_graphics'),
-    path('classifieds/graphics/permissions/upload/', views.user_upload_permission, name='user_upload_permission'),
+	path('classifieds/graphics/permissions/upload/', views.user_upload_permission, name='user_upload_permission'),
 	path('classifieds/graphics/permissions/delete/', views.user_delete_permission, name='user_delete_permission'),
-    path('classifieds/graphics/action/', views.classified_graphics_action, name='classified_graphics_action'), 
+	path('classifieds/graphics/action/', views.classified_graphics_action, name='classified_graphics_action'), 
 	
 	path('classifieds/adjustments/', views.list_classified_adjustments, name='list_classified_adjustments'),
 	path('classifieds/adjustments/<int:adjustmentId>/', views.classified_adjustment_details, name='classified_adjustment_details'),
@@ -248,7 +248,7 @@ urlpatterns = [
 	path('classifieds/rates/', views.list_classified_rates, name='list_classified_rates'),
 	path('classifieds/rates/new/', views.create_classified_rate, name='create_classified_rate'),
 	path('classifieds/rates/info/', views.classified_rate_info, name='info_classified_rate'),
-    path('classifieds/rates/edit/', views.classified_rate_edit, name='edit_classified_rate'),
+	path('classifieds/rates/edit/', views.classified_rate_edit, name='edit_classified_rate'),
 	path('classifieds/rates/<int:rateId>/', views.classified_rate_details, name='classified_rate_details'),
 	path('classifieds/rates/<int:rateId>/edit/', views.edit_classified_rate, name='edit_classified_rate'),
 

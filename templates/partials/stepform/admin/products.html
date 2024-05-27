@@ -1,3 +1,11 @@
+<style>
+  .align-items-center {
+    margin-right: 50px;
+  }
+  #product-type {
+    cursor: pointer;
+  }
+</style>
 <div class="multisteps-form__panel p-4 rounded" data-animation="scaleIn">
   <div class="heading-arrows-container d-flex justify-content-between">
     <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -48,8 +56,130 @@
       </div>
     </div>
   </div>
-
+  <div class="btn-search-container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="filter-container">
+          <div class="filters d-flex align-items-center"><a class="active">Active</a>&nbsp;|&nbsp;<a>Inactive</a>&nbsp;|&nbsp;<a>Archived</a></div>
+          <div class="filters d-flex align-items-center">
+            <a id="product-type" class="active" onclick="showProducts('all', this)">All</a>&nbsp;|&nbsp;
+            <a id="product-type" onclick="showProducts('#newspaper-product', this)">Print</a>&nbsp;|&nbsp;
+            <a id="product-type" onclick="showProducts('#digital-product', this)">Digital</a>&nbsp;|&nbsp;
+            <a id="product-type" onclick="showProducts('#magazine-product', this)">Magazine</a>&nbsp;|&nbsp;
+            <a>Custom</a></div>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <div class="billing-terms-list-container">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Fold Orientation</th>
+            <th scope="col">Product Type</th>
+            <th scope="col">Dimensions</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="rate-table-body">
+          {% for newspaper in newspapers %}
+          <tr id="newspaper-product" class="product-list">
+              <td>{{newspaper.id}}</td>
+              <td>{{newspaper.product_mag}}</td>
+              <td>{{newspaper.fold_orientation}}</td>
+              <td>Newspaper</td>
+              <td>See full specs</td>
+              <td>
+                  <div class="switch2">
+                  <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                  <label for="cc-toggle"></label>    
+                  <span class="active">Active</span>
+                  <span class="deactivate">Deactivate</span>
+                  </div>
+              </td>
+              <td>
+                  <span class="pe-5"><i class="fa fa-solid fa-pencil"></i></span>
+                  <span><i class="fa fa-solid fa-envelope-open"></i></span>
+              </td>
+          </tr>
+          {% endfor %}
+          {% for digital in digitals %}
+          <tr id="digital-product" class="product-list">
+              <td>{{digital.id|add:total_newspapers}}</td>
+              <td>{{digital.product_mag}}</td>
+              <td>{{digital.fold_orientation}}</td>
+              <td>Digital</td>
+              <td>See full specs</td>
+              <td>
+                  <div class="switch2">
+                  <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                  <label for="cc-toggle"></label>    
+                  <span class="active">Active</span>
+                  <span class="deactivate">Deactivate</span>
+                  </div>
+              </td>
+              <td>
+                  <span class="pe-5"><i class="fa fa-solid fa-pencil"></i></span>
+                  <span><i class="fa fa-solid fa-envelope-open"></i></span>
+              </td>
+          </tr>
+          {% endfor %}
+          {% for magazine in magazines %}
+          <tr id="magazine-product" class="product-list">
+              <td>{{magazine.id|add:total_newspapers|add:total_digitals}}</td>
+              <td>{{magazine.product_mag}}</td>
+              <td>{{magazine.fold_orientation}}</td>
+              <td>Magazine</td>
+              <td>See full specs</td>
+              <td>
+                  <div class="switch2">
+                  <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                  <label for="cc-toggle"></label>    
+                  <span class="active">Active</span>
+                  <span class="deactivate">Deactivate</span>
+                  </div>
+              </td>
+              <td>
+                  <span class="pe-5"><i class="fa fa-solid fa-pencil"></i></span>
+                  <span><i class="fa fa-solid fa-envelope-open"></i></span>
+              </td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="end-of-list-heading-container text-center py-5">
+        <span>You've reached the end!</span>
+      </div>
+    </div>
+  </div>
   <div class="save-container d-flex justify-content-end mt-5">
     <button class="btn btn-secondary-light">Save Changes</button>
   </div>
+  <script>
+    function showProducts(type, clickedElement) {
+      if(type == 'all') {
+        document.querySelectorAll('.product-list').forEach(element => {
+          element.style.display = 'table-row';
+        });
+      }
+      else {
+        document.querySelectorAll('.product-list').forEach(element => {
+          element.style.display = 'none';
+        });
+        const elements = document.querySelectorAll(type);
+        elements.forEach(element => {
+            element.style.display = 'table-row';
+        });
+      }
+      document.querySelectorAll('#product-type').forEach(element => {
+        element.classList.remove('active');
+      })
+      clickedElement.classList.add('active');
+    }
+  </script>
 </div>
