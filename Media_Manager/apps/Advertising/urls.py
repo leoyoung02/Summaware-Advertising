@@ -169,6 +169,7 @@ urlpatterns = [
 	path('adadmin/pricing/edit-rate/<int:groupId>/save', views.adminPricingSaveRate, name='adminPricingSaveRate'),
 	path('adadmin/pricing/edit-rate/<int:groupId>/create-rate', views.adminPricingCreateRate, name='adminPricingCreateRate'),
 	path('adadmin/pubs/new-publication', views.adminNewPublication, name='adminNewPublication'),
+	path('adadmin/pubs/create-publication', views.adminCreatePublication, name='adminCreatePublication'),
 
 	# Admin Routes 
 	path('admin/', admin.view_admin_panel, name='view_admin_panel'),

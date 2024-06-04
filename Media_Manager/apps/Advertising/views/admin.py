@@ -37,12 +37,12 @@ def adminGeneral(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	# all_states = AllStates.objects.all()
+	all_states = AllStates.objects.all()
 	magazines = MagazineProduct.objects.all()
 	newspapers = NewspaperProduct.objects.all()
 	digitals = DigitalProduct.objects.all()
 	context = {
-		# 'all_states': all_states,
+		'all_states': all_states,
 		'magazines': magazines,
 		'newspapers': newspapers,
 		'total_newspapers': len(newspapers),
@@ -241,7 +241,14 @@ def adminPricingSaveRate(request, groupId):
 	rategroup = RateGroup.objects.get(pk=groupId)
 	rategroup.name = data['name']
 	rategroup.description = data['description']
-	rategroup.assigned_publications = data['assigned_publications']
+	publications = PubRategroup.objects.filter(rategroup=rategroup)
+	for publication in publications:
+		publication.delete()
+	pub_ids = json.loads(data['assigned_publications'])
+	for id in pub_ids:
+		publication = Publication.objects.get(pk=id)
+		new_pub_rategroup = PubRategroup(rategroup = rategroup, publication = publication)
+		new_pub_rategroup.save()
 	if data['status'] != -1:
 		rategroup.status = data['status']
 	if data['active'] != -1:
@@ -265,10 +272,15 @@ def adminPricingEditRateGroup(request, groupId):
 	adtypes = AdType.objects.all()
 	glcodes = GLCode.objects.all()
 	extra_groups = RateGroup.objects.exclude(id=groupId)
-	if rategroup.assigned_publications:
-		pub_ids = json.loads(rategroup.assigned_publications)
-		assigned_publications = Publication.objects.filter(id__in=pub_ids)
-		unsigned_publications = Publication.objects.exclude(id__in=pub_ids)
+	
+	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('publication')
+	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_rategroups]
+	pub_ids = []
+	for pub_rategroup in pub_rategroups:
+		pub_ids.append(pub_rategroup.publication.id)
+
+	pub_rategroups = Publication.objects.exclude(id__in=pub_ids)
+	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_rategroups]
 	context = {
 		'rategroup': rategroup, 
 		'assigned_publications': assigned_publications, 
@@ -298,22 +310,33 @@ def adminPricingCreateRate(request, groupId):
 		new_extra_group = ExtraRateGroup(rate=new_rate, rategroup=rategroup)
 		new_extra_group.save()
 	return JsonResponse({"errors": []}, status=200)
-
+def adminCreatePublication(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	print(data)
+	return JsonResponse({'success': True}, status = 200)
 def adminNewPublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	
-	adTypes = AdType.objects.all().order_by('name')
-	gl_codes = GLCode.objects.all().order_by('id')
-	adjustments = Adjustment.objects.all().order_by('id')	
-
+	adTypes = AdminAdType.objects.all()
+	gl_codes = GLCode.objects.all()
+	adjustments = AdminAdjustment.objects.all()
+	rategroups = RateGroup.objects.all()
+	sections = PublicationSection.objects.all()
+	publications = Publication.objects.all()
 	context = {
         "access": "allow",
         "message": "",
         "adTypes": adTypes,
         "gl_codes": gl_codes,
-        "adjustments": adjustments
+        "adjustments": adjustments,
+				"rategroups": rategroups,
+				"sections": sections,
+				"publications": publications
     }
 	return render(request, 'admin/pubs/new-publication.html', context)
 

@@ -215,7 +215,7 @@
         }
         var selectElement = document.querySelector('.edit-adjustment-lstBox2');
         var values = [];
-        if(data['status'] == null) data['status'] = 1;
+        if(isNaN(data['status'])) data['status'] = 1;
         for (var i = 0; i < selectElement.options.length; i++) {
             values.push(selectElement.options[i].value);
         }
@@ -223,6 +223,7 @@
         data['id'] = localStorage.getItem('edit-adjustment-id');
         if(!data['section']) data['section'] = '';
         if(!data['value']) data['value'] = 0;
+        console.log(data);
         fetch("pricing/edit-adjustment", {
           method: "POST",
           credentials: "same-origin",

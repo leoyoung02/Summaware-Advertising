@@ -198,6 +198,20 @@ class PubAdjustment(models.Model):
     class Meta:
         db_table = 'advertising_pub_adjustment'
 
+class PubRategroup(models.Model):
+    rategroup = models.ForeignKey('RateGroup', on_delete=CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_pub_rategroup'
+
+class PubSection(models.Model):
+    section = models.ForeignKey('PublicationSection', on_delete=CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_pub_section'
+
 class AdminAdjustment(models.Model):
     code = models.CharField(max_length=100, default=None)
     name = models.CharField(max_length=255, default=None)

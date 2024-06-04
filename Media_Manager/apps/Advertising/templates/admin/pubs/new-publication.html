@@ -91,6 +91,133 @@
 .none {
     display: none;
 }
+.calendar {
+  max-width: 50%;
+  margin: 0 auto;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(33, 33, 95, 0.1);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0px;
+  background-color: rgba(33, 33, 95, 0.1);
+  text-align: center;
+}
+
+.day {
+  padding: 5px;
+  font-weight: bold;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 100px 100px 100px 100px 100px 100px;
+}
+.date {
+  padding: 5px;
+  cursor: pointer;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc; /* Add this line */
+  border-bottom: 1px solid #ccc; /* Add this line */
+  border-top: 1px solid #ccc;
+  display: flex; /* Add this line */
+  align-items: flex-start; /* Add this line */
+  justify-content: flex-start; /* Add this line */
+  position: relative; /* Add this line */
+}
+
+.date:hover {
+  background-color: #f2f2f2;
+}
+
+.date.active {
+    background-color: #f26722;
+}
+.repeat-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0px;
+  background-color: rgba(33, 33, 95, 0.1);
+  text-align: center;
+}
+
+.repeat-day {
+  padding: 5px;
+  font-weight: bold;
+  border-right: 1px solid black;
+}
+
+.repeat-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 50px;
+}
+
+.repeat-date {
+  padding: 5px;
+  cursor: pointer;
+  border-right: 1px solid black;
+  display: flex; /* Add this line */
+  align-items: flex-start; /* Add this line */
+  justify-content: flex-start; /* Add this line */
+  position: relative; /* Add this line */
+}
+
+.repeat-date:hover {
+  background-color: #f2f2f2;
+}
+
+.repeat-date p{
+    width: 100%;
+    margin: 0;
+    color: white;
+    font-size: 32px;
+    align-self: center;
+    text-align: center;
+    display: none;
+}
+
+.repeat-date.active {
+    background-color: rgba(33, 33, 95, 0.5);
+}
+
+.repeat-date.active p{
+    display: block;
+}
+.repeat-date.active:hover {
+    background-color: rgba(33, 33, 95, 0.7);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem;
+  width: 24rem;
+  border-radius: 0.5rem;
+}
+
+.area {
+    margin-top: 1px;
+    width: 100%;
+}
+
+.custom {
+    cursor: pointer;
+}
 </style>
 <div class="container mt-5">
     <div class="heading-container product-magazine text-center">
@@ -140,7 +267,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group mb-5">
+                            <label for="product-mag">Parent Publication(optional):</label>
+                            <select type="text" name="" id="parent-publication" class="form-control">
+                                {% for publication in publications %}
+                                <option value="{{publication.id}}">{{publication.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
                             <label for="columns">Address Line 1:</label>
@@ -159,7 +298,6 @@
                         <div class="form-group">
                             <label for="page-height">*State:</label>
                             <select type="text" name="" id="page-height" class="form-control">
-                                <option> Please select State</option>
                                 <option value="">Select a state</option>
                                 <option value="Alabama">Alabama</option>
                                 <option value="Alaska">Alaska</option>
@@ -230,7 +368,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-lg-3"></div>
         </div>
@@ -284,8 +422,8 @@
                             <label for=""><strong>Calendar Type:</strong></label> 
                             <br>           
                             <div class="switch2">
-                                <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
-                                <label for="cc-toggle" style="width:200px"></label>                
+                                <input id="cc-toggle-repeat" class="check-toggle check-toggle-round-flat" type="checkbox">
+                                <label for="cc-toggle-repeat" style="width:200px"></label>                
                                 <span class="active"> Repeat </span>
                                 <span class="deactivate"> Non-repeating </span>
                             </div>
@@ -303,7 +441,9 @@
                         <div class="form-group">
                             <label for="page-height">Product Type:</label>
                             <select type="text" name="" id="page-height" class="form-control">
-                                <option> </option>
+                                <option value="newspaper">Newspaper</option>
+                                <option value="magazine">Magazine</option>
+                                <option value="digital">Digital</option>
                             </select>
                         </div>
                     </div>
@@ -314,8 +454,8 @@
                             <label for="page-width">GL Override(optional):</label>
                             <br>           
                             <div class="switch2">
-                                <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
-                                <label for="cc-toggle"></label>                
+                                <input id="cc-toggle-gl-overrid" class="check-toggle check-toggle-round-flat" type="checkbox">
+                                <label for="cc-toggle-gl-overrid"></label>                
                                 <span class="active"> Yes </span>
                                 <span class="deactivate"> No </span>
                             </div>
@@ -365,8 +505,25 @@
             <div class="col-lg-2"></div>
         </div>
         <div class="row">
-            <div class="col-md-12 text-center">
-                <img src="{% static "images/week-calendar.png" %}" alt="week calendar" width="400">
+            <div class="calendar">
+                <div class="repeat-days">
+                  <div class="repeat-day">Sun</div>
+                  <div class="repeat-day">Mon</div>
+                  <div class="repeat-day">Tue</div>
+                  <div class="repeat-day">Wed</div>
+                  <div class="repeat-day">Thu</div>
+                  <div class="repeat-day">Fri</div>
+                  <div class="repeat-day" style="border: none;">Sat</div>
+                </div>
+                <div class="repeat-dates">
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
+                    <div class="repeat-date" style="border: none;"><p><i class="fa fa-solid fa-check"></i></p></div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -389,11 +546,49 @@
             </div>
         </div>
         <div class="row">
+            <div class="calendar-container mgb-3">
+                <div class="calendar">
+                  <div class="header">
+                    <button id="prevBtn">&lt;</button>
+                    <h1 id="monthYear"></h1>
+                    <button id="nextBtn">&gt;</button>
+                  </div>
+                  <div class="days">
+                    <div class="day">Sun</div>
+                    <div class="day">Mon</div>
+                    <div class="day">Tue</div>
+                    <div class="day">Wed</div>
+                    <div class="day">Thu</div>
+                    <div class="day">Fri</div>
+                    <div class="day">Sat</div>
+                  </div>
+                  <div class="dates" id="dates">
+                    <div class="date" data-day="1">1</div>
+                    <div class="date" data-day="2">2</div>
+                    <div class="date" data-day="3">3</div>
+                    <div class="date" data-day="4">4</div>
+                    <div class="date" data-day="5">5</div>
+                    <div class="date" data-day="6">6</div>
+                  </div>
+                </div>
+  
+                <!-- Modal for Event Details -->
+                <div class="modal event show-modal hide-modal" id="eventModal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="eventDate"></h2>
+                    <textarea class="area" id="eventDescription"></textarea>
+                    <button id="saveEventBtn">Save</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
             <div class="col-md-12 text-center">
                 <label for=""><strong>Manage Days:</strong></label><br>
                 <img src="{% static "images/month-calendar.png" %}" alt="week calendar" width="400">
             </div>
-        </div>
+        </div> -->
         <div class="row multistep-content mb-5">  
             <div class="col-md-12">
                 <div class="row btn-container">
@@ -457,30 +652,30 @@
                         <div class="item-select-container mt-5">
                             <div class="available-pubs">
                                 Available Rage Groups:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
-                                    <option value="times-leader-print-edition">Rate Group 1</option>
-                                    <option value="times-leader-e-edition">Rate Group 2</option>
-                                    <option value="times-leader-e-edition">Rate Group 3</option>
+                                <select multiple="multiple" id="lstBox1" class="form-select rategroup_lstBox1" style="height: 270px;">
+                                    {% for rategroup in rategroups %}
+                                    <option value="{{rategroup.id}}">{{rategroup.name}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">
                                 <br />
-                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <a id="rategroup-btnLeftAll" class="custom" style="width: 70px;"> >> </a>
                                 <br>
                                 <br />
-                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <a id="rategroup-btnLeft" class="custom" style="width: 70px;"> > </a>
                                 <br />
                                 <br>
                                 <br>
                                 <br />
-                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <a id="rategroup-btnRight" class="custom" style="width: 70px;"> < </a>
                                 <br />
                                 <br>
-                                <a id="" class="custom" style="width: 70px;"> << </a>
+                                <a id="rategroup-btnRightAll" class="custom" style="width: 70px;"> << </a>
                             </div>
                             <div class="selected-pubs">
                                 Selected Rate Groups:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                                <select multiple="multiple" id="lstBox2" class="form-select rategroup_lstBox2" style="height: 270px;"></select>
                             </div>
                         </div>
                     </div>
@@ -551,31 +746,31 @@
                         <div class="item-select-container mt-5">
                             <div class="available-pubs">
                                 Available Ad Type:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">                                    
+                                <select multiple="multiple" id="lstBox1" class="form-select adtype_lstBox1" style="height: 270px;">                                    
                                     {% for type in adTypes %}
-                                        <option value="{{ type.id }}">{{ type.name }} {{ type.code }}</option>
+                                        <option value="{{ type.id }}">{{ type.name }}-{{ type.code }}</option>
                                     {% empty %}
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">
                                 <br />
-                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <a id="adtype-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
                                 <br>
                                 <br />
-                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <a id="adtype-btnLeft" class="custom" style="width: 70px;"> > </a>
                                 <br />
                                 <br>
                                 <br>
                                 <br />
-                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <a id="adtype-btnRight" class="custom" style="width: 70px;"> < </a>
                                 <br />
                                 <br>
-                                <a id="" class="custom" style="width: 70px;"> << </a>
+                                <a id="adtype-btnRightAll" class="custom" style="width: 70px;"> << </a>
                             </div>
                             <div class="selected-pubs">
                                 Selected Ad Types:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                                <select multiple="multiple" id="lstBox2" class="form-select adtype_lstBox2" style="height: 270px;"></select>
                             </div>
                         </div>
                     </div>
@@ -646,30 +841,30 @@
                         <div class="item-select-container mt-5">
                             <div class="available-pubs">
                                 Available Adjustments:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
+                                <select multiple="multiple" id="lstBox1" class="form-select adjustment_lstBox1" style="height: 270px;">
                                     {% for item in adjustments %}
-                                    <option value="{{item.id}}">{{item.code}} ${{item.description}}</option>
+                                    <option value="{{item.id}}">{{item.name}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">
                                 <br />
-                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <a id="adjustment-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
                                 <br>
                                 <br />
-                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <a id="adjustment-btnLeft" class="custom" style="width: 70px;"> > </a>
                                 <br />
                                 <br>
                                 <br>
                                 <br />
-                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <a id="adjustment-btnRight" class="custom" style="width: 70px;"> < </a>
                                 <br />
                                 <br>
-                                <a id="" class="custom" style="width: 70px;"> << </a>
+                                <a id="adjustment-btnRightAll" class="custom" style="width: 70px;"> << </a>
                             </div>
                             <div class="selected-pubs">
                                 Assigned Adjustments:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                                <select multiple="multiple" id="lstBox2" class="form-select adjustment_lstBox2" style="height: 270px;"></select>
                             </div>
                         </div>
                     </div>
@@ -740,30 +935,30 @@
                         <div class="item-select-container mt-5">
                             <div class="available-pubs">
                                 Available Sections:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select" style="height: 270px;">
-                                    <option value="times-leader-print-edition">Section 1</option>
-                                    <option value="times-leader-e-edition">Section 2</option>
-                                    <option value="times-leader-e-edition">Section 3</option>
+                                <select multiple="multiple" id="lstBox1" class="form-select section_lstBox1" style="height: 270px;">
+                                    {% for section in sections %}
+                                    <option value="{{section.id}}">{{section.name}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="transferBtns">
                                 <br />
-                                <a id="btnLeft" class="custom" style="width: 70px;" > >> </a>
+                                <a id="section-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
                                 <br>
                                 <br />
-                                <a id="btnRight" class="custom" style="width: 70px;"> > </a>
+                                <a id="section-btnLeft" class="custom" style="width: 70px;"> > </a>
                                 <br />
                                 <br>
                                 <br>
                                 <br />
-                                <a id="" class="custom" style="width: 70px;"> < </a>
+                                <a id="section-btnRight" class="custom" style="width: 70px;"> < </a>
                                 <br />
                                 <br>
-                                <a id="" class="custom" style="width: 70px;"> << </a>
+                                <a id="section-btnRightAll" class="custom" style="width: 70px;"> << </a>
                             </div>
                             <div class="selected-pubs">
                                 Assigned Sections:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select" style="height: 270px;"></select>
+                                <select multiple="multiple" id="lstBox2" class="form-select section_lstBox2" style="height: 270px;"></select>
                             </div>
                         </div>
                     </div>
@@ -778,7 +973,7 @@
                         <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_adjustment', 'new_publication_step_sections')"> Previous  </button>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_final', 'new_publication_step_sections')"> Next  </button>
+                        <button class="btn btn-secondary px-5" onclick="createPublication()"> Next  </button>
                     </div>
                 </div>
             </div>
@@ -848,6 +1043,306 @@
             </div>
         </div>
     </div>
+    <script>
+        // Publication Calendar
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        const monthYearElement = document.getElementById('monthYear');
+        const datesElement = document.getElementById('dates');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const eventModal = document.getElementById('eventModal');
+        const eventDate = document.getElementById('eventDate');
+        const eventDescription = document.getElementById('eventDescription');
+        const saveEventBtn = document.getElementById('saveEventBtn');
+        let selectedDate = null;
+        let selectedElement = null;
+
+        // Generate calendar for the current month
+        generateCalendar(currentMonth, currentYear);
+
+        // Event listener for previous and next buttons
+        prevBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+        function dateToString(date) {
+            const year = selectedDate.getFullYear();
+            const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(selectedDate.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            return formattedDate;
+        }
+        // Function to generate the calendar
+        function generateCalendar(month, year) {
+            let managedDates = JSON.parse(localStorage.getItem('managedDates'));
+            if(!managedDates) managedDates = [];
+            monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
+            datesElement.innerHTML = '';
+
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            const startDay = firstDayOfMonth.getDay();
+            const endDay = lastDayOfMonth.getDate();
+
+            for (let i = 0; i < startDay; i++) {
+                const dateElement = document.createElement('div');
+                dateElement.classList.add('date');
+                datesElement.appendChild(dateElement);
+            }
+
+            for (let day = 1; day <= endDay; day++) {
+                const dateElement = document.createElement('div');
+                const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+                dateElement.textContent = day;
+                dateElement.classList.add('date');
+                if (month === currentDate.getMonth() && year === currentDate.getFullYear() && day === currentDate.getDate()) {
+                    dateElement.classList.add('current-month');
+                }
+                if (managedDates.includes(date)) {
+                    dateElement.classList.add('active');
+                }
+                dateElement.addEventListener('click', (event) => openEventModal(year, month, day, event.target));
+                datesElement.appendChild(dateElement);
+            }
+        }
+
+        // Function to open the event modal
+        function openEventModal(year, month, day, e) {
+            selectedElement = e;
+            selectedDate = new Date(year, month, day);
+            eventDate.textContent = selectedDate.toDateString();
+            eventDescription.value = getEventDescription(selectedDate) || '';
+            eventModal.style.display = 'block';
+        }
+
+        // Function to close the event modal
+        function closeEventModal() {
+            eventModal.style.display = 'none';
+        }
+
+        // Function to save the event
+        function saveEvent() {
+            const description = eventDescription.value;
+            setEventDescription(selectedDate, description);
+
+            closeEventModal();
+        }
+
+        // Event listener for save button
+        saveEventBtn.addEventListener('click', saveEvent);
+
+        // Function to get event description from local storage
+        function getEventDescription(date) {
+            const key = dateToString(date);
+            return localStorage.getItem(key);
+        }
+
+        // Function to save event description to local storage
+        function setEventDescription(date, description) {
+            const key = dateToString(date);
+            let dates = JSON.parse(localStorage.getItem('managedDates'));
+            if(!dates) dates = [];
+            if(description) {
+                selectedElement.classList.add('active');
+                if(!dates.includes(key)) {
+                    dates.push(key)
+                }
+            } else {
+                selectedElement.classList.remove('active');
+                const index = dates.indexOf(key);
+                if (index !== -1) {
+                    // If the item is found in the array, remove it
+                    dates.splice(index, 1);
+                }
+            }
+            localStorage.setItem('managedDates', JSON.stringify(dates));
+            localStorage.setItem(key, description);
+        }
+
+        // Event listener for modal close button
+        const closeBtn = document.getElementsByClassName('close')[0];
+        closeBtn.addEventListener('click', closeEventModal);
+
+        // Get all elements with the class "repeat-date"
+        const repeatDates = document.querySelectorAll('.repeat-date');
+
+        // Loop through each "repeat-date" element and add a click event listener
+        repeatDates.forEach(repeatDate => {
+            repeatDate.addEventListener('click', function() {
+                // Toggle the "active" class on the clicked element
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Event listener for outside modal click
+        window.addEventListener('click', event => {
+            if (event.target === eventModal) {
+                closeEventModal();
+            }
+        });
+        document.getElementById('rategroup-btnLeft').addEventListener('click', () => {
+            var selectedOpts = $('.rategroup_lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.rategroup_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('rategroup-btnLeftAll').addEventListener('click', () => {
+            var selectedOpts = $('.rategroup_lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.rategroup_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('rategroup-btnRight').addEventListener('click', () => {
+            var selectedOpts = $('.rategroup_lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.rategroup_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('rategroup-btnRightAll').addEventListener('click', () => {
+            var selectedOpts = $('.rategroup_lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.rategroup_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adtype-btnLeft').addEventListener('click', () => {
+            var selectedOpts = $('.adtype_lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adtype_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adtype-btnLeftAll').addEventListener('click', () => {
+            var selectedOpts = $('.adtype_lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adtype_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adtype-btnRight').addEventListener('click', () => {
+            var selectedOpts = $('.adtype_lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adtype_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adtype-btnRightAll').addEventListener('click', () => {
+            var selectedOpts = $('.adtype_lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adtype_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adjustment-btnLeft').addEventListener('click', () => {
+            var selectedOpts = $('.adjustment_lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adjustment_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adjustment-btnLeftAll').addEventListener('click', () => {
+            var selectedOpts = $('.adjustment_lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adjustment_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adjustment-btnRight').addEventListener('click', () => {
+            var selectedOpts = $('.adjustment_lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adjustment_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('adjustment-btnRightAll').addEventListener('click', () => {
+            var selectedOpts = $('.adjustment_lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.adjustment_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('section-btnLeft').addEventListener('click', () => {
+            var selectedOpts = $('.section_lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.section_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('section-btnLeftAll').addEventListener('click', () => {
+            var selectedOpts = $('.section_lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.section_lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('section-btnRight').addEventListener('click', () => {
+            var selectedOpts = $('.section_lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.section_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        document.getElementById('section-btnRightAll').addEventListener('click', () => {
+            var selectedOpts = $('.section_lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert('Nothing to move.');
+            }
+            $('.section_lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+        })
+        function createPublication() {
+            let data = {};
+            data['name'] = document.getElementById('product-mag').value;
+            data['parent_id'] = document.getElementById('parent-publication').value;
+            data['account'] = 'Times Leader';
+            fetch("create-publication", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Accept": "application/json",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            }).then((response) => {
+                $.toastr.success('Publication created successfully!')
+            })
+        }
+    </script>
 </div>
 
 {% endblock %}

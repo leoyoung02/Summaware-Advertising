@@ -13,7 +13,6 @@ from .publications import Publication
 class RateGroup(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True)
-    assigned_publications = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
     status = models.IntegerField()
 
