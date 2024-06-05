@@ -207,136 +207,29 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function () {
-  $('#new_btnRight').click(function (e) {
-    var selectedOpts = $('.new_lstBox1 option:selected');
+  $('#btnRight').click(function (e) {
+    var selectedOpts = $('#lstBox1 option:selected');
     if (selectedOpts.length == 0) {
       alert('Nothing to move.');
       e.preventDefault();
     }
 
-    $('.new_lstBox2').append($(selectedOpts).clone());
+    $('#lstBox2').append($(selectedOpts).clone());
     $(selectedOpts).remove();
     e.preventDefault();
   });
 
-  $('#new_btnRightAll').click(function (e) {
-    var allOpts = $('.new_lstBox1 option');
-    if (allOpts.length == 0) {
-        alert('Nothing to move.');
-        e.preventDefault();
-        return; 
-    }
-
-    $('.new_lstBox2').append($(allOpts).clone());
-    $(allOpts).remove();
-    e.preventDefault();
-  });
-
-  $('#new_btnLeft').click(function (e) {
-    var selectedOpts = $('.new_lstBox2 option:selected');
+  $('#btnLeft').click(function (e) {
+    var selectedOpts = $('#lstBox2 option:selected');
     if (selectedOpts.length == 0) {
       alert('Nothing to move.');
       e.preventDefault();
     }
 
-    $('.new_lstBox1').append($(selectedOpts).clone());
+    $('#lstBox1').append($(selectedOpts).clone());
     $(selectedOpts).remove();
     e.preventDefault();
   });
-
-  $('#new_btnLeftAll').click(function (e) {
-    var allOpts = $('.new_lstBox2 option');
-    if (allOpts.length == 0) {
-        alert('Nothing to move.');
-        e.preventDefault();
-        return; 
-    }
-
-    $('.new_lstBox1').append($(allOpts).clone());
-    $(allOpts).remove();
-    e.preventDefault();
-  });
-
-  $('#edit_btnRight').click(function (e) {
-    var selectedOpts = $('.edit_lstBox1 option:selected');
-    if (selectedOpts.length == 0) {
-      alert('Nothing to move.');
-      e.preventDefault();
-    }
-
-    $('.edit_lstBox2').append($(selectedOpts).clone());
-    $(selectedOpts).remove();
-    e.preventDefault();
-  });
-
-  $('#edit_btnRightAll').click(function (e) {
-    var allOpts = $('.edit_lstBox1 option');
-    if (allOpts.length == 0) {
-        alert('Nothing to move.');
-        e.preventDefault();
-        return; 
-    }
-
-    $('.edit_lstBox2').append($(allOpts).clone());
-    $(allOpts).remove();
-    e.preventDefault();
-  });
-
-  $('#edit_btnLeft').click(function (e) {
-    var selectedOpts = $('.edit_lstBox2 option:selected');
-    if (selectedOpts.length == 0) {
-      alert('Nothing to move.');
-      e.preventDefault();
-    }
-
-    $('.edit_lstBox1').append($(selectedOpts).clone());
-    $(selectedOpts).remove();
-    e.preventDefault();
-  });
-
-  $('#edit_btnLeftAll').click(function (e) {
-    var allOpts = $('.edit_lstBox2 option');
-    if (allOpts.length == 0) {
-        alert('Nothing to move.');
-        e.preventDefault();
-        return; 
-    }
-
-    $('.edit_lstBox1').append($(allOpts).clone());
-    $(allOpts).remove();
-    e.preventDefault();
-  });
-  $('#cc-toggle-assigned-groups').change(function(){
-    if($(this).is(':checked')) {
-      document.getElementById('select_extra_group').style.display='block';
-    } else {
-      document.getElementById('select_extra_group').style.display='none';
-    }
-  });
-  $('.to_computation').click(function (e) {
-    var type = document.getElementById('measurement_type').value;
-    document.getElementById('new_rate_2_date').style.display='none';
-    if(type == 'word') document.getElementById('new_rate_3_computation_words').style.display='block';
-    else if(type == 'inch') document.getElementById('new_rate_3_computation_inches').style.display='block';
-    else if(type == 'unit') document.getElementById('new_rate_3_computation_units').style.display='block';
-    else if(type == 'digital') document.getElementById('new_rate_3_computation_digital').style.display='block';
-    else document.getElementById('new_rate_3_computation').style.display='block';
-  })
-  $('.show_advanced_options').click(function (e) {
-    var type = document.getElementById('measurement_type').value;
-    document.getElementById('new_rate_2_date').style.display='none';
-    var element = null;
-    if(type == 'digital') element = document.getElementById('digital_advanced_options');
-    else if(type == 'inch') element = document.getElementById('inches_advanced_options');
-    else if(type == 'unit') element = document.getElementById('units_advanced_options');
-    else element = document.getElementById('line_advanced_options');
-    
-    if(element.style.display == 'block') {
-      element.style.display = 'none';
-    } else {
-      element.style.display = 'block';
-    }
-  })
 });
 
 function openSection(evt, sectionName) {

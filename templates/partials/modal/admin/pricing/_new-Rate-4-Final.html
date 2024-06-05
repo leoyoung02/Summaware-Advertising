@@ -33,92 +33,13 @@
                 <br>                
                 <div class="row btn-container">
                     <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="done(1)"> Create another rate  </button>
+                        <button class="btn px-5 btn-gray" onclick="document.getElementById('new_rate_1_general_info').style.display='block';document.getElementById('new_rate_4_final').style.display='none';"> Create another rate  </button>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="done(2)"> Done  </button>
+                        <button class="btn btn-secondary px-5" onclick="document.getElementById('new_rate_4_final').style.display='none';"> Done  </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function done(index) {
-            // Create a new row (tr) with the desired content
-            var id = document.getElementById('rategroup_id').dataset.value;
-            var tbody = document.getElementById('rate-table-body');
-            // Get the last child element (last <tr> element) within the tbody
-            var lastTr = tbody.lastElementChild;
-            var lastRateId = 0
-            // Check if the lastTr is a <tr> element
-            if (lastTr.tagName === 'TR') {
-                // Get the ID of the last rate element from the last <tr> element
-                var lastRateId = lastTr.querySelector('td:first-child').textContent;
-            }
-            let form = $('#rate-general-info-form');
-            var formData = new FormData(form[0]);
-            let data = {};
-            
-            for (const [key, value] of formData) {
-                data[key] = value;
-            }
-            if(data['pricing']) {
-                data['pricing'] = 'STANDARD';
-            } else {
-                data['pricing'] = 'CUSTOMARY';
-            }
-            if(data['override_privileges']) {
-                data['override_privileges'] = true;
-            } else {
-                data['override_privileges'] = false;
-            }
-            if(data['assigned_groups']) {
-                data['assigned_groups'] = true;
-            } else {
-                data['assigned_groups'] = false;
-            }
-            var selectElement = document.getElementById('extra_lstBox1');
-            var values = [id];
-            
-            for (var i = 0; i < selectElement.options.length; i++) {
-                values.push(selectElement.options[i].value);
-            }
-            data['extra_groups'] = JSON.stringify(values);
-            form = $('#rate-dates-form');
-            formData = new FormData(form[0]);
-            
-            for (const [key, value] of formData) {
-                data[key] = value;
-            }
-            var newRowContent = `
-            <tr>
-                <td>${Number(lastRateId) + 1}</td>
-                <td>${data['name']}</td>
-                <td>${data['measurement_type']}</td>
-                <td>${data['pricing']}</td>
-                <td>${data['default_gl_code']}</td>
-                <td>${data['tax_category']}</td>
-                <td>${data['start_date']}</td>
-                <td>${data['end_date']}</td>
-                <td>
-                    <div class="switch2">
-                        <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                        <label for="cc-toggle"></label>    
-                        <span class="active">Active</span>
-                        <span class="deactivate">Deactivate</span>
-                    </div>
-                </td>
-                <td>
-                    <span class="pe-5"><i class="fa fa-solid fa-pencil"></i></span>
-                    <span><i class="fa fa-solid fa-envelope-open"></i></span>
-                </td>
-            </tr>
-            `;
-    
-            // Insert the new row into the tbody at the end
-            tbody.insertAdjacentHTML('beforeend', newRowContent);
-            if(index == 1) document.getElementById('new_rate_1_general_info').style.display='block';
-            document.getElementById('new_rate_4_final').style.display='none';
-        }
-    </script>
   </div>

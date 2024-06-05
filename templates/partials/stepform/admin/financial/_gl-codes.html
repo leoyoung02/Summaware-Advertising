@@ -1,19 +1,4 @@
-{% include 'templates/partials/modal/admin/financial/_template-download.html'%}
-{% include 'templates/partials/modal/admin/financial/_upload-csv.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-company-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_new-company-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_template-download.html'%}
-{% include 'templates/partials/modal/admin/financial/_upload-csv.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-company-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-location-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_new-location-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-department-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_new-department-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-profit-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_new-profit-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-gl-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_new-gl-code.html'%}
-{% include 'templates/partials/modal/admin/financial/_edit-code-layout.html'%}
+{% include 'templates/partials/modal/admin/financial/_template-download.html'%} {% include 'templates/partials/modal/admin/financial/_upload-csv.html'%} {% include 'templates/partials/modal/admin/financial/_edit-company-code.html'%} {% include 'templates/partials/modal/admin/financial/_new-company-code.html'%} {% include 'templates/partials/modal/admin/financial/_template-download.html'%} {% include 'templates/partials/modal/admin/financial/_upload-csv.html'%} {% include 'templates/partials/modal/admin/financial/_edit-company-code.html'%} {% include 'templates/partials/modal/admin/financial/_edit-location-code.html'%} {% include 'templates/partials/modal/admin/financial/_new-location-code.html'%} {% include 'templates/partials/modal/admin/financial/_edit-department-code.html'%} {% include 'templates/partials/modal/admin/financial/_new-department-code.html'%} {% include 'templates/partials/modal/admin/financial/_edit-profit-code.html'%} {% include 'templates/partials/modal/admin/financial/_new-profit-code.html'%} {% include 'templates/partials/modal/admin/financial/_edit-gl-code.html'%} {% include 'templates/partials/modal/admin/financial/_new-gl-code.html'%} {% include 'templates/partials/modal/admin/financial/_edit-code-layout.html'%}
 <div class="multisteps-form__panel p-4 rounded js-active" data-animation="scaleIn">
   <div class="heading-arrows-container d-flex justify-content-between">
     <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -24,8 +9,8 @@
   <div class="multisteps-form__content">
     <div class="">
       <div class="content-end">
-        <button class="btn btn-secondary mgr-1" onclick="document.getElementById('templateDownload').style.display='block'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
-        <button class="btn btn-dl-template" onclick="document.getElementById('uploadCSV').style.display='block'"><i class="fa fa-solid fa-arrow-up"></i> Upload CSV Files</button>
+        <button class="btn btn-secondary mgr-1" onclick="document.getElementById('templateDownload').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
+        <button class="btn btn-dl-template" onclick="document.getElementById('uploadCSV').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-up"></i> Upload CSV Files</button>
       </div>
 
       <div class="text-container text-center mgx-3">
@@ -65,7 +50,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="filter-container">
-                  <button class="btn btn-secondary" onclick="document.getElementById('newCompanyCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Company Code</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('newCompanyCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Company Code</button>
                   <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
@@ -96,24 +81,22 @@
                   <td>25</td>
                   <td>Times Leader</td>
                   <td>
-                    <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
-
-                      <span class="active">Active</span>
-                      <span class="deactivate">Deactivate</span>
+                    <div class="gl-status-toggle-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-gl-status-radio-one" name="0001-gl-status-switch-one" value="active" checked />
+                        <label for="0001-gl-status-radio-one">Active</label>
+                        <input type="radio" id="0001-gl-status-radio-two" name="0001-gl-status-switch-one" value="inactive" />
+                        <label for="0001-gl-status-radio-two">Inactive</label>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editCompanyCode').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="document.getElementById('editCompanyCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="end-of-list-heading-container text-center py-5">
-              <span>You've reached the end!</span>
-            </div>
           </div>
         </div>
 
@@ -122,7 +105,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="filter-container">
-                  <button class="btn btn-secondary" onclick="document.getElementById('newLocationCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Location Code</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('newLocationCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Location Code</button>
                   <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
@@ -153,24 +136,22 @@
                   <td>25</td>
                   <td>Times Leader</td>
                   <td>
-                    <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
-
-                      <span class="active">Active</span>
-                      <span class="deactivate">Deactivate</span>
+                    <div class="location-switch-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-location-radio-one" name="0001-location-switch-one" value="active" checked />
+                        <label for="0001-location-radio-one">Active</label>
+                        <input type="radio" id="0001-location-radio-two" name="0001-location-switch-one" value="inactive" />
+                        <label for="0001-location-radio-two">Inactive</label>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editLocationCode').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="document.getElementById('editLocationCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="end-of-list-heading-container text-center py-5">
-              <span>You've reached the end!</span>
-            </div>
           </div>
         </div>
 
@@ -179,7 +160,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="filter-container">
-                  <button class="btn btn-secondary" onclick="document.getElementById('newDepartmentCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Department Code</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('newDepartmentCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Department Code</button>
                   <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
@@ -210,24 +191,22 @@
                   <td>25</td>
                   <td>Times Leader</td>
                   <td>
-                    <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
-
-                      <span class="active">Active</span>
-                      <span class="deactivate">Deactivate</span>
+                    <div class="department-switch-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-department-radio-one" name="0001-department-switch-one" value="active" checked />
+                        <label for="0001-department-radio-one">Active</label>
+                        <input type="radio" id="0001-department-radio-two" name="0001-department-switch-one" value="inactive" />
+                        <label for="0001-department-radio-two">Inactive</label>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editDepartmentCode').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="document.getElementById('editDepartmentCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="end-of-list-heading-container text-center py-5">
-              <span>You've reached the end!</span>
-            </div>
           </div>
         </div>
 
@@ -236,7 +215,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="filter-container">
-                  <button class="btn btn-secondary" onclick="document.getElementById('newProfitCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Profit Code</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('newProfitCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Profit Code</button>
                   <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
@@ -267,24 +246,22 @@
                   <td>25</td>
                   <td>Times Leader</td>
                   <td>
-                    <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
-
-                      <span class="active">Active</span>
-                      <span class="deactivate">Deactivate</span>
+                    <div class="profit-switch-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-profit-radio-one" name="0001-profit-switch-one" value="active" checked />
+                        <label for="0001-profit-radio-one">Active</label>
+                        <input type="radio" id="0001-profit-radio-two" name="0001-profit-switch-one" value="inactive" />
+                        <label for="0001-profit-radio-two">Inactive</label>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editProfitCode').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="document.getElementById('editProfitCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="end-of-list-heading-container text-center py-5">
-              <span>You've reached the end!</span>
-            </div>
           </div>
         </div>
 
@@ -293,7 +270,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-12">
                 <div class="filter-container">
-                  <button class="btn btn-secondary" onclick="document.getElementById('newGLCode').style.display='block'"><i class="fa fa-solid fa-plus"></i> New GL Code</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('newGLCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New GL Code</button>
                   <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
                 </div>
               </div>
@@ -324,24 +301,22 @@
                   <td>25</td>
                   <td>Times Leader</td>
                   <td>
-                    <div class="switch2">
-                      <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                      <label for="cc-toggle"></label>
-
-                      <span class="active">Active</span>
-                      <span class="deactivate">Deactivate</span>
+                    <div class="gl-switch-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-gl-radio-one" name="0001-gl-switch-one" value="active" checked />
+                        <label for="0001-gl-radio-one">Active</label>
+                        <input type="radio" id="0001-gl-radio-two" name="0001-gl-switch-one" value="inactive" />
+                        <label for="0001-gl-radio-two">Inactive</label>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    <span class="pe-5" onclick="document.getElementById('editGLCode').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+                    <span class="pe-5" onclick="document.getElementById('editGLCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                     <span><i class="fa fa-solid fa-envelope-open"></i></span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="end-of-list-heading-container text-center py-5">
-              <span>You've reached the end!</span>
-            </div>
           </div>
         </div>
       </div>

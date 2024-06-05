@@ -248,3 +248,6 @@ def create_salesperson(request):
      "form": form
     }
     return render(request, "advertising/advertising_salesperson_new.html", context)
+
+
+    

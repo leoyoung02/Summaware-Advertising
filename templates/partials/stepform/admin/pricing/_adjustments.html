@@ -1,5 +1,4 @@
-{% include 'templates/partials/modal/admin/adjustments/_new-adjustments.html'%}
-{% include 'templates/partials/modal/admin/adjustments/_edit-adjustment.html'%}
+{% include 'templates/partials/modal/admin/pricing/_new-adjustments.html'%} {% include 'templates/partials/modal/admin/pricing/_edit-adjustment.html'%}
 <div class="multisteps-form__panel p-4 rounded js-active" data-animation="scaleIn">
   <div class="heading-arrows-container d-flex justify-content-between">
     <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -8,10 +7,11 @@
   </div>
 
   <div class="btn-search-container mt-5 mgt-5">
+    <div class="save-container"></div>
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <div class="filter-container">
-          <button class="btn btn-secondary mb-1" onclick="document.getElementById('newAdjustment').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Adjustment</button>
+          <button class="btn btn-secondary mb-1" onclick="document.getElementById('newAdjustment').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Adjustment</button>
           <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
         </div>
       </div>
@@ -42,33 +42,100 @@
         </tr>
       </thead>
       <tbody>
+        {% for adjustment in adjustments %}
         <tr>
-          <td>0001</td>
-          <td>Example 1</td>
-          <td>examp_1</td>
-          <td>$0.00</td>
-          <td>Debit</td>
-          <td>Empty</td>
+          <td>{{adjustment.id}}</td>
+          <td>{{adjustment.name}}</td>
+          <td>{{adjustment.code}}</td>
+          {% if adjustment.value_type == 'percentage' %}
+          <td>{{ adjustment.value }}%</td>
+          {% else %}
+          <td>${{ adjustment.value }}</td>
+          {% endif %}
+          <td>{{adjustment.type}}</td>
+          <td>{{adjustment.apply_level}}</td>
           <td>All</td>
           <td><a href="#">See List</a></td>
           <td>
-            <div class="switch2">
-              <input id="pricing-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-              <label for="pricing-toggle"></label>
-
-              <span class="active">Active</span>
-              <span class="deactivate">Deactivate</span>
+            <div class="adjustments-switch-container">
+              <div class="switch-field">
+                <input type="radio" id="{{adjustment.id}}-adjustment-radio-one" name="{{adjustment.id}}-adjustment-switch-one" value="active" checked />
+                <label for="{{adjustment.id}}-adjustment-radio-one">Active</label>
+                <input type="radio" id="{{adjustment.id}}-adjustment-radio-two" name="{{adjustment.id}}-adjustment-switch-one" value="inactive" />
+                <label for="{{adjustment.id}}-adjustment-radio-two">Inactive</label>
+              </div>
             </div>
           </td>
           <td>
-            <span class="mgr-1" onclick="document.getElementById('editAdjustment').style.display='block'"><i class="fa fa-solid fa-pencil"></i></span>
+            <span class="mgr-1" onclick="editAdjustment(`{{ adjustment.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
             <span><i class="fa fa-solid fa-envelope-open"></i></span>
           </td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
-    <div class="end-of-list-heading-container text-center py-5">
-      <span>You've reached the end!</span>
-    </div>
   </div>
+  
+  <script>
+    function editAdjustment(id) {
+      document.getElementById('editAdjustment').style.cssText = 'display: block; opacity: 1; visibility: visible;'
+      var selectElement = document.getElementById('edit-adjustment-lstBox1');
+      while (selectElement.firstChild) {
+          selectElement.removeChild(selectElement.firstChild);
+      }
+      var selectElement = document.getElementById('edit-adjustment-lstBox2');
+      while (selectElement.firstChild) {
+          selectElement.removeChild(selectElement.firstChild);
+      }
+      let data = {'id': id}
+      fetch("pricing/adjustment-detail", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // parse the JSON from the response
+      })
+      .then((data) => {
+          var adjustment = JSON.parse(data['adjustment']);
+          adjustment = adjustment[0].fields;
+          var assigned_publications = data['assigned_publications'];
+          var unsigned_publications = data['unsigned_publications'];
+          localStorage.setItem('edit-adjustment-id', data['id']);
+          localStorage.setItem('edit-adjustment-active', adjustment.active);
+          localStorage.setItem('edit-adjustment-status', adjustment.status);
+          document.getElementById('edit-adjustment-name').value = adjustment.name;
+          document.getElementById('edit-adjustment-code').value = adjustment.code;
+          document.getElementById('edit-adjustment-apply-level').value = adjustment.apply_level;
+          document.getElementById('edit-adjustment-section').value = adjustment.section;
+          document.getElementById('edit-adjustment-value-type').value = adjustment.value_type;
+          document.getElementById('edit-adjustment-type').value = adjustment.type;
+          document.getElementById('edit-adjustment-value').value = adjustment.value;
+          document.getElementById('edit-adjustment-prompt-for-value').checked = adjustment.prompt_for_value;
+          document.getElementById('edit-adjustment-gl-code').value = adjustment.gl_code;
+          document.getElementById('adminadjustment-active').textContent = adjustment.active == true ? 'Deactivate' : 'Active';
+          console.log(assigned_publications);
+          var select = document.getElementById("edit-adjustment-lstBox1");
+          unsigned_publications.forEach(function(item) {
+            var option = new Option(item.name, item.id);
+            select.add(option);
+          });
+          var select = document.getElementById("edit-adjustment-lstBox2");
+          assigned_publications.forEach(function(item) {
+            var option = new Option(item.name, item.id);
+            select.add(option);
+          });
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+  </script>
 </div>

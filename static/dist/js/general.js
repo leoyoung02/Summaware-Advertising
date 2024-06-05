@@ -6,9 +6,3 @@ $(document).ready(function() {
 		$('body').toggleClass('search');
 	});
 });
-
-function showHideStepModal(select_show, select_hide)
-{
-	document.getElementById(select_show).style.display='block';
-	document.getElementById(select_hide).style.display = 'none';
-}

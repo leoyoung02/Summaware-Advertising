@@ -1,1348 +1,364 @@
-{% extends 'templates/base_gamma.html' %} {% block content %}{% load static %}
-<style>
-.stepper-wrapper {
-    position: relative;    
-    margin-top: auto;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    z-index: 100;
-}
-.stepper-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
+{% extends "templates/base.html" %} {% load static %} {% block endjs %}
+<!-- <script src="{% static "dist/js/advertising/SearchPublic.js" %}"></script>
+<script src="{% static "admin/js/event-calendar.js" %}"></script>
+<script src="{% static "dist/js/advertising/publicationNew.js" %}"></script> -->
 
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-}
+{% endblock %} {% block breadcrumb %}
+<li class="active">Advertising</li>
+{% endblock %} {% block content %}
+<!-- <div class="advertising-back-image" style="bottom:0; width:100%;">
+    <img src="{% static "svg/advertising_back_img.svg" %}" width="100%">
+</div> -->
 
-.stepper-item::before {
-    position: absolute;
-    content: "";
-    border-bottom: 8px solid #fff;
-    width: 100%;
-    top: 17px;
-    left: -50%;
-    z-index: 2;
-}
+<div class="container">
+  <div class="heading-container text-center">
+    <h3 class="heading">New Publication Setup</h3>
+  </div>
+  <div class="multistep-container mgb-3">
+    <div class="c-card">
+      <div class="progress-icons">
+        <div class="progress-dot-container">
+          <div id="progress_0" class="progress-dot progress-active">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">General Info</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_1" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Scheduling</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_2" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Rate Groups</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_3" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Ad Type</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_4" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Adjustments</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_5" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Sections</p>
+        </div>
+      </div>
+      <!-- End Icons -->
+      <div id="section1" class="section multistep-content mgb-3">
+        <div class="heading-container text-center">
+          <h3 class="heading">General Info</h3>
+        </div>
 
-.stepper-item::after {
-    position: absolute;
-    content: "";
-    border-bottom: 2px solid #fff;
-    width: 100%;
-    top: 20px;
-    left: 50%;
-    z-index: 2;
-}
+        <div class="section-content text-center mgb-3">
+          <div class="text-center">
+            <p>Fill out the information below to begin!</p>
+          </div>
 
-.stepper-item .step-counter {
-    position: relative;
-    z-index: 5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #fff;
-    margin-bottom: 6px;
-    color:white;
-    font-weight: 700;
-    font-size: 18px;
-}
+          <div class="form-group mgb-3 w50 center-block text-left">
+            <label for="">* Publication Name:</label>
+            <input type="text" name="" id="" class="form-control" />
+          </div>
 
-.stepper-item.active {
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 4px #000000;
-}
+          <div class="form-group mgb-3 w50 center-block text-left">
+            <label for="">* Address Line 1:</label>
+            <input type="text" name="" id="" class="form-control" />
+            <a href="#">Add another address line</a>
+          </div>
 
-.stepper-item.completed .step-counter {
-    background-color: #f26722;
-}
+          <div class="row mgb-3 w50 center-block">
+            <div class="col-md-12 col-lg-6 pl-0">
+              <div class="form-group text-left">
+                <label for="city">* City:</label>
+                <input type="text" name="" id="city" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 pr-0">
+              <div class="form-group text-left">
+                <label for="state">* State:</label>
+                <select name="" id="state" class="form-control"></select>
+              </div>
+            </div>
+          </div>
 
-.stepper-item.completed::after {
-    position: absolute;
-    content: "";
-    border-bottom: 10px solid #f26722;
-    width: 100%;
-    top: 16px;
-    left: 50%;
-    z-index: 3;
-}
+          <div class="row mgb-3 w50 center-block">
+            <div class="col-md-12 col-lg-6 pl-0">
+              <div class="form-group mgb-3 text-left">
+                <label for="city">* Zip Code:</label>
+                <input type="text" name="" id="zip-code" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 pr-0">
+              <div class="form-group mgb-3 text-left">
+                <label for="state">* Location:</label>
+                <select name="" id="state" class="form-control"></select>
+              </div>
+            </div>
+          </div>
 
-.stepper-item:first-child::before {
-    content: none;
-}
-.stepper-item:last-child::after {
-    content: none;
-}
-.content-container.custom-border:after {
-    height: 236px;
-}
-.rounded-pill {
-    border-radius:20px;
-}
-.none {
-    display: none;
-}
-.calendar {
-  max-width: 50%;
-  margin: 0 auto;
-  border: 1px solid #000;
-  border-radius: 5px;
-  padding: 0px;
-}
+          <div class="form-group w50 center-block text-left">
+            <label for="state">Parent Publication (optional):</label>
+            <select name="" id="state" class="form-control"></select>
+          </div>
+        </div>
 
-.header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: rgba(33, 33, 95, 0.1);
-}
+        <div class="btn-container content-even">
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
 
-.days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 0px;
-  background-color: rgba(33, 33, 95, 0.1);
-  text-align: center;
-}
+      <div id="section2" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Scheduling</h3>
+        </div>
 
-.day {
-  padding: 5px;
-  font-weight: bold;
-}
+        <div class="section-content w50 center-block">
+          <div class="text-center mgb-3">
+            <p>Calendar Type:</p>
+            <div class="toggle-switch-container">
+              <div class="switch-field center-block">
+                <input type="radio" id="0001-calendar-radio-one" name="0001-calendar-switch-one" value="repeat" checked />
+                <label for="0001-calendar-radio-one">Repeat</label>
+                <input type="radio" id="0001-calendar-radio-two" name="0001-calendar-switch-one" value="non-repeating" />
+                <label for="0001-calendar-radio-two">Non-repeating</label>
+              </div>
+            </div>
+          </div>
 
-.dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 100px 100px 100px 100px 100px 100px;
-}
-.date {
-  padding: 5px;
-  cursor: pointer;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc; /* Add this line */
-  border-bottom: 1px solid #ccc; /* Add this line */
-  border-top: 1px solid #ccc;
-  display: flex; /* Add this line */
-  align-items: flex-start; /* Add this line */
-  justify-content: flex-start; /* Add this line */
-  position: relative; /* Add this line */
-}
+          <div class="repeating-calendar active">
+            <div class="row mgb-3">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                  <label for="">Name:</label>
+                  <input type="text" name="" id="" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <label for="">Product Type:</label>
+                <select name="" id="" class="form-control"></select>
+              </div>
+            </div>
 
-.date:hover {
-  background-color: #f2f2f2;
-}
+            <div class="row mgb-3">
+              <div class="col-md-12 col-lg-6">
+                <div>
+                  <label for="gl-override">GL Override (optional)</label>
+                </div>
+                <div class="toggle-switch-container">
+                  <div class="switch-field">
+                    <input type="radio" id="0001-gloverride-radio-one" name="0001-gloverride-switch-one" value="yes" checked />
+                    <label for="0001-gloverride-radio-one">Yes</label>
+                    <input type="radio" id="0001-gloverride-radio-two" name="0001-gloverride-switch-one" value="no" />
+                    <label for="0001-calendar-radio-two">No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <label for="">GL Code:</label>
+                <select name="" id="" class="form-control"></select>
+              </div>
+            </div>
 
-.date.active {
-    background-color: #f26722;
-}
-.repeat-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 0px;
-  background-color: rgba(33, 33, 95, 0.1);
-  text-align: center;
-}
+            <div class="row mgb-3">
+              <div class="col-md-12 col-lg-6"></div>
+              <div class="col-md-12 col-lg-6"></div>
+            </div>
 
-.repeat-day {
-  padding: 5px;
-  font-weight: bold;
-  border-right: 1px solid black;
-}
+            <div class="row mgb-3">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                  <label for="">Start Date:</label>
+                  <input type="text" name="" id="" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                  <label for="">End Date (optional):</label>
+                  <input type="text" name="" id="" class="form-control" />
+                </div>
+              </div>
+            </div>
 
-.repeat-dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 50px;
-}
+            <!-- <div class="calendar-container mgb-3">
+              <div class="calendar">
+                <div class="header">
+                  <button id="prevBtn">&lt;</button>
+                  <h1 id="monthYear"></h1>
+                  <button id="nextBtn">&gt;</button>
+                </div>
+                <div class="days">
+                  <div class="day">Sun</div>
+                  <div class="day">Mon</div>
+                  <div class="day">Tue</div>
+                  <div class="day">Wed</div>
+                  <div class="day">Thu</div>
+                  <div class="day">Fri</div>
+                  <div class="day">Sat</div>
+                </div>
+                <div class="dates" id="dates">
+                  <div class="date" data-day="1">1</div>
+                  <div class="date" data-day="2">2</div>
+                  <div class="date" data-day="3">3</div>
+                  <div class="date" data-day="4">4</div>
+                  <div class="date" data-day="5">5</div>
+                  <div class="date" data-day="6">6</div>
+                </div>
+              </div>
 
-.repeat-date {
-  padding: 5px;
-  cursor: pointer;
-  border-right: 1px solid black;
-  display: flex; /* Add this line */
-  align-items: flex-start; /* Add this line */
-  justify-content: flex-start; /* Add this line */
-  position: relative; /* Add this line */
-}
+               Modal for Event Details 
+              <div class="modal event show-modal hide-modal" id="eventModal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <h2 id="eventDate"></h2>
+                  <textarea class="area" id="eventDescription"></textarea>
+                  <button id="saveEventBtn">Save</button>
+                </div>
+              </div>
+            </div> -->
+          </div>
 
-.repeat-date:hover {
-  background-color: #f2f2f2;
-}
+          <div class="non-repeating-calendar">Non Repeating</div>
+        </div>
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
 
-.repeat-date p{
-    width: 100%;
-    margin: 0;
-    color: white;
-    font-size: 32px;
-    align-self: center;
-    text-align: center;
-    display: none;
-}
+      <div id="section3" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Rate Groups</h3>
+        </div>
 
-.repeat-date.active {
-    background-color: rgba(33, 33, 95, 0.5);
-}
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>
+              Select which rate groups you'd like to be<br />
+              assign to this publication
+            </p>
+          </div>
 
-.repeat-date.active p{
-    display: block;
-}
-.repeat-date.active:hover {
-    background-color: rgba(33, 33, 95, 0.7);
-}
+           {% include "components/item_select.html" with item_type="rate groups" available_items=rate_groups %}
 
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 1rem 1.5rem;
-  width: 24rem;
-  border-radius: 0.5rem;
-}
+          
+        </div>
 
-.area {
-    margin-top: 1px;
-    width: 100%;
-}
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
 
-.custom {
-    cursor: pointer;
-}
-</style>
-<div class="container mt-5">
-    <div class="heading-container product-magazine text-center">
-        <h3 class="heading">New Publication Setup</h3>
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section4" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Ad Type</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>
+              Select from the available Ad Types you<br />
+              would like associated with this Publication
+            </p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="ad types" available_items=ad_types %}
+
+          
+
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section5" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Adjustments</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>Choose which Adjustments that are<br />assigned to this Publication</p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="adjustments" available_items=adjustments %}
+
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section6" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Sections</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>Select the sections you would like to be<br />available to use with this Publication</p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="sections" available_items=sections %}
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Create Publication</button>
+        </div>
+      </div>
+
+      <div id="section7" class="section multistep-content hide">
+        <div class="section-content">
+          <div class="complete-product-container text-center">
+            <h3 class="heading">Publication has been created!</h3>
+            <div class="big-check mx-auto my-5">
+              <i class="fa fa-solid fa-check"></i>
+            </div>
+            <div class="btn-container content-even">
+              <button class="btn btn-secondary-light">Create Another Publication</button>
+              <a href="{% url 'adminNewDigital' %}" class="btn btn-gray">Back to Publications</a>
+              <button class="btn btn-secondary">View Publication</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="new_publication_step_general_info" class="content-container custom-border custom-container" style="padding-top: 70px;">
-        <div class="row" style="margin-bottom: 40px;">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-3"></div>
-            <div class="col-md-12 col-lg-6">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group mb-5">
-                            <label for="product-mag">*Publication Name:</label>
-                            <input type="text" name="" id="product-mag" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group mb-5">
-                            <label for="product-mag">Parent Publication(optional):</label>
-                            <select type="text" name="" id="parent-publication" class="form-control">
-                                {% for publication in publications %}
-                                <option value="{{publication.id}}">{{publication.name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="columns">Address Line 1:</label>
-                            <input type="text" name="" id="columns" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="page-width">*City</label>
-                            <input type="text" name="" id="page-width" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="page-height">*State:</label>
-                            <select type="text" name="" id="page-height" class="form-control">
-                                <option value="">Select a state</option>
-                                <option value="Alabama">Alabama</option>
-                                <option value="Alaska">Alaska</option>
-                                <option value="Arizona">Arizona</option>
-                                <option value="Arkansas">Arkansas</option>
-                                <option value="California">California</option>
-                                <option value="Colorado">Colorado</option>
-                                <option value="Connecticut">Connecticut</option>
-                                <option value="Delaware">Delaware</option>
-                                <option value="Florida">Florida</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Hawaii">Hawaii</option>
-                                <option value="Idaho">Idaho</option>
-                                <option value="Illinois">Illinois</option>
-                                <option value="Indiana">Indiana</option>
-                                <option value="Iowa">Iowa</option>
-                                <option value="Kansas">Kansas</option>
-                                <option value="Kentucky">Kentucky</option>
-                                <option value="Louisiana">Louisiana</option>
-                                <option value="Maine">Maine</option>
-                                <option value="Maryland">Maryland</option>
-                                <option value="Massachusetts">Massachusetts</option>
-                                <option value="Michigan">Michigan</option>
-                                <option value="Minnesota">Minnesota</option>
-                                <option value="Mississippi">Mississippi</option>
-                                <option value="Missouri">Missouri</option>
-                                <option value="Montana">Montana</option>
-                                <option value="Nebraska">Nebraska</option>
-                                <option value="Nevada">Nevada</option>
-                                <option value="New Hampshire">New Hampshire</option>
-                                <option value="New Jersey">New Jersey</option>
-                                <option value="New Mexico">New Mexico</option>
-                                <option value="New York">New York</option>
-                                <option value="North Carolina">North Carolina</option>
-                                <option value="North Dakota">North Dakota</option>
-                                <option value="Ohio">Ohio</option>
-                                <option value="Oklahoma">Oklahoma</option>
-                                <option value="Oregon">Oregon</option>
-                                <option value="Pennsylvania">Pennsylvania</option>
-                                <option value="Rhode Island">Rhode Island</option>
-                                <option value="South Carolina">South Carolina</option>
-                                <option value="South Dakota">South Dakota</option>
-                                <option value="Tennessee">Tennessee</option>
-                                <option value="Texas">Texas</option>
-                                <option value="Utah">Utah</option>
-                                <option value="Vermont">Vermont</option>
-                                <option value="Virginia">Virginia</option>
-                                <option value="Washington">Washington</option>
-                                <option value="West Virginia">West Virginia</option>
-                                <option value="Wisconsin">Wisconsin</option>
-                                <option value="Wyoming">Wyoming</option>
-                            </select>                            
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="page-width">*Zip Code</label>
-                            <input type="text" name="" id="page-width" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="page-height">*Location</label>
-                            <select type="text" name="" id="page-height" class="form-control">
-                                <option> Please select Location</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-            <div class="col-lg-3"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="btn-container text-center">
-                    <button class="btn btn-secondary pull-right" onclick="showHideStepModal('new_publication_step_scheduling', 'new_publication_step_general_info')">Next</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_scheduling" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <label for=""><strong>Calendar Type:</strong></label> 
-                            <br>           
-                            <div class="switch2">
-                                <input id="cc-toggle-repeat" class="check-toggle check-toggle-round-flat" type="checkbox">
-                                <label for="cc-toggle-repeat" style="width:200px"></label>                
-                                <span class="active"> Repeat </span>
-                                <span class="deactivate"> Non-repeating </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-width">Name:</label>
-                            <input type="text" name="" id="page-width" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-height">Product Type:</label>
-                            <select type="text" name="" id="page-height" class="form-control">
-                                <option value="newspaper">Newspaper</option>
-                                <option value="magazine">Magazine</option>
-                                <option value="digital">Digital</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-width">GL Override(optional):</label>
-                            <br>           
-                            <div class="switch2">
-                                <input id="cc-toggle-gl-overrid" class="check-toggle check-toggle-round-flat" type="checkbox">
-                                <label for="cc-toggle-gl-overrid"></label>                
-                                <span class="active"> Yes </span>
-                                <span class="deactivate"> No </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-height">GL Code:</label>
-                            <select type="text" name="" id="page-height" class="form-control">
-                                <option> select GL Code</option>
-                                {% for code in gl_codes %}
-                                <option value="{{ code.id }}">{{ code.code }} - {{ code.description }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-width">Select your schedule:</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="page-height">Frequency:</label>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <a style="color:inherit"> &nbsp; Daily &nbsp; </a>
-                            <a class="button rounded-pill inline-block" style="background-color: rgba(33, 33, 95, 0.5); display: inline-block;padding: 8px; color: white;"> &nbsp; Weekly &nbsp; </a>
-                            <a style="color:inherit">  &nbsp; Monthly &nbsp; </a>
-                            <a style="color:inherit">  &nbsp; Yearly &nbsp; </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            Repeat every <input type="text" style="width: 60px;"> week(s)
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row">
-            <div class="calendar">
-                <div class="repeat-days">
-                  <div class="repeat-day">Sun</div>
-                  <div class="repeat-day">Mon</div>
-                  <div class="repeat-day">Tue</div>
-                  <div class="repeat-day">Wed</div>
-                  <div class="repeat-day">Thu</div>
-                  <div class="repeat-day">Fri</div>
-                  <div class="repeat-day" style="border: none;">Sat</div>
-                </div>
-                <div class="repeat-dates">
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date"><p><i class="fa fa-solid fa-check"></i></p></div>
-                    <div class="repeat-date" style="border: none;"><p><i class="fa fa-solid fa-check"></i></p></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-4">
-                            <label for=""><strong>Start Date:</strong></label>
-                            <input type="date" id="start-date" class="sel-date form-control"/>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-4">
-                            <label for=""><strong>End Date(optional):</strong></label>
-                            <input type="date" id="end-date" class="sel-date form-control"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="calendar-container mgb-3">
-                <div class="calendar">
-                  <div class="header">
-                    <button id="prevBtn">&lt;</button>
-                    <h1 id="monthYear"></h1>
-                    <button id="nextBtn">&gt;</button>
-                  </div>
-                  <div class="days">
-                    <div class="day">Sun</div>
-                    <div class="day">Mon</div>
-                    <div class="day">Tue</div>
-                    <div class="day">Wed</div>
-                    <div class="day">Thu</div>
-                    <div class="day">Fri</div>
-                    <div class="day">Sat</div>
-                  </div>
-                  <div class="dates" id="dates">
-                    <div class="date" data-day="1">1</div>
-                    <div class="date" data-day="2">2</div>
-                    <div class="date" data-day="3">3</div>
-                    <div class="date" data-day="4">4</div>
-                    <div class="date" data-day="5">5</div>
-                    <div class="date" data-day="6">6</div>
-                  </div>
-                </div>
-  
-                <!-- Modal for Event Details -->
-                <div class="modal event show-modal hide-modal" id="eventModal">
-                  <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2 id="eventDate"></h2>
-                    <textarea class="area" id="eventDescription"></textarea>
-                    <button id="saveEventBtn">Save</button>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="row">
-            <div class="col-md-12 text-center">
-                <label for=""><strong>Manage Days:</strong></label><br>
-                <img src="{% static "images/month-calendar.png" %}" alt="week calendar" width="400">
-            </div>
-        </div> -->
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_general_info', 'new_publication_step_scheduling')"> Previous  </button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_rate_groups', 'new_publication_step_scheduling')"> Next  </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_rate_groups" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <br>
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <h4>Select which rate groups you'd like to be <br> assign to this publications</h4>                             
-                        </div>
-                    </div>
-                </div>
-                <br>                                        
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="item-select-container mt-5">
-                            <div class="available-pubs">
-                                Available Rage Groups:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select rategroup_lstBox1" style="height: 270px;">
-                                    {% for rategroup in rategroups %}
-                                    <option value="{{rategroup.id}}">{{rategroup.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="transferBtns">
-                                <br />
-                                <a id="rategroup-btnLeftAll" class="custom" style="width: 70px;"> >> </a>
-                                <br>
-                                <br />
-                                <a id="rategroup-btnLeft" class="custom" style="width: 70px;"> > </a>
-                                <br />
-                                <br>
-                                <br>
-                                <br />
-                                <a id="rategroup-btnRight" class="custom" style="width: 70px;"> < </a>
-                                <br />
-                                <br>
-                                <a id="rategroup-btnRightAll" class="custom" style="width: 70px;"> << </a>
-                            </div>
-                            <div class="selected-pubs">
-                                Selected Rate Groups:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select rategroup_lstBox2" style="height: 270px;"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_scheduling', 'new_publication_step_rate_groups')"> Previous  </button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_ad_type', 'new_publication_step_rate_groups')"> Next  </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_ad_type" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <br>
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <h4>Select from the available Ad Types you <br> would like associated with this Publication</h4>                             
-                        </div>
-                    </div>
-                </div>
-                <br>                                        
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="item-select-container mt-5">
-                            <div class="available-pubs">
-                                Available Ad Type:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select adtype_lstBox1" style="height: 270px;">                                    
-                                    {% for type in adTypes %}
-                                        <option value="{{ type.id }}">{{ type.name }}-{{ type.code }}</option>
-                                    {% empty %}
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="transferBtns">
-                                <br />
-                                <a id="adtype-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
-                                <br>
-                                <br />
-                                <a id="adtype-btnLeft" class="custom" style="width: 70px;"> > </a>
-                                <br />
-                                <br>
-                                <br>
-                                <br />
-                                <a id="adtype-btnRight" class="custom" style="width: 70px;"> < </a>
-                                <br />
-                                <br>
-                                <a id="adtype-btnRightAll" class="custom" style="width: 70px;"> << </a>
-                            </div>
-                            <div class="selected-pubs">
-                                Selected Ad Types:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select adtype_lstBox2" style="height: 270px;"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_rate_groups', 'new_publication_step_ad_type')"> Previous  </button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_adjustment', 'new_publication_step_ad_type')"> Next  </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_adjustment" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <br>
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <h4>Choose which Adjustments that are <br> assigned to this Publication</h4>                             
-                        </div>
-                    </div>
-                </div>
-                <br>                                        
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="item-select-container mt-5">
-                            <div class="available-pubs">
-                                Available Adjustments:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select adjustment_lstBox1" style="height: 270px;">
-                                    {% for item in adjustments %}
-                                    <option value="{{item.id}}">{{item.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="transferBtns">
-                                <br />
-                                <a id="adjustment-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
-                                <br>
-                                <br />
-                                <a id="adjustment-btnLeft" class="custom" style="width: 70px;"> > </a>
-                                <br />
-                                <br>
-                                <br>
-                                <br />
-                                <a id="adjustment-btnRight" class="custom" style="width: 70px;"> < </a>
-                                <br />
-                                <br>
-                                <a id="adjustment-btnRightAll" class="custom" style="width: 70px;"> << </a>
-                            </div>
-                            <div class="selected-pubs">
-                                Assigned Adjustments:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select adjustment_lstBox2" style="height: 270px;"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_ad_type', 'new_publication_step_adjustment')"> Previous  </button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="showHideStepModal('new_publication_step_sections', 'new_publication_step_adjustment')"> Next  </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_sections" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <br>
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <h4>Select the sections you would like to be available <br> to use with this Publication</h4>                             
-                        </div>
-                    </div>
-                </div>
-                <br>                                        
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="item-select-container mt-5">
-                            <div class="available-pubs">
-                                Available Sections:<br />
-                                <select multiple="multiple" id="lstBox1" class="form-select section_lstBox1" style="height: 270px;">
-                                    {% for section in sections %}
-                                    <option value="{{section.id}}">{{section.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="transferBtns">
-                                <br />
-                                <a id="section-btnLeftAll" class="custom" style="width: 70px;" > >> </a>
-                                <br>
-                                <br />
-                                <a id="section-btnLeft" class="custom" style="width: 70px;"> > </a>
-                                <br />
-                                <br>
-                                <br>
-                                <br />
-                                <a id="section-btnRight" class="custom" style="width: 70px;"> < </a>
-                                <br />
-                                <br>
-                                <a id="section-btnRightAll" class="custom" style="width: 70px;"> << </a>
-                            </div>
-                            <div class="selected-pubs">
-                                Assigned Sections:<br />
-                                <select multiple="multiple" id="lstBox2" class="form-select section_lstBox2" style="height: 270px;"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-6 text-left">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_adjustment', 'new_publication_step_sections')"> Previous  </button>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-secondary px-5" onclick="createPublication()"> Next  </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="new_publication_step_final" class="content-container custom-border custom-container none" style="padding-top: 70px;">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="stepper-wrapper">
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">General Info</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Scheduling</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Rate Groups</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Ad Type</div>
-                    </div>
-                    <div class="stepper-item completed">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Adjustments</div>
-                    </div>
-                    <div class="stepper-item completed active">
-                      <div class="step-counter"><i class="fa fa-solid fa-check"></i></div>
-                      <div class="step-name">Sections</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row multistep-content">            
-            <div class="col-lg-2"></div>
-            <div class="col-md-12 col-lg-8">
-                <br>
-                <div class="row mb-5">
-                    <div class="col-md-12">
-                        <div class="form-group mb-4 text-center">
-                            <h3 class="success-label"><strong>Publication Has Been Created!</strong></h3>
-                            <br>
-                            <div id="favoriteIcon1" class="mt-2 adsuccess-mark" style="width: 202px; height: 202px;border-radius: 50%;background-color: #03A803;margin-left: auto;margin-right: auto;">
-                                <img src="{% static "svg/Vector (2).svg" %}" style="height: 140px; margin-top: 35px;">
-                            </div>                             
-                        </div>
-                    </div>
-                </div>
-                <br>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-        <div class="row multistep-content mb-5">  
-            <div class="col-md-12">
-                <div class="row btn-container">
-                    <div class="col-md-12 text-center">
-                        <button class="btn px-5 btn-gray" onclick="showHideStepModal('new_publication_step_general_info', 'new_publication_step_final')"> Create Another Publication  </button>
-                        <a class="btn btn-secondary px-5" href="{% url 'adminGeneral' %}"> Back to Publications  </a>
-                        <a class="btn btn-secondary px-5" onclick=""> View Publication  </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        // Publication Calendar
-        const currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
-
-        const monthYearElement = document.getElementById('monthYear');
-        const datesElement = document.getElementById('dates');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const eventModal = document.getElementById('eventModal');
-        const eventDate = document.getElementById('eventDate');
-        const eventDescription = document.getElementById('eventDescription');
-        const saveEventBtn = document.getElementById('saveEventBtn');
-        let selectedDate = null;
-        let selectedElement = null;
-
-        // Generate calendar for the current month
-        generateCalendar(currentMonth, currentYear);
-
-        // Event listener for previous and next buttons
-        prevBtn.addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            generateCalendar(currentMonth, currentYear);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generateCalendar(currentMonth, currentYear);
-        });
-        function dateToString(date) {
-            const year = selectedDate.getFullYear();
-            const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-            const day = String(selectedDate.getDate()).padStart(2, '0');
-            const formattedDate = `${year}-${month}-${day}`;
-            return formattedDate;
-        }
-        // Function to generate the calendar
-        function generateCalendar(month, year) {
-            let managedDates = JSON.parse(localStorage.getItem('managedDates'));
-            if(!managedDates) managedDates = [];
-            monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
-            datesElement.innerHTML = '';
-
-            const firstDayOfMonth = new Date(year, month, 1);
-            const lastDayOfMonth = new Date(year, month + 1, 0);
-            const startDay = firstDayOfMonth.getDay();
-            const endDay = lastDayOfMonth.getDate();
-
-            for (let i = 0; i < startDay; i++) {
-                const dateElement = document.createElement('div');
-                dateElement.classList.add('date');
-                datesElement.appendChild(dateElement);
-            }
-
-            for (let day = 1; day <= endDay; day++) {
-                const dateElement = document.createElement('div');
-                const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-                dateElement.textContent = day;
-                dateElement.classList.add('date');
-                if (month === currentDate.getMonth() && year === currentDate.getFullYear() && day === currentDate.getDate()) {
-                    dateElement.classList.add('current-month');
-                }
-                if (managedDates.includes(date)) {
-                    dateElement.classList.add('active');
-                }
-                dateElement.addEventListener('click', (event) => openEventModal(year, month, day, event.target));
-                datesElement.appendChild(dateElement);
-            }
-        }
-
-        // Function to open the event modal
-        function openEventModal(year, month, day, e) {
-            selectedElement = e;
-            selectedDate = new Date(year, month, day);
-            eventDate.textContent = selectedDate.toDateString();
-            eventDescription.value = getEventDescription(selectedDate) || '';
-            eventModal.style.display = 'block';
-        }
-
-        // Function to close the event modal
-        function closeEventModal() {
-            eventModal.style.display = 'none';
-        }
-
-        // Function to save the event
-        function saveEvent() {
-            const description = eventDescription.value;
-            setEventDescription(selectedDate, description);
-
-            closeEventModal();
-        }
-
-        // Event listener for save button
-        saveEventBtn.addEventListener('click', saveEvent);
-
-        // Function to get event description from local storage
-        function getEventDescription(date) {
-            const key = dateToString(date);
-            return localStorage.getItem(key);
-        }
-
-        // Function to save event description to local storage
-        function setEventDescription(date, description) {
-            const key = dateToString(date);
-            let dates = JSON.parse(localStorage.getItem('managedDates'));
-            if(!dates) dates = [];
-            if(description) {
-                selectedElement.classList.add('active');
-                if(!dates.includes(key)) {
-                    dates.push(key)
-                }
-            } else {
-                selectedElement.classList.remove('active');
-                const index = dates.indexOf(key);
-                if (index !== -1) {
-                    // If the item is found in the array, remove it
-                    dates.splice(index, 1);
-                }
-            }
-            localStorage.setItem('managedDates', JSON.stringify(dates));
-            localStorage.setItem(key, description);
-        }
-
-        // Event listener for modal close button
-        const closeBtn = document.getElementsByClassName('close')[0];
-        closeBtn.addEventListener('click', closeEventModal);
-
-        // Get all elements with the class "repeat-date"
-        const repeatDates = document.querySelectorAll('.repeat-date');
-
-        // Loop through each "repeat-date" element and add a click event listener
-        repeatDates.forEach(repeatDate => {
-            repeatDate.addEventListener('click', function() {
-                // Toggle the "active" class on the clicked element
-                this.classList.toggle('active');
-            });
-        });
-        
-        // Event listener for outside modal click
-        window.addEventListener('click', event => {
-            if (event.target === eventModal) {
-                closeEventModal();
-            }
-        });
-        document.getElementById('rategroup-btnLeft').addEventListener('click', () => {
-            var selectedOpts = $('.rategroup_lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.rategroup_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('rategroup-btnLeftAll').addEventListener('click', () => {
-            var selectedOpts = $('.rategroup_lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.rategroup_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('rategroup-btnRight').addEventListener('click', () => {
-            var selectedOpts = $('.rategroup_lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.rategroup_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('rategroup-btnRightAll').addEventListener('click', () => {
-            var selectedOpts = $('.rategroup_lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.rategroup_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adtype-btnLeft').addEventListener('click', () => {
-            var selectedOpts = $('.adtype_lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adtype_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adtype-btnLeftAll').addEventListener('click', () => {
-            var selectedOpts = $('.adtype_lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adtype_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adtype-btnRight').addEventListener('click', () => {
-            var selectedOpts = $('.adtype_lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adtype_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adtype-btnRightAll').addEventListener('click', () => {
-            var selectedOpts = $('.adtype_lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adtype_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adjustment-btnLeft').addEventListener('click', () => {
-            var selectedOpts = $('.adjustment_lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adjustment_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adjustment-btnLeftAll').addEventListener('click', () => {
-            var selectedOpts = $('.adjustment_lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adjustment_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adjustment-btnRight').addEventListener('click', () => {
-            var selectedOpts = $('.adjustment_lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adjustment_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('adjustment-btnRightAll').addEventListener('click', () => {
-            var selectedOpts = $('.adjustment_lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.adjustment_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('section-btnLeft').addEventListener('click', () => {
-            var selectedOpts = $('.section_lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.section_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('section-btnLeftAll').addEventListener('click', () => {
-            var selectedOpts = $('.section_lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.section_lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('section-btnRight').addEventListener('click', () => {
-            var selectedOpts = $('.section_lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.section_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        document.getElementById('section-btnRightAll').addEventListener('click', () => {
-            var selectedOpts = $('.section_lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert('Nothing to move.');
-            }
-            $('.section_lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-        })
-        function createPublication() {
-            let data = {};
-            data['name'] = document.getElementById('product-mag').value;
-            data['parent_id'] = document.getElementById('parent-publication').value;
-            data['account'] = 'Times Leader';
-            fetch("create-publication", {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
-                    "Accept": "application/json",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            }).then((response) => {
-                $.toastr.success('Publication created successfully!')
-            })
-        }
-    </script>
+  </div>
 </div>
+
+<script src="{% static "admin/js/item-select.js" %}"></script>
+
 
 {% endblock %}

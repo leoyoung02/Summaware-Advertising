@@ -23,37 +23,33 @@
       <br>
       <div class="row">
         <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <form method="post" id="rate-dates-form">
-              {% csrf_token %}
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for=""><strong>Start Date:</strong></label>
-                    <input type="date" id="start-date" name="start_date" class="sel-date form-control"/>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for=""><strong>End Date(optional):</strong></label>
-                    <input type="date" id="end-date" name="end_date" class="sel-date form-control"/>
-                  </div>
-                </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Start Date:</strong></label>
+                <input type="date" id="start-date" class="sel-date form-control"/>
               </div>
-              <br>      
-              <br>      
-              <br>
-            </form>
-            <div class="row btn-container">
-              <div class="col-md-6 text-left">
-                  <button class="btn px-5 btn-gray" onclick="document.getElementById('new_rate_1_general_info').style.display='block';document.getElementById('new_rate_2_date').style.display='none';"> Previous  </button>
-              </div>
-              <div class="col-md-6 text-right">
-                  <button class="btn btn-secondary px-5 to_computation" > Next  </button>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>End Date(optional):</strong></label>
+                <input type="date" id="end-date" class="sel-date form-control"/>
               </div>
             </div>
           </div>
-        </form>
+          <br>      
+          <br>      
+          <br>
+          <div class="row btn-container">
+            <div class="col-md-6 text-left">
+                <button class="btn px-5 btn-gray" onclick="document.getElementById('new_rate_1_general_info').style.display='block';document.getElementById('new_rate_2_date').style.display='none';"> Previous  </button>
+            </div>
+            <div class="col-md-6 text-right">
+                <button class="btn btn-secondary px-5" onclick="document.getElementById('new_rate_2_date').style.display='none';document.getElementById('new_rate_3_computation').style.display='block';"> Next  </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

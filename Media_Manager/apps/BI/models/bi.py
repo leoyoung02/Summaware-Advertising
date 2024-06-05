@@ -17,6 +17,7 @@ class Dashboard(models.Model):
 	section = models.TextField(default='')
 
 	class Meta:
+		app_label = 'BI'
 		db_table = 'mm_dashboards'
 		permissions = [
 			("accounting_access", "Can access Accounting section"),

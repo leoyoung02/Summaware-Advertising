@@ -255,7 +255,11 @@ def adminPricingSaveRate(request, groupId):
 		rategroup.active = data['active']
 	rategroup.save()
 	return JsonResponse({"errors": []}, status=200)
-
+def adminPricingEditRate(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	return render(request, 'admin/pricing/edit-rate.html')
 def adminPricingEditRateGroup(request, groupId):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
@@ -310,6 +314,21 @@ def adminPricingCreateRate(request, groupId):
 		new_extra_group = ExtraRateGroup(rate=new_rate, rategroup=rategroup)
 		new_extra_group.save()
 	return JsonResponse({"errors": []}, status=200)
+def adminClassifieds(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	
+	publications = [
+			{'name': 'Publication 1', 'value': 'publication-1'},
+			{'name': 'Publication 2', 'value': 'publication-2'},
+	]
+	
+	# Add the arrays to the context
+	context = {
+			'publications': publications,
+	}
+	return render(request, 'admin/classifieds/classifieds.html', context)
 def adminCreatePublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:

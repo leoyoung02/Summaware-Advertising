@@ -55,7 +55,7 @@
     .progress-icons div:last-child {
         margin-right: auto;
     }
-</style>
+  </style>
 <div class="multisteps-form__panel p-4 rounded" data-animation="scaleIn">
     <div class="heading-arrows-container d-flex justify-content-between">
       <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -100,17 +100,16 @@
                   <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody id="rate-table-body">
-                {% for rate in rates %}
+              <tbody>
                 <tr>
-                    <td>{{rate.id}}</td>
-                    <td>{{rate.name}}</td>
-                    <td>{{rate.measurement_type}}</td>
-                    <td>{{rate.pricing|yesno:"STANDARD,CUSTOMARY"}}</td>
-                    <td>{{rate.default_gl_code}}</td>
-                    <td>{{rate.tax_category}}</td>
-                    <td>{{rate.start_date}}</td>
-                    <td>{{rate.end_date}}</td>
+                    <td>0001</td>
+                    <td>Rate Name Example </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>00/00/0000</td>
+                    <td>00/00/0000</td>
                     <td>
                         <div class="switch2">
                         <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
@@ -124,7 +123,6 @@
                         <span><i class="fa fa-solid fa-envelope-open"></i></span>
                     </td>
                 </tr>
-                {% endfor %}
               </tbody>
             </table>
             <div class="end-of-list-heading-container text-center py-5">

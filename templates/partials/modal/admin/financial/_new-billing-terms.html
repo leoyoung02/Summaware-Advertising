@@ -1,5 +1,5 @@
 <div id="newBillingTerm" class="modal my-modal">
-  <div class="modal-content w-75 m-auto">
+  <div class="custom-modal-content">
     <span class="close" onclick="document.getElementById('newBillingTerm').style.display='none'">&times;</span>
 
     <div class="heading-container text-center mb-5">
@@ -28,14 +28,15 @@
       </div>
     </div>
 
-    <div class="early-payment-discount text-center mb-5">
+    <div class="early-payment-discount text-center mgb-3">
       <p>Early Payment Discount:</p>
-      <div class="custom-toggle primary">
-        <input id="cc-toggle1" class="check-toggle check-toggle-round-flat" type="checkbox" />
-        <label for="cc-toggle1"></label>
-
-        <span class="yes active">Yes</span>
-        <span class="no inactive">No</span>
+      <div class="custom-switch-container">
+        <div class="switch-field center-block">
+          <input type="radio" id="0001-early-pay-radio-one" name="0001-early-pay-switch-one" value="yes" checked />
+          <label for="0001-early-pay-radio-one">Yes</label>
+          <input type="radio" id="0001-early-pay-radio-two" name="0001-early-pay-switch-one" value="no" />
+          <label for="0001-early-pay-radio-two">No</label>
+        </div>
       </div>
     </div>
 

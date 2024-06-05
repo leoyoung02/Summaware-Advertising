@@ -1,5 +1,5 @@
 <div id="editAdType" class="modal my-modal">
-  <div class="modal-content w-75 h-50 m-auto">
+  <div class="custom-modal-content">
     <span class="close" onclick="document.getElementById('editAdType').style.display='none'">&times;</span>
 
     <div class="heading-container text-center mb-3">
@@ -7,48 +7,34 @@
       <hr class="w-50 m-auto" />
     </div>
     <form method="post" id="edit-adtype-form">
-      <div class="form-container d-flex justify-content-center">
-        <div class="form-group w-50 text-center">
-          <label for="" class="">Name:</label>
-          <input type="text" class="form-control" name="name" id="edit-adtype-name" />
-        </div>
+    <div class="form-container d-flex justify-content-center">
+      <div class="form-group w-50 text-center">
+        <label for="" class="">Name:</label>
+        <input type="text" class="form-control" name="name" id="edit-adtype-name" />
       </div>
+    </div>
 
-      <div class="form-container d-flex justify-content-center mb-3">
-        <div class="form-group w-50 text-center">
-          <div class="row">
-            <div class="col-md-6">
-              <label for="" class="">Code:</label>
-              <input type="text" class="form-control" name="code" id="edit-adtype-code" />
-            </div>
-            <div class="col-md-6">
-              <label for="" class="">Default Rate:</label>
-              <select name="default_rate" id="edit-adtype-default-rate" class="form-select">
-                {% for rate in rates %}
-                  <option value="{{rate.id}}">{{rate.name}}</option>
-                {% endfor %}
-              </select>
-            </div>
+    <div class="form-container d-flex justify-content-center mb-3">
+      <div class="form-group w-50 text-center">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="" class="">Code:</label>
+            <input type="text" class="form-control" name="code" id="edit-adtype-code" />
+          </div>
+          <div class="col-md-6">
+            <label for="" class="">Default Rate:</label>
+            <select name="default_rate" id="edit-adtype-default-rate" class="form-select">
+              {% for rate in rates %}
+                <option value="{{rate.id}}">{{rate.name}}</option>
+              {% endfor %}
+            </select>
           </div>
         </div>
       </div>
-
-    </form>
-    <div class="item-select-container mt-5">
-      <div class="available-pubs">
-        Available Publications:<br />
-        <select multiple="multiple" id="lstBox1" class="form-select edit-adtype-lstBox1">
-        </select>
-      </div>
-      <div class="transferBtns">
-        <input class="mb-2" type="button" id="btnRight" value="  >  " onclick="addPublications()"/>
-        <br /><input type="button" id="btnLeft" value="  <  " onclick="removePublications()"/>
-      </div>
-      <div class="selected-pubs">
-        Selected Publications:<br />
-        <select multiple="multiple" id="lstBox2" class="form-select edit-adtype-lstBox2"></select>
-      </div>
     </div>
+    </form>
+    {% include "components/item_select.html" with item_type="publications" available_items=publications id="edit-adtype" %}
+
     <div class="btn-container text-center mt-5">
       <button class="btn btn-danger" id="adminadtype-active" onclick="saveChange(2)">Deactivate</button>
       <button class="btn btn-gray" onclick="saveChange(1)">Archive</button>
@@ -56,24 +42,6 @@
     </div>
   </div>
   <script>
-    function addPublications() {
-      var selectedOpts = $('.edit-adtype-lstBox1 option:selected');
-      if (selectedOpts.length == 0) {
-        alert('Nothing to move.');
-      }
-
-      $('.edit-adtype-lstBox2').append($(selectedOpts).clone());
-      $(selectedOpts).remove();
-    }
-    function removePublications() {
-      var selectedOpts = $('.edit-adtype-lstBox2 option:selected');
-      if (selectedOpts.length == 0) {
-        alert('Nothing to move.');
-      }
-
-      $('.edit-adtype-lstBox1').append($(selectedOpts).clone());
-      $(selectedOpts).remove();
-    }
     function saveChange(index) {
       let form = $('#edit-adtype-form');
       var formData = new FormData(form[0]);

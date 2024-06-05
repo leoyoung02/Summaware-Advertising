@@ -1,3 +1,4 @@
+{% include 'templates/partials/modal/admin/ads/_new-market-code.html'%} {% include 'templates/partials/modal/admin/ads/_edit-market-code.html'%}
 <div class="multisteps-form__panel p-4 rounded" data-animation="scaleIn">
   <div class="heading-arrows-container d-flex justify-content-between">
     <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -15,7 +16,7 @@
         <div class="row">
           <div class="col-lg-6 col-md-12">
             <div class="filter-container">
-              <button class="btn btn-secondary" onclick="document.getElementById('newBillingTerm').style.display='block'"><i class="fa fa-solid fa-plus"></i> New Market Code</button>
+              <button class="btn btn-secondary" onclick="document.getElementById('newMarketCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Market Code</button>
               <div class="filters d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
             </div>
           </div>
@@ -46,16 +47,17 @@
               <td>Market Name</td>
               <td>AAAA</td>
               <td>
-                <div class="switch2">
-                  <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                  <label for="cc-toggle"></label>
-
-                  <span class="active">Active</span>
-                  <span class="deactivate">Deactivate</span>
+                <div class="mcode-switch-container">
+                  <div class="switch-field">
+                    <input type="radio" id="0001-mcode-radio-one" name="0001-mcode-switch-one" value="active" checked />
+                    <label for="0001-mcode-radio-one">Active</label>
+                    <input type="radio" id="0001-mcode-radio-two" name="0001-mcode-switch-one" value="inactive" />
+                    <label for="0001-mcode-radio-two">Inactive</label>
+                  </div>
                 </div>
               </td>
               <td>
-                <span class="pe-3 color-secondary"><i class="fa fa-solid fa-pencil"></i></span>
+                <span class="pe-3 color-secondary" onclick="document.getElementById('editMarketCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
                 <span class="color-secondary"><i class="fa fa-solid fa-envelope-open"></i></span>
               </td>
             </tr>

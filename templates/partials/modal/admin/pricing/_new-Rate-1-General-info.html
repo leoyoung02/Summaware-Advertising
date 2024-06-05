@@ -18,121 +18,101 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <form method="post" id="rate-general-info-form">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-md-3"></div>
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Rage Name:</strong></label>
-                  <input type="text" name="name" id="" class="form-control" />
-                </div>
-              </div>      
-              <div class="col-md-3"></div>
-            </div>  
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Measurement Type:</strong></label>
-                  <select name="measurement_type" id="measurement_type" class="form-control">
-                    <option value="line">Line</option>
-                    <option value="word">Word</option>
-                    <option value="unit">Unit</option>
-                    <!-- <option value="digital">Digital</option>
-                    <option value="inch">Inch</option> -->
-                  </select>
-                </div>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Rage Name:</strong></label>
+                <input type="text" name="" id="" class="form-control" />
               </div>
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Ad Type:</strong></label>
-                  <select name="ad_type" id="" class="form-control">
-                    {% for adtype in adtypes %}
-                      <option value="{{adtype.id}}">{{adtype.name}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+            </div>      
+            <div class="col-md-3"></div>
+          </div>  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Measurement Type:</strong></label>
+                <select name="" id="" class="form-control">
+                  <option>select</option>
+                </select>
               </div>
-            </div>  
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Pricing:</strong></label> 
-                  <br>           
-                  <div class="switch2">
-                      <input id="cc-toggle-pricing" class="check-toggle check-toggle-round-flat" type="checkbox" name="pricing"/>
-                      <label for="cc-toggle-pricing"></label>
-                      <span class="active">Standard</span>
-                      <span class="deactivate">Customary</span>
-                  </div>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Ad Type:</strong></label>
+                <select name="" id="" class="form-control">
+                  <option>select</option>
+                </select>
               </div>
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Tax Category:</strong></label>
-                  <select name="tax_category" id="" class="form-control">
-                    <option>No Tax</option>
-                    <option>Tax</option>
-                  </select>
-                </div>
-              </div>
-            </div>  
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Override Privileges:</strong></label>
-                  <br>                       
-                  <div class="switch2">
-                      <input id="cc-toggle-override-privileges" class="check-toggle check-toggle-round-flat" type="checkbox" name="override_privileges"/>
-                      <label for="cc-toggle-override-privileges"></label>
-      
-                      <span class="active">Yes</span>
-                      <span class="deactivate">No</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Default GL Code (optional):</strong></label>
-                  <select name="default_gl_code" id="" class="form-control">
-                    {% for glcode in glcodes %}
-                      <option value="{{glcode.id}}">{{glcode.code}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>  
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  With Override Privilieges, a user can<br>
-                  request an override from their<br>
-                  administrator
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group mb-4">
-                  <label for=""><strong>Override Previliage:</strong></label>   
-                  <br>                    
-                  <div class="switch2" >
-                      <input id="cc-toggle-assigned-groups" class="check-toggle check-toggle-round-flat" type="checkbox" name="assigned_groups"/>
-                      <label for="cc-toggle-assigned-groups"></label>    
-                      <span class="deactivate">Yes</span>
-                      <span class="active">No</span>
-                  </div>
-                  <br>
-                  <div id="select_extra_group" style="display: none;">
-                    <label for=""><strong>Select extra group:</strong></label>   
-                    <select multiple="multiple" id="extra_lstBox1" class="form-select form-control">
-                      {% for extra_group in extra_groups %}
-                        <option value="{{extra_group.id}}">{{glcode.name}}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
+            </div>
+          </div>  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Pricing:</strong></label> 
+                <br>           
+                <div class="switch2">
+                    <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                    <label for="cc-toggle"></label>
+    
+                    <span class="active">Standard</span>
+                    <span class="deactivate">Customary</span>
                 </div>
               </div>
             </div>
-          </form>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Tax Category:</strong></label>
+                <select name="" id="" class="form-control">
+                  <option>select</option>
+                </select>
+              </div>
+            </div>
+          </div>  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Override Previlieges:</strong></label>
+                <br>                       
+                <div class="switch2">
+                    <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                    <label for="cc-toggle"></label>
+    
+                    <span class="active">Yes</span>
+                    <span class="deactivate">No</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Default GL Code (optional):</strong></label>
+                <select name="" id="" class="form-control">
+                  <option></option>
+                </select>
+              </div>
+            </div>
+          </div>  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                With Override Privilieges, a user can<br>
+                request an override from their<br>
+                administrator
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for=""><strong>Override Previliage:</strong></label>   
+                <br>                    
+                <div class="switch2"  onclick="document.getElementById('new_rate_1_general_info_1').style.display='block';document.getElementById('new_rate_1_general_info').style.display='none';">
+                    <input id="cc-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+                    <label for="cc-toggle"></label>    
+                    <span class="deactivate">Yes</span>
+                    <span class="active">No</span>
+                </div>
+              </div>
+            </div>
+          </div>  
           <br>      
           <div class="btn-container text-right">
             <button class="btn btn-secondary px-5" onclick="document.getElementById('new_rate_1_general_info').style.display='none';document.getElementById('new_rate_2_date').style.display='block';"> Next  </button>
