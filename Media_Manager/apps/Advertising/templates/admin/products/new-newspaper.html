@@ -138,25 +138,25 @@
                   <h3 class="heading">New Standard Size</h3>
                   <hr />
                 </div>
+                <form method="post" id="standardsize-form">
+                  <div class="form-group px-3 mb-3">
+                    <label for="size-description">Size Description</label>
+                    <input type="text" name="description" id="size-description" class="form-control" />
+                  </div>
 
-                <div class="form-group px-3 mb-3">
-                  <label for="size-description">Size Description</label>
-                  <input type="text" name="" id="size-description" class="form-control" />
-                </div>
-
-                <div class="form-group px-3 mb-3">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-6">
-                      <label for="column-num">No. of Columns</label>
-                      <input type="text" name="" id="column-num" class="form-control"  />
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                      <label for="height">Height</label>
-                      <input type="text" name="" id="height" class="form-control"  />
+                  <div class="form-group px-3 mb-3">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-6">
+                        <label for="column-num">No. of Columns</label>
+                        <input type="text" name="columns" id="column-num" class="form-control"  />
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="height">Height</label>
+                        <input type="text" name="height" id="height" class="form-control"  />
+                      </div>
                     </div>
                   </div>
-                </div>
-
+                </form>
                 <div class="link-container text-center w-50 mx-auto">
                   <a href="#" class="calculation-link">Click here to see Total Column Inches calculation</a>
                 </div>
@@ -166,7 +166,7 @@
                 </div>
 
                 <div class="btn-container text-center mb-3">
-                  <button class="btn btn-secondary">Create</button>
+                  <button class="btn btn-secondary" onclick="createStandardSize()">Create</button>
                 </div>
               </div>
             </div>
@@ -189,23 +189,26 @@
                         <th scope="col">Status</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="standardsize-table-body">
+                      {% for size in standardsizes %}
                       <tr>
-                        <td>0001</td>
-                        <td>Description</td>
-                        <td>4</td>
-                        <td>8</td>
+                        <td>{{size.id}}</td>
+                        <td>{{size.description}}</td>
+                        <td>{{size.columns}}</td>
+                        <td>{{size.height}}</td>
                         <td>2.25</td>
                         <td>
-                          <div class="switch2">
-                            <input id="status-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
-                            <label for="status-toggle"></label>
-
-                            <span class="active">Active</span>
-                            <span class="deactivate">Deactivate</span>
+                          <div class="toggle-switch-container">
+                            <div class="switch-field">
+                              <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" checked />
+                              <label for="{{size.id}}-prodcut-radio-one">Active</label>
+                              <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" />
+                              <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
+                            </div>
                           </div>
                         </td>
                       </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>
@@ -347,5 +350,93 @@
       </div>
     </div>
   </div>
+  <script>
+    function getCookie(name) {
+      let cookie = {};
+      document.cookie.split(';').forEach(function (el) {
+        let [k, v] = el.split('=');
+        cookie[k.trim()] = v;
+      })
+      return cookie[name];
+    }
+    function createStandardSize() {
+      let form = $('#standardsize-form');
+      var formData = new FormData(form[0]);
+      let data = {};
+      
+      for (const [key, value] of formData) {
+          data[key] = value;
+      }
+      data['type'] = 2;
+      currentSection = document.querySelector('#standardsize-form');
+      var requiredInputs = currentSection.querySelectorAll('[required]');
+      var allFilled = true;
+
+      // Check if all required inputs are filled
+      requiredInputs.forEach(function (input) {
+        if (!input.value.trim()) {
+          allFilled = false;
+          input.classList.add('input-error'); // Optionally, add an error class for styling
+        } else {
+          input.classList.remove('input-error'); // Remove error class if input is filled
+        }
+      });
+
+      // If not all required inputs are filled, exit the function
+      if (!allFilled) {
+        alert('Please fill in all required fields.');
+        return;
+      } else {
+        fetch(`/advertising/adadmin/financial/create-standardsize`, {
+          method: 'POST',
+          headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(res => {
+          if(res.success) {
+            $.toastr.success('Saved Success');
+            var tbody = document.getElementById('standardsize-table-body');
+            // Get the last child element (last <tr> element) within the tbody
+            var lastTr = tbody.lastElementChild;
+            var lastRateId = 0
+            // Check if the lastTr is a <tr> element
+            if (lastTr.tagName === 'TR') {
+                // Get the ID of the last rate element from the last <tr> element
+                var lastRateId = lastTr.querySelector('td:first-child').textContent;
+            }
+            var newRow = `
+            <tr>
+              <td>${Number(lastRateId) + 1}</td>
+              <td>${data['description']}</td>
+              <td>${data['columns']}</td>
+              <td>${data['height']}</td>
+              <td>2.25</td>
+              <td>
+                <div class="toggle-switch-container">
+                  <div class="switch-field">
+                    <input type="radio" id="${Number(lastRateId) + 1}-prodcut-radio-one" name="${Number(lastRateId) + 1}-prodcut-switch-one" value="active" checked />
+                    <label for="${Number(lastRateId) + 1}-prodcut-radio-one">Active</label>
+                    <input type="radio" id="${Number(lastRateId) + 1}-prodcut-radio-two" name="${Number(lastRateId) + 1}-prodcut-switch-one" value="inactive" />
+                    <label for="${Number(lastRateId) + 1}-prodcut-radio-two">Inactive</label>
+                  </div>
+                </div>
+              </td>
+            </tr>`;
+            tbody.insertAdjacentHTML('beforeend', newRow);
+          } else {
+            $.toastr.error("Saved failure");  
+          }
+        })
+        .catch(error => {
+          $.toastr.error("Saved failure");
+        });
+      }
+    }
+  </script>
 </div>
 {% endblock %}

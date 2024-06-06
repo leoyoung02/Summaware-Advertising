@@ -350,7 +350,7 @@ def adminNewPublication(request):
 	context = {
         "access": "allow",
         "message": "",
-        "adTypes": adTypes,
+        "adtypes": adTypes,
         "gl_codes": gl_codes,
         "adjustments": adjustments,
 				"rategroups": rategroups,
@@ -362,7 +362,8 @@ def adminNewPublication(request):
 def adminNewMagazine(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request.method == 'GET':
-		return render(request, 'admin/products/new-magazine.html')
+		standardsizes = StandardSize.objects.filter(type = 1)
+		return render(request, 'admin/products/new-magazine.html', {'standardsizes': standardsizes})
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	max_id = MagazineProduct.objects.all().order_by("-id").first()
@@ -391,7 +392,8 @@ def adminNewMagazine(request):
 def adminNewNewspaper(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request.method == 'GET':
-		return render(request, 'admin/products/new-newspaper.html')
+		standardsizes = StandardSize.objects.filter(type = 2)
+		return render(request, 'admin/products/new-newspaper.html', {'standardsizes': standardsizes})
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	max_id = NewspaperProduct.objects.all().order_by("-id").first()
@@ -420,7 +422,8 @@ def adminNewNewspaper(request):
 def adminNewDigital(request):
 	if request.method == 'GET':
 		adtypes = AdminAdType.objects.all()
-		return render(request, 'admin/products/new-digital.html', {'adtypes': adtypes})
+		standardsizes = StandardSize.objects.filter(type = 3)
+		return render(request, 'admin/products/new-digital.html', {'adtypes': adtypes, 'standardsizes': standardsizes})
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	max_id = DigitalProduct.objects.all().order_by("-id").first()
@@ -439,3 +442,13 @@ def adminNewDigital(request):
 	)
 	task.save()
 	return JsonResponse(data)
+def adminCreateStandardSize(request):
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	standardsize = StandardSize(type = data['type'], description = data['description'], columns = data['columns'], height = data['height'])
+	success = True
+	try:
+		standardsize.save()
+	except Exception as e:
+		success = False		
+	return JsonResponse({'success': success, "errors": []}, status=200)

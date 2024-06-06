@@ -327,6 +327,18 @@ class DigitalProduct(models.Model):
 
     def __str__(self):
         return self.code
+class StandardSize(models.Model):
+    id = models.AutoField(primary_key=True)
+    type = models.IntegerField()
+    description = models.TextField(null=True)
+    columns = models.IntegerField()
+    height = models.FloatField()
+    status = models.BooleanField(default=True)
+    class Meta:
+        db_table = 'advertising_standardsize'
+
+    def __str__(self):
+        return self.description
     
 class AccountNote(models.Model):
     account = models.ForeignKey('Account', on_delete=CASCADE)
