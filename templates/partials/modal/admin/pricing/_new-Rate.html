@@ -1,129 +1,818 @@
-<div id="newRate" class="modal modal-md my-modal chase-modal">
+<div id="newRate" class="modal my-modal">
   <div class="custom-modal-content">
     <span class="close" onclick="document.getElementById('newRate').style.display='none'">&times;</span>
 
-    <div class="heading-container text-center mb-5">
-      <h3 class="heading">New Rate</h3>
-    </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div class="form-group mb-4">
-          <label for=""><strong>Rage Name:</strong></label>
-          <input type="text" name="" id="" class="form-control" />
+    <div class="multistep-container mgt-5 mgb-100">
+      {% load static %}
+      <div class="c-card">
+        <div class="heading-container text-center mb-5" style="position: relative; z-index: 2">
+          <h3 class="heading">New Rate</h3>
         </div>
-      </div>
-      <div class="col-md-3"></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Measurement Type:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Ad Type:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Pricing:</strong></label>
-          <div class="custom-toggle-container">
-            <div class="switch-field">
-              <input type="radio" id="0001-pricing-radio-one" name="0001-pricing-switch-one" value="standard" checked />
-              <label for="0001-pricing-radio-one">Standard</label>
-              <input type="radio" id="0001-pricing-radio-two" name="0001-pricing-switch-one" value="customary" />
-              <label for="0001-pricing-radio-two">Customary</label>
+        <div class="progress-icons">
+          <div class="progress-dot-container">
+            <div id="progress_0" class="progress-dot progress-active">
+              <span><i class="fa fa-solid fa-check"></i></span>
             </div>
+            <p class="step-label">General Info</p>
+          </div>
+          <div class="progress-dot-container">
+            <div id="progress_1" class="progress-dot">
+              <span><i class="fa fa-solid fa-check"></i></span>
+            </div>
+            <p class="step-label">Dates</p>
+          </div>
+          <div class="progress-dot-container">
+            <div id="progress_2" class="progress-dot">
+              <span><i class="fa fa-solid fa-check"></i></span>
+            </div>
+            <p class="step-label">Computation</p>
+          </div>
+        </div>
+
+        <div id="section1" class="section multistep-content mgt-5 mgb-3">
+          <!-- <div class="heading-container text-center">
+            <h3 class="heading">General Info</h3>
+          </div> -->
+          <div class="content w50 center-block">
+            <div class="form-group mb-4">
+              <label for=""><strong>Rage Name:</strong></label>
+              <input type="text" name="" id="" class="form-control" />
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Measurement Type:</strong></label>
+                  <select name="" id="measurementSelect" class="form-control">
+                    <option>Select a measurment type</option>
+                    <option value="lines">Lines</option>
+                    <option value="words">Words</option>
+                    <option value="units">Units</option>
+                    <option value="digital">Digital</option>
+                    <option value="inches">Inches</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Ad Type:</strong></label>
+                  <select name="" id="" class="form-control">
+                    <option>select</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Pricing:</strong></label>
+                  <div class="custom-toggle-container">
+                    <div class="switch-field">
+                      <input type="radio" id="0001-pricing-radio-one" name="0001-pricing-switch-one" value="standard" checked />
+                      <label for="0001-pricing-radio-one">Standard</label>
+                      <input type="radio" id="0001-pricing-radio-two" name="0001-pricing-switch-one" value="customary" />
+                      <label for="0001-pricing-radio-two">Customary</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Tax Category:</strong></label>
+                  <select name="" id="" class="form-control">
+                    <option>select</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Override Previlieges:</strong></label>
+                  <div class="custom-toggle-container">
+                    <div class="switch-field">
+                      <input type="radio" id="0001-rate-override-radio-one" name="0001-rate-override-switch-one" value="yes" checked />
+                      <label for="0001-rate-override-radio-one">Yes</label>
+                      <input type="radio" id="0001-rate-override-radio-two" name="0001-rate-override-switch-one" value="no" />
+                      <label for="0001-rate-override-radio-two">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Default GL Code (optional):</strong></label>
+                  <select name="" id="" class="form-control">
+                    <option></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  With Override Privilieges, a user can<br />
+                  request an override from their<br />
+                  administrator
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group mb-4">
+                  <label for=""><strong>Assign Rate to other groups?:</strong></label>
+                  <div class="custom-toggle-container">
+                    <div class="switch-field">
+                      <input type="radio" id="0001-bottom-override-radio-one" name="0001-bottom-override-switch-one" value="yes" checked />
+                      <label for="0001-bottom-override-radio-one">Yes</label>
+                      <input type="radio" id="0001-bottom-override-radio-two" name="0001-bottom-override-switch-one" value="no" />
+                      <label for="0001-bottom-override-radio-two">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-container text-right">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+
+        <div id="section2" class="section multistep-content mgt-5 mgb-3 hide">
+          <div class="content w50 center-block">
+            <div class="text-container text-center">
+              <p>Select your desired dates. These can also<br />be changed and updated later.</p>
+            </div>
+
+            <div class="row mgt-5">
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                  <label for="">Start Date</label>
+                  <input type="date" name="" id="start-date" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                  <label for="">End Date: (optional)</label>
+                  <input type="date" name="" id="end-date" class="form-control" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-container content-even">
+            <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+            <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+          </div>
+        </div>
+
+        <div id="section3" class="section multistep-content mgt-5 mgb-3 hide">
+          <div class="content center-block">
+            <div id="lines" class="measurment-container hide">
+              <div class="heading-container text-center">
+                <h3 class="heading mgb-0">Lines</h3>
+                <hr class="mgt-0" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-lg-6">
+                  <div class="insertions">
+                    <p>
+                      <small><strong>Number of insertions</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="custom-toggle-container">
+                          <div class="switch-field">
+                            <input type="radio" id="0001-line-insertions-radio-one" name="0001-line-insertions-switch-one" value="on" checked />
+                            <label for="0001-line-insertions-radio-one">On</label>
+                            <input type="radio" id="0001-line-insertions-radio-two" name="0001-line-insertions-switch-one" value="off" />
+                            <label for="0001-line-insertions-radio-two">Off</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="number-of-lines">
+                    <p>
+                      <small><strong>Number of lines for an ad (optional):</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="custom-toggle-container">
+                          <div class="switch-field">
+                            <input type="radio" id="0001-lines-radio-one" name="0001-lines-switch-one" value="on" checked />
+                            <label for="0001-lines-radio-one">On</label>
+                            <input type="radio" id="0001-lines-radio-two" name="0001-lines-switch-one" value="off" />
+                            <label for="0001-lines-radio-two">Off</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-lg-6">
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <p>
+                        <small><strong>Charge for:</strong></small>
+                      </p>
+                      <div class="custom-toggle-container">
+                        <div class="switch-field">
+                          <input type="radio" id="0001-lines-charges-radio-one" name="0001-lines-charges-switch-one" value="all" checked />
+                          <label for="0001-lines-charges-radio-one">All</label>
+                          <input type="radio" id="0001-lines-charges-radio-two" name="0001-lines-charges-switch-one" value="free After" />
+                          <label for="0001-lines-charges-radio-two">Free After</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label for="">Enter No. of Insertions:</label>
+                      <div class="input-group">
+                        <input type="text" name="" id="" class="form-control" />
+                        <span class="input-group-addon">Insertion(s)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>Base cost:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>No. of lines allowed for starting charge:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <p>
+                        <small><strong>Additional cost (optional):</strong></small>
+                      </p>
+                      <div class="content-between">
+                        <div class="form-group">
+                          <label for="charge">Charge:</label>
+                          <input type="text" name="" id="charge" class="form-control" />
+                        </div>
+                        <span><strong>For</strong></span>
+                        <div class="form-group">
+                          <label for="extra-lines">No. of extra lines:</label>
+                          <input type="text" name="" id="extra-lines" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mgt-5">
+                <a class="text-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Advanced Options <i class="fa fa-solid fa-chevron-down"></i></a>
+              </div>
+              <div class="collapse" id="collapseExample">
+                <div class="w50 center-block text-center">
+                  <hr />
+                  <p>Download the template below and input your data. Then upload the template to import the data into this system.</p>
+                </div>
+
+                <div class="content-even mgt-5">
+                  <button class="btn btn-dl-template mgb-0">Download Template <i class="fa fa-solid fa-arrow-down"></i></button>
+                  <button class="btn btn-secondary">Upload Template <i class="fa fa-solid fa-arrow-up"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div id="words" class="measurment-container hide">
+              <div class="heading-container text-center">
+                <h3 class="heading mgb-0">Words</h3>
+                <hr class="mgt-0" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-lg-6">
+                  <div class="insertions">
+                    <p>
+                      <small><strong>Number of insertions</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="custom-toggle-container">
+                          <div class="switch-field">
+                            <input type="radio" id="0001-line-insertions-radio-one" name="0001-line-insertions-switch-one" value="on" checked />
+                            <label for="0001-line-insertions-radio-one">On</label>
+                            <input type="radio" id="0001-line-insertions-radio-two" name="0001-line-insertions-switch-one" value="off" />
+                            <label for="0001-line-insertions-radio-two">Off</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="number-of-lines">
+                    <p>
+                      <small><strong>Number of lines for an ad (optional):</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="custom-toggle-container">
+                          <div class="switch-field">
+                            <input type="radio" id="0001-lines-radio-one" name="0001-lines-switch-one" value="on" checked />
+                            <label for="0001-lines-radio-one">On</label>
+                            <input type="radio" id="0001-lines-radio-two" name="0001-lines-switch-one" value="off" />
+                            <label for="0001-lines-radio-two">Off</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-lg-6">
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <p>
+                        <small><strong>Charge for:</strong></small>
+                      </p>
+                      <div class="custom-toggle-container">
+                        <div class="switch-field">
+                          <input type="radio" id="0001-lines-charges-radio-one" name="0001-lines-charges-switch-one" value="all" checked />
+                          <label for="0001-lines-charges-radio-one">All</label>
+                          <input type="radio" id="0001-lines-charges-radio-two" name="0001-lines-charges-switch-one" value="free After" />
+                          <label for="0001-lines-charges-radio-two">Free After</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>Base cost:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>No. of words allowed for starting charge:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <p>
+                        <small><strong>Additional cost (optional):</strong></small>
+                      </p>
+                      <div class="content-between">
+                        <div class="form-group">
+                          <label for="charge">Charge:</label>
+                          <input type="text" name="" id="charge" class="form-control" />
+                        </div>
+                        <span><strong>For</strong></span>
+                        <div class="form-group">
+                          <label for="extra-words">No. of extra words:</label>
+                          <input type="text" name="" id="extra-words" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mgt-5">
+                <a class="text-link" type="button" data-toggle="collapse" data-target="#wordsAdvOptions" aria-expanded="false" aria-controls="wordsAdvOptions">Advanced Options <i class="fa fa-solid fa-chevron-down"></i></a>
+              </div>
+              <div class="collapse" id="wordsAdvOptions">
+                <div class="w50 center-block text-center">
+                  <hr />
+                  <p>Download the template below and input your data. Then upload the template to import the data into this system.</p>
+                </div>
+
+                <div class="content-even mgt-5">
+                  <button class="btn btn-dl-template mgb-0">Download Template <i class="fa fa-solid fa-arrow-down"></i></button>
+                  <button class="btn btn-secondary">Upload Template <i class="fa fa-solid fa-arrow-up"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div id="units" class="measurment-container hide">
+              <div class="heading-container text-center">
+                <h3 class="heading mgb-0">Units</h3>
+                <hr class="mgt-0" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-lg-6">
+                  <div class="insertions">
+                    <p>
+                      <small><strong>Number of insertions</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="custom-toggle-container">
+                          <div class="switch-field">
+                            <input type="radio" id="0001-line-insertions-radio-one" name="0001-line-insertions-switch-one" value="on" checked />
+                            <label for="0001-line-insertions-radio-one">On</label>
+                            <input type="radio" id="0001-line-insertions-radio-two" name="0001-line-insertions-switch-one" value="off" />
+                            <label for="0001-line-insertions-radio-two">Off</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="number-of-lines">
+                    <p>
+                      <small><strong>Volume of inserts per insertion:</strong></small>
+                    </p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Min:</label>
+                          <input type="text" name="" id="min" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="min">Max:</label>
+                          <input type="text" name="" id="max" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-lg-6">
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <p>
+                        <small><strong>Charge for:</strong></small>
+                      </p>
+                      <div class="custom-toggle-container">
+                        <div class="switch-field">
+                          <input type="radio" id="0001-lines-charges-radio-one" name="0001-lines-charges-switch-one" value="all" checked />
+                          <label for="0001-lines-charges-radio-one">All</label>
+                          <input type="radio" id="0001-lines-charges-radio-two" name="0001-lines-charges-switch-one" value="free After" />
+                          <label for="0001-lines-charges-radio-two">Free After</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>Base cost:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="base-cost"><strong>Base Units:</strong></label>
+                        <input type="text" name="" id="base-cost" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <p>
+                        <small><strong>Additional cost:</strong></small>
+                      </p>
+                      <div class="content-between">
+                        <div class="form-group">
+                          <label for="unit-charge">Charge:</label>
+                          <input type="text" name="" id="unit-charge" class="form-control" />
+                        </div>
+                        <span><strong>For</strong></span>
+                        <div class="form-group">
+                          <label for="extra-unit">Extra Unit:</label>
+                          <input type="text" name="" id="extra-unit" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mgt-5">
+                <a class="text-link" type="button" data-toggle="collapse" data-target="#unitsAdvOptions" aria-expanded="false" aria-controls="unitsAdvOptions">Advanced Options <i class="fa fa-solid fa-chevron-down"></i></a>
+              </div>
+              <div class="collapse" id="unitsAdvOptions">
+                <div class="w50 center-block text-center">
+                  <hr />
+                  <p>Download the template below and input your data. Then upload the template to import the data into this system.</p>
+                </div>
+
+                <div class="content-even mgt-5">
+                  <button class="btn btn-dl-template mgb-0">Download Template <i class="fa fa-solid fa-arrow-down"></i></button>
+                  <button class="btn btn-secondary">Upload Template <i class="fa fa-solid fa-arrow-up"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div id="inches" class="measurment-container hide">
+              <div class="w50 center-block">
+                <div class="text-center">
+                  <h3 class="mgb-0">Inches</h3>
+                  <hr class="mgt-0" />
+                </div>
+
+                <div class="form-group mgb-3">
+                  <label for="col-inch-cost"><strong>Default Cost Per Column Inch:</strong></label>
+                  <input type="text" name="" id="col-inch-cost" class="form-control" />
+                </div>
+
+                <div class="content-between mgb-3">
+                  <div>
+                    <p class="mgb-0"><strong>Modular Override Rates:</strong></p>
+                  </div>
+                  <div class="custom-toggle-container">
+                    <div class="switch-field">
+                      <input type="radio" id="0001-rate-prod-type-radio-one" name="0001-rate-prod-type-switch-one" value="yes" checked />
+                      <label for="0001-rate-prod-type-radio-one">Yes</label>
+                      <input type="radio" id="0001-rate-prod-type-radio-two" name="0001-rate-prod-type-switch-one" value="no" />
+                      <label for="0001-assigned-gl-radio-two">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group mgb-3">
+                  <label for="prod-type">Product Type:</label>
+                  <input type="text" name="" id="prod-type" class="form-control" />
+                </div>
+                <div class="table-container">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Full Page</td>
+                        <td>5x11</td>
+                        <td><input type="text" name="" id="" class="form-control" /></td>
+                        <td><button class="btn btn-gray">Reset</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="content-end">
+                  <button class="btn btn-secondary">Save Prices</button>
+                </div>
+              </div>
+
+              <div class="text-center mgt-5">
+                <a class="text-link" type="button" data-toggle="collapse" data-target="#inchesAdvOptions" aria-expanded="false" aria-controls="inchesAdvOptions">Advanced Options <i class="fa fa-solid fa-chevron-down"></i></a>
+              </div>
+              <div class="collapse" id="inchesAdvOptions">
+                <div class="w50 center-block text-center">
+                  <hr />
+                  <p>Download the template below and input your data. Then upload the template to import the data into this system.</p>
+                </div>
+
+                <div class="content-even mgt-5">
+                  <button class="btn btn-dl-template mgb-0">Download Template <i class="fa fa-solid fa-arrow-down"></i></button>
+                  <button class="btn btn-secondary">Upload Template <i class="fa fa-solid fa-arrow-up"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div id="digital" class="measurment-container hide">
+              <div class="custom-toggle-container text-center mgb-3">
+                <p class="mgb-0"><strong>Select Impressions</strong></p>
+                <div class="switch-field center-block">
+                  <input type="radio" id="flat-rate-radio" name="rate-switch" value="flat-rate" checked />
+                  <label for="flat-rate-radio">Flat rate</label>
+                  <input type="radio" id="cpm-radio" name="rate-switch" value="CPM" />
+                  <label for="cpm-radio">CPM</label>
+                </div>
+              </div>
+
+              <div id="flat-rate" class="w50 center-block">
+                <div class="text-center">
+                  <h3 class="mgb-0">Digital</h3>
+                  <hr class="mgt-0" />
+                </div>
+
+                <p class="mgb-0"><strong>Default Flat Rate Pricing:</strong></p>
+                <div class="content-even mgb-3">
+                  <input type="text" name="" id="" class="form-control w50" placeholder="$" />
+                  <span class="px-1"><strong>For</strong></span>
+                  <div class="form-group content-center mgb-0">
+                    <input type="text" name="" id="" class="w50 form-control" />
+                    <select name="" id="" class="w50 form-control">
+                      <option value="days">Days</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="content-between">
+                  <p class="mgb-0"><strong>Modular Override Rates:</strong></p>
+                  <div class="custom-toggle-container">
+                    <div class="switch-field center-block">
+                      <input type="radio" id="0001-modular-override-radio-one" name="0001-modular-override-switch-one" value="yes" checked />
+                      <label for="0001-modular-override-radio-one">Yes</label>
+                      <input type="radio" id="0001-modular-override-radio-two" name="0001-modular-override-switch-one" value="no" />
+                      <label for="0001-assigned-gl-radio-two">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="CPM" class="center-block hide">
+                <div class="w50 center-block">
+                  <div class="text-center">
+                    <h3 class="mgb-0">Digital</h3>
+                    <hr class="mgt-0" />
+                  </div>
+
+                  <div class="form-group mgb-3">
+                    <label for="col-inch-cost"><strong>Default Cost Per Column Inch:</strong></label>
+                    <input type="text" name="" id="col-inch-cost" class="form-control" />
+                  </div>
+
+                  <div class="content-between mgb-3">
+                    <div>
+                      <p class="mgb-0"><strong>Modular Override Rates:</strong></p>
+                    </div>
+                    <div class="custom-toggle-container">
+                      <div class="switch-field">
+                        <input type="radio" id="0001-cpm-mod-override-radio-one" name="0001-cpm-mod-override-switch-one" value="yes" checked />
+                        <label for="0001-cpm-mod-override-radio-one">Yes</label>
+                        <input type="radio" id="0001-cpm-mod-override-radio-two" name="0001-cpm-mod-override-switch-one" value="no" />
+                        <label for="0001-assigned-gl-radio-two">No</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mgb-3">
+                    <label for="prod-type">Product Type:</label>
+                    <input type="text" name="" id="prod-type" class="form-control" />
+                  </div>
+                  <div class="table-container">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Description</th>
+                          <th scope="col">Size</th>
+                          <th scope="col">Price</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Full Page</td>
+                          <td>5x11</td>
+                          <td><input type="text" name="" id="" class="form-control" /></td>
+                          <td><button class="btn btn-gray">Reset</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="content-end">
+                    <button class="btn btn-secondary">Save Prices</button>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mgt-5">
+                <a class="text-link" type="button" data-toggle="collapse" data-target="#digitalAdvOptions" aria-expanded="false" aria-controls="digitalAdvOptions">Advanced Options <i class="fa fa-solid fa-chevron-down"></i></a>
+              </div>
+              <div class="collapse" id="digitalAdvOptions">
+                <div class="w50 center-block text-center">
+                  <hr />
+                  <p>Download the template below and input your data. Then upload the template to import the data into this system.</p>
+                </div>
+
+                <div class="content-even mgt-5">
+                  <button class="btn btn-dl-template mgb-0">Download Template <i class="fa fa-solid fa-arrow-down"></i></button>
+                  <button class="btn btn-secondary">Upload Template <i class="fa fa-solid fa-arrow-up"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-container content-even mgt-5">
+            <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+            <button class="btn btn-secondary">Create Rate</button>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Tax Category:</strong></label>
-          <select name="" id="" class="form-control">
-            <option>select</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Override Previlieges:</strong></label>
-          <div class="custom-toggle-container">
-            <div class="switch-field">
-              <input type="radio" id="0001-rate-override-radio-one" name="0001-rate-override-switch-one" value="standard" checked />
-              <label for="0001-rate-override-radio-one">Standard</label>
-              <input type="radio" id="0001-rate-override-radio-two" name="0001-rate-override-switch-one" value="customary" />
-              <label for="0001-rate-override-radio-two">Customary</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Default GL Code (optional):</strong></label>
-          <select name="" id="" class="form-control">
-            <option></option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          With Override Privilieges, a user can<br />
-          request an override from their<br />
-          administrator
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group mb-4">
-          <label for=""><strong>Override Previliage:</strong></label>
-          <div class="custom-toggle-container">
-            <div class="switch-field">
-              <input type="radio" id="0001-bottom-override-radio-one" name="0001-bottom-override-switch-one" value="standard" checked />
-              <label for="0001-bottom-override-radio-one">Standard</label>
-              <input type="radio" id="0001-bottom-override-radio-two" name="0001-bottom-override-switch-one" value="customary" />
-              <label for="0001-bottom-override-radio-two">Customary</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-    <br />
-    <div class="btn-container text-right">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <button class="btn btn-secondary px-5">Next</button>
-      </div>
-      <div class="col-md-1"></div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var measurementSelect = document.getElementById('measurementSelect');
+    var sections = document.querySelectorAll('#section3 .content .measurment-container');
+
+    measurementSelect.addEventListener('change', function () {
+      // Hide all sections
+      sections.forEach(function (section) {
+        section.classList.add('hide');
+      });
+
+      // Show the selected section
+      var selectedValue = measurementSelect.value;
+      var selectedSection = document.getElementById(selectedValue);
+      if (selectedSection) {
+        selectedSection.classList.remove('hide');
+      }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var flatRateRadio = document.getElementById('flat-rate-radio');
+    var cpmRadio = document.getElementById('cpm-radio');
+    var flatRateDiv = document.getElementById('flat-rate');
+    var cpmDiv = document.getElementById('CPM');
+
+    function toggleVisibility() {
+      if (flatRateRadio.checked) {
+        flatRateDiv.classList.remove('hide');
+        cpmDiv.classList.add('hide');
+      } else if (cpmRadio.checked) {
+        flatRateDiv.classList.add('hide');
+        cpmDiv.classList.remove('hide');
+      }
+    }
+
+    flatRateRadio.addEventListener('change', toggleVisibility);
+    cpmRadio.addEventListener('change', toggleVisibility);
+
+    // Initial check to set the correct visibility on page load
+    toggleVisibility();
+  });
+</script>

@@ -62,27 +62,29 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="region-table-body">
+              {% for region in regions %}
               <tr>
-                <td>0001</td>
-                <td>Regionnameexample</td>
+                <td>{{region.code}}</td>
+                <td>{{region.name}}</td>
                 <td>Kyle Jernigan</td>
                 <td>See assigned</td>
                 <td>
                   <div class="toggle-switch-container">
                     <div class="switch-field">
-                      <input type="radio" id="0001-region-radio-one" name="0001-region-switch-one" value="active" checked />
-                      <label for="0001-region-radio-one">Active</label>
-                      <input type="radio" id="0001-region-radio-two" name="0001-region-switch-one" value="inactive" />
-                      <label for="0001-region-radio-two">Inactive</label>
+                      <input type="radio" id="{{region.id}}-region-radio-one" name="{{region.id}}-region-switch-one" value="active" {{region.active|yesno:"checked, unchecked"}} />
+                      <label for="{{region.id}}-region-radio-one">Active</label>
+                      <input type="radio" id="{{region.id}}-region-radio-two" name="{{region.id}}-region-switch-one" value="inactive"  {{region.active|yesno:"unchecked, checked"}} />
+                      <label for="{{region.id}}-region-radio-two">Inactive</label>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="mr-1" onclick="document.getElementById('editRegion').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
+                  <span class="mr-1" onclick="editRegion({{region.id}})"><i class="fa fa-solid fa-pencil"></i></span>
                   <span><i class="fa fa-solid fa-envelope-open"></i></span>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
           <div class="end-of-list-heading-container text-center py-5">
@@ -96,4 +98,59 @@
       </div>
     </div>
   </div>
+  <script>
+    function editRegion(id) {
+      document.getElementById('editRegion').style.cssText = 'display: block; opacity: 1; visibility: visible;'
+      var selectElement = document.getElementById('edit-region-lstBox1');
+      while (selectElement.firstChild) {
+          selectElement.removeChild(selectElement.firstChild);
+      }
+      var selectElement = document.getElementById('edit-region-lstBox2');
+      while (selectElement.firstChild) {
+          selectElement.removeChild(selectElement.firstChild);
+      }
+      let data = {'id': id}
+      fetch("general/region-detail", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // parse the JSON from the response
+      })
+      .then((data) => {
+          var region = JSON.parse(data['region']);
+          region = region[0].fields;
+          var assigned_publications = data['assigned_publications'];
+          var unsigned_publications = data['unsigned_publications'];
+          localStorage.setItem('edit-region-id', data['id']);
+          localStorage.setItem('edit-region-active', region.active);
+          localStorage.setItem('edit-region-status', region.status);
+          document.getElementById('edit-region-name').value = region.name;
+          document.getElementById('edit-region-code').value = region.code;
+          document.getElementById('region-active').textContent = region.active == true ? 'Deactivate' : 'Active';
+          console.log(assigned_publications);
+          var select = document.getElementById("edit-region-lstBox1");
+          unsigned_publications.forEach(function(item) {
+            var option = new Option(item.name, item.id);
+            select.add(option);
+          });
+          var select = document.getElementById("edit-region-lstBox2");
+          assigned_publications.forEach(function(item) {
+            var option = new Option(item.name, item.id);
+            select.add(option);
+          });
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+  </script>
 </div>

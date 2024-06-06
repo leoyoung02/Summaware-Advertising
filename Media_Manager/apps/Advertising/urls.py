@@ -167,6 +167,9 @@ urlpatterns = [
 	path('adadmin/pricing/edit-rate', views.adminPricingEditRate, name='adminPricingEditRate'),
 	path('adadmin/pubs/new-publication', views.adminNewPublication, name='adminNewPublication'),
   path('adadmin/classifieds', views.adminClassifieds, name='adminClassifieds'), 
+  path('adadmin/general/create-region', views.adminCreateRegion, name='adminCreateRegion'),
+  path('adadmin/general/edit-region', views.adminEditRegion, name='adminEditRegion'),
+  path('adadmin/general/region-detail', views.adminRegionDetail, name='adminRegionDetail'),
 
 	# Admin Routes 
 	path('admin/', admin.view_admin_panel, name='view_admin_panel'),

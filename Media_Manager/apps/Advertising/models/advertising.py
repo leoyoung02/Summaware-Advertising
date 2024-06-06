@@ -212,6 +212,13 @@ class PubSection(models.Model):
     class Meta:
         db_table = 'advertising_pub_section'
 
+class PubRegion(models.Model):
+    region = models.ForeignKey('Region', on_delete=CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_pub_region'
+
 class AdminAdjustment(models.Model):
     code = models.CharField(max_length=100, default=None)
     name = models.CharField(max_length=255, default=None)
@@ -395,6 +402,14 @@ class AllStates(models.Model):
 	abbreviation = models.TextField()
 	class Meta:
 		db_table = 'all_states'
+
+class Region(models.Model):
+    name = models.TextField()
+    code = models.TextField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
+    class Meta:
+        db_table = 'advertising_region'
 # ------- MODEL METHODS -------
 def getSalesPersonFullName(salesrep_id):
     """

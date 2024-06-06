@@ -41,10 +41,14 @@ def adminGeneral(request):
 	magazines = MagazineProduct.objects.all()
 	newspapers = NewspaperProduct.objects.all()
 	digitals = DigitalProduct.objects.all()
+	regions = Region.objects.all()
+	publications = Publication.objects.all()
 	context = {
 		'all_states': all_states,
 		'magazines': magazines,
 		'newspapers': newspapers,
+		'regions': regions,
+		'publications': publications,
 		'total_newspapers': len(newspapers),
 		'total_magazines': len(magazines),
 		'total_digitals': len(digitals),
@@ -452,3 +456,65 @@ def adminCreateStandardSize(request):
 	except Exception as e:
 		success = False		
 	return JsonResponse({'success': success, "errors": []}, status=200)
+def adminCreateRegion(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	new_region = Region(name = data['name'], code = data['code'])
+	success = True
+	try:
+		new_region.save()
+		pub_regions = json.loads(data['publication_id'])
+		for id in pub_regions:
+			publication = Publication.objects.get(pk=id)
+			new_pub_region = PubRegion(region = new_region, publication = publication)
+			new_pub_region.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success":success, "errors": []}, status=200)
+def adminEditRegion(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+
+	if not request.user.has_perm('BI.advertising_access'):
+		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
+
+	data = json.loads(request.body.decode('utf-8'))
+	region = Region.objects.get(pk=data['id'])
+	region.name = data['name']
+	region.code = data['code']
+	region.active = data['active']
+	region.status = data['status']
+	region.save()
+	pub_regions = PubRegion.objects.filter(region=region)
+	for pub_region in pub_regions:
+		pub_region.delete()
+
+	pub_ids = json.loads(data['publication_id'])
+	for id in pub_ids:
+		publication = Publication.objects.get(pk=id)
+		new_pub_region = PubRegion(region=region, publication=publication)
+		new_pub_region.save()
+
+	return JsonResponse({"errors": []}, status=200)
+def adminRegionDetail(request):
+
+	data = json.loads(request.body.decode('utf-8'))
+	region = Region.objects.get(pk=data['id'])
+	pub_regions = PubRegion.objects.filter(region=region.id).select_related('publication')
+	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_regions]
+	pub_ids = []
+	for pub_region in pub_regions:
+		pub_ids.append(pub_region.publication.id)
+
+	unsigned = Publication.objects.exclude(id__in=pub_ids)
+	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in unsigned] 
+
+	response_data = {
+			'id': region.id,
+			'region': serializers.serialize('json', [region]),
+			'assigned_publications': assigned_publications,
+			'unsigned_publications': unsigned_publications,
+	}
+	return JsonResponse(response_data, safe=False)

@@ -59,9 +59,9 @@
           <td>
             <div class="adjustments-switch-container">
               <div class="switch-field">
-                <input type="radio" id="{{adjustment.id}}-adjustment-radio-one" name="{{adjustment.id}}-adjustment-switch-one" value="active" checked />
+                <input type="radio" id="{{adjustment.id}}-adjustment-radio-one" name="{{adjustment.id}}-adjustment-switch-one" value="active" {{adjustment.active|yesno:"checked, unchecked"}} />
                 <label for="{{adjustment.id}}-adjustment-radio-one">Active</label>
-                <input type="radio" id="{{adjustment.id}}-adjustment-radio-two" name="{{adjustment.id}}-adjustment-switch-one" value="inactive" />
+                <input type="radio" id="{{adjustment.id}}-adjustment-radio-two" name="{{adjustment.id}}-adjustment-switch-one" value="inactive"  {{adjustment.active|yesno:"unchecked, checked"}} />
                 <label for="{{adjustment.id}}-adjustment-radio-two">Inactive</label>
               </div>
             </div>
