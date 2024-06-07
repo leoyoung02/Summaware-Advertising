@@ -21,16 +21,17 @@ def adminUpload(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	success = False
-	if request.method == 'POST' and 'file' in request.FILES:
-		uploaded_file = request.FILES['file']
-		current_time = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]  # Get timestamp with milliseconds
-		file_name = f"{current_time}_{uploaded_file.name}"
-		file_path = os.path.join('uploads', file_name)
+	file_name = ''
+	# if request.method == 'POST' and 'file' in request.FILES:
+	# 	uploaded_file = request.FILES['file']
+	# 	current_time = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]  # Get timestamp with milliseconds
+	# 	file_name = f"{current_time}_{uploaded_file.name}"
+	# 	file_path = os.path.join('uploads', file_name)
 		
-		with open(file_path, 'wb+') as destination:
-			for chunk in uploaded_file.chunks():
-				destination.write(chunk)
-		success = True
+	# 	with open(file_path, 'wb+') as destination:
+	# 		for chunk in uploaded_file.chunks():
+	# 			destination.write(chunk)
+	# 	success = True
 	return JsonResponse({'success': success, "url": f"/uploads/{file_name}"}, status=200)
 
 def adminGeneral(request):
