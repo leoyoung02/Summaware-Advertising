@@ -150,10 +150,16 @@ urlpatterns = [
 	# Ad-Admin Routes
 	path('adadmin/', views.admin, name='admin'),
 	path('adadmin/general', views.adminGeneral, name='adminGeneral'),
+  path('adadmin/general/create-region', views.adminCreateRegion, name='adminCreateRegion'),
+  path('adadmin/general/edit-region', views.adminEditRegion, name='adminEditRegion'),
+  path('adadmin/general/region-detail', views.adminRegionDetail, name='adminRegionDetail'),
 	path('adadmin/ads', views.adminAds, name='adminAds'),
 	path('adadmin/ads/create-adtype', views.adminAdsCreateAdType, name='adminAdsCreateAdType'),
 	path('adadmin/ads/edit-adtype', views.adminAdsEditAdType, name='adminAdsEditAdType'),
 	path('adadmin/ads/adtype-detail', views.adminAdsAdTypeDetail, name='adminAdsAdTypeDetail'),
+	path('adadmin/ads/create-marketcode', views.adminCreateMarketCode, name='adminCreateMarketCode'),
+	path('adadmin/ads/edit-marketcode', views.adminEditMarketCode, name='adminEditMarketCode'),
+	path('adadmin/ads/marketcode-detail', views.adminMarketCodeDetail, name='adminMarketCodeDetail'),
 	path('adadmin/financial', views.adminFinancial, name='adminFinancial'),
 	path('adadmin/financial/fiscal', views.adminFinancialFiscal, name='adminFinancialFiscal'),
 	path('adadmin/financial/new-magazine', views.adminNewMagazine, name='adminNewMagazine'),
@@ -166,11 +172,9 @@ urlpatterns = [
 	path('adadmin/pricing/edit-adjustment', views.adminEditAdjustment, name='adminEditAdjustment'),
 	path('adadmin/pricing/edit-rate', views.adminPricingEditRate, name='adminPricingEditRate'),
 	path('adadmin/pubs/new-publication', views.adminNewPublication, name='adminNewPublication'),
+  path('adadmin/pubs/create-publication', views.adminCreatePublication, name='adminCreatePublication'),
   path('adadmin/classifieds', views.adminClassifieds, name='adminClassifieds'), 
-  path('adadmin/general/create-region', views.adminCreateRegion, name='adminCreateRegion'),
-  path('adadmin/general/edit-region', views.adminEditRegion, name='adminEditRegion'),
-  path('adadmin/general/region-detail', views.adminRegionDetail, name='adminRegionDetail'),
-
+  
 	# Admin Routes 
 	path('admin/', admin.view_admin_panel, name='view_admin_panel'),
 	path('admin/user/<int:userId>/roles', admin.get_user_roles, name="get_user_roles"),

@@ -191,30 +191,52 @@ class AccountPaymentHistory(models.Model):
         db_table = 'advertising_accountpaymenthistory'
 
 # TODO - Add a model for company contacts history
+class AdminPublication(models.Model):
+    parent_id = models.IntegerField()
+    name = models.CharField(max_length=255)
+    account = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip_code = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    calendar_type = models.CharField(max_length=255)
+    product_name = models.CharField(max_length=255)
+    product_type = models.CharField(max_length=255)
+    gl_override = models.CharField(max_length=255)
+    gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    active = models.BooleanField(default=True)
+    created_by = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'advertising_adminpublication'
+
 class PubAdjustment(models.Model):
     adminadjustment = models.ForeignKey('AdminAdjustment', on_delete=CASCADE)
-    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    publication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advertising_pub_adjustment'
 
 class PubRategroup(models.Model):
     rategroup = models.ForeignKey('RateGroup', on_delete=CASCADE)
-    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    publication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advertising_pub_rategroup'
 
 class PubSection(models.Model):
     section = models.ForeignKey('PublicationSection', on_delete=CASCADE)
-    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    publication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advertising_pub_section'
 
 class PubRegion(models.Model):
     region = models.ForeignKey('Region', on_delete=CASCADE)
-    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    publication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advertising_pub_region'
@@ -243,7 +265,7 @@ class AdminAdjustment(models.Model):
         return self.code
 class PubAdType(models.Model):
     adminadtype = models.ForeignKey('AdminAdType', on_delete=CASCADE)
-    publication = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    publication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'advertising_pub_adtype'
@@ -259,6 +281,14 @@ class AdminAdType(models.Model):
 
     def __str__(self):
         return self.code
+class AdminMarketCode(models.Model):
+    code = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
+
+    class Meta:
+        db_table = "advertising_adminmarketcode"
 class Adjustment(models.Model):
     code = models.CharField(max_length=100, default=None)
     description = models.CharField(max_length=255, default=None)

@@ -46,18 +46,20 @@
               </tr>
             </thead>
             <tbody>
+              {% for publication in publications %}
               <tr>
-                <td>0001</td>
-                <td>Times Leader Print Edition</td>
-                <td>Times Leader</td>
+                <td>{{publication.id}}</td>
+                <td>{{publication.name}}</td>
+                <td>{{publication.account}}</td>
                 <td>Mon, Tues, Wed</td>
-                <td>3</td>
-                <td>Active</td>
-                <td>Kyle Jernigan</td>
+                <td>1</td>
+                <td>{{publication.active|yesno:"Active, Deactive"}}</td>
+                <td>{{publication.created_by}}</td>
                 <td>
                   <span><i class="fa fa-solid fa-envelope-open"></i></span>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
           <div class="end-of-list-heading-container text-center py-5">

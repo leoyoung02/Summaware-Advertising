@@ -41,26 +41,28 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="marketcode-table-body">
+            {% for marketcode in marketcodes %}
             <tr>
-              <td>0001</td>
-              <td>Market Name</td>
-              <td>AAAA</td>
+              <td>{{marketcode.id}}</td>
+              <td>{{marketcode.name}}</td>
+              <td>{{marketcode.code}}</td>
               <td>
                 <div class="mcode-switch-container">
                   <div class="switch-field">
-                    <input type="radio" id="0001-mcode-radio-one" name="0001-mcode-switch-one" value="active" checked />
-                    <label for="0001-mcode-radio-one">Active</label>
-                    <input type="radio" id="0001-mcode-radio-two" name="0001-mcode-switch-one" value="inactive" />
-                    <label for="0001-mcode-radio-two">Inactive</label>
+                    <input type="radio" id="{{marketcode.id}}-mcode-radio-one" name="{{marketcode.id}}-mcode-switch-one" value="active" {{marketcode.active|yesno:"checked, unchecked"}} />
+                    <label for="{{marketcode.id}}-mcode-radio-one">Active</label>
+                    <input type="radio" id="{{marketcode.id}}-mcode-radio-two" name="{{marketcode.id}}-mcode-switch-one" value="inactive" {{marketcode.active|yesno:"unchecked, checked"}}/>
+                    <label for="{{marketcode.id}}-mcode-radio-two">Inactive</label>
                   </div>
                 </div>
               </td>
               <td>
-                <span class="pe-3 color-secondary" onclick="document.getElementById('editMarketCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
+                <span class="pe-3 color-secondary" onclick="editMarketCode({{marketcode.id}})"><i class="fa fa-solid fa-pencil"></i></span>
                 <span class="color-secondary"><i class="fa fa-solid fa-envelope-open"></i></span>
               </td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
         <div class="end-of-list-heading-container text-center py-5">
@@ -73,4 +75,38 @@
       </div>
     </div>
   </div>
+  <script>
+    function editMarketCode(id) {
+      document.getElementById('editMarketCode').style.cssText = 'display: block; opacity: 1; visibility: visible;'
+      let data = {'id': id}
+      fetch("ads/marketcode-detail", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // parse the JSON from the response
+      })
+      .then((data) => {
+          var marketcode = JSON.parse(data['marketcode']);
+          marketcode = marketcode[0].fields;
+          localStorage.setItem('edit-marketcode-id', data['id']);
+          localStorage.setItem('edit-marketcode-active', marketcode.active);
+          localStorage.setItem('edit-marketcode-status', marketcode.status);
+          document.getElementById('edit-marketcode-name').value = marketcode.name;
+          document.getElementById('edit-marketcode-code').value = marketcode.code;
+          document.getElementById('marketcode-active').textContent = marketcode.active == true ? 'Deactivate' : 'Active';
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+  </script>
 </div>

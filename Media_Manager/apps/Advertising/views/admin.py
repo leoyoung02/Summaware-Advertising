@@ -43,7 +43,7 @@ def adminGeneral(request):
 	newspapers = NewspaperProduct.objects.all()
 	digitals = DigitalProduct.objects.all()
 	regions = Region.objects.all()
-	publications = Publication.objects.all()
+	publications = AdminPublication.objects.all()
 	context = {
 		'all_states': all_states,
 		'magazines': magazines,
@@ -64,8 +64,16 @@ def adminAds(request):
 	pub_adtypes = PubAdType.objects.all()
 	adtypes = AdminAdType.objects.all()
 	rates = Rate.objects.all()
-	publications = Publication.objects.all()
-	return render(request, 'admin/ads/ads.html',{'pub_adtypes': pub_adtypes, 'adtypes': adtypes, 'rates': rates, 'publications': publications})
+	publications = AdminPublication.objects.all()
+	marketcodes = AdminMarketCode.objects.all()
+	context = {
+		'pub_adtypes': pub_adtypes,
+		'adtypes': adtypes,
+		'rates': rates,
+		'marketcodes': marketcodes,
+		'publications': publications
+	}
+	return render(request, 'admin/ads/ads.html', context)
 def adminAdsEditAdType(request):
 
 	if request is None or not request.user.is_authenticated:
@@ -90,7 +98,7 @@ def adminAdsEditAdType(request):
 
 		pub_ids = json.loads(data['publication_id'])
 		for id in pub_ids:
-			publication = Publication.objects.get(pk=id)
+			publication = AdminPublication.objects.get(pk=id)
 			new_pub_adtype = PubAdType(adminadtype=adtype, publication=publication)
 			new_pub_adtype.save()
 	except Exception as e:
@@ -107,7 +115,7 @@ def adminAdsAdTypeDetail(request):
 	for pub_adtype in pub_adtypes:
 		pub_ids.append(pub_adtype.publication.id)
 
-	pub_adtypes = Publication.objects.exclude(id__in=pub_ids)
+	pub_adtypes = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adtypes] 
 
 	response_data = {
@@ -131,7 +139,7 @@ def adminAdsCreateAdType(request):
 		new_adtype.save()
 		pub_ids = json.loads(data['publication_id'])
 		for id in pub_ids:
-			publication = Publication.objects.get(pk=id)
+			publication = AdminPublication.objects.get(pk=id)
 			new_pub_adtype = PubAdType(adminadtype=new_adtype, publication=publication)
 			new_pub_adtype.save()
 	except Exception as e:
@@ -159,7 +167,7 @@ def adminAdjustmentDetail(request):
 	for pub_adjustment in pub_adjustments:
 		pub_ids.append(pub_adjustment.publication.id)
 
-	pub_adjustments = Publication.objects.exclude(id__in=pub_ids)
+	pub_adjustments = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adjustments] 
 
 	response_data = {
@@ -176,7 +184,7 @@ def adminPricing(request):
 		return redirect(login_redirect + '/')
 	rategroups = RateGroup.objects.all()
 	adjustments = AdminAdjustment.objects.all()
-	publications = Publication.objects.all()
+	publications = AdminPublication.objects.all()
 	sections = PublicationSection.objects.all()
 	glcodes = GLCode.objects.all()
 
@@ -210,7 +218,7 @@ def adminEditAdjustment(request):
 
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
-		publication = Publication.objects.get(pk=id)
+		publication = AdminPublication.objects.get(pk=id)
 		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, publication=publication)
 		new_pub_adjustment.save()
 
@@ -230,7 +238,7 @@ def adminCreateAdjustment(request):
 	new_adjustment.save()
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
-		publication = Publication.objects.get(pk=id)
+		publication = AdminPublication.objects.get(pk=id)
 		new_pub_adjustment = PubAdjustment(adminadjustment=new_adjustment, publication=publication)
 		new_pub_adjustment.save()
 	return JsonResponse({"errors": []}, status=200)
@@ -251,7 +259,7 @@ def adminPricingSaveRate(request, groupId):
 		publication.delete()
 	pub_ids = json.loads(data['assigned_publications'])
 	for id in pub_ids:
-		publication = Publication.objects.get(pk=id)
+		publication = AdminPublication.objects.get(pk=id)
 		new_pub_rategroup = PubRategroup(rategroup = rategroup, publication = publication)
 		new_pub_rategroup.save()
 	if data['status'] != -1:
@@ -270,7 +278,7 @@ def adminPricingEditRateGroup(request, groupId):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	rategroup = RateGroup.objects.get(pk=groupId)
-	publications = Publication.objects.all()
+	publications = AdminPublication.objects.all()
 	rate_id = ExtraRateGroup.objects.filter(rategroup=groupId)
 	rate_ids = []
 	for rate in rate_id:
@@ -288,7 +296,7 @@ def adminPricingEditRateGroup(request, groupId):
 	for pub_rategroup in pub_rategroups:
 		pub_ids.append(pub_rategroup.publication.id)
 
-	pub_rategroups = Publication.objects.exclude(id__in=pub_ids)
+	pub_rategroups = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_rategroups]
 	context = {
 		'rategroup': rategroup, 
@@ -339,8 +347,36 @@ def adminCreatePublication(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	data = json.loads(request.body.decode('utf-8'))
-	print(data)
-	return JsonResponse({'success': True}, status = 200)
+	new_publication = AdminPublication(name = data['name'], address = data['address'], city = data['city'], state = data['state'], zip_code=data['zip_code'],
+																		location = '', parent_id = data['parent_id'], product_name = data['product_name'], gl_override = data['gl_override'],account = 'Times Leader',
+																		gl_code_id = int(data['gl_code']), start_date = data['start_date'], end_date = data['end_date'], created_by = data['created_by'],
+																		calendar_type = data['calendar_type'], product_type = data['product_type'])
+	success = True
+	try:
+		new_publication.save()
+		rategroup_ids = json.loads(data['rategroup_id'])
+		for id in rategroup_ids:
+			rategroup = RateGroup.objects.get(pk=id)
+			new_pub_rategroup = PubRategroup(rategroup = rategroup, publication = new_publication)
+			new_pub_rategroup.save()
+		adtype_ids = json.loads(data['adtype_id'])
+		for id in adtype_ids:
+			adtype = AdminAdType.objects.get(pk=id)
+			new_pub_adtype = PubAdType(adminadtype = adtype, publication = new_publication)
+			new_pub_adtype.save()
+		adjustment_ids = json.loads(data['adjustment_id'])
+		for id in adjustment_ids:
+			adjustment = AdminAdjustment.objects.get(pk=id)
+			new_pub_adjustment = PubAdjustment(adminadjustment = adjustment, publication = new_publication)
+			new_pub_adjustment.save()
+		section_ids = json.loads(data['section_id'])
+		for id in section_ids:
+			section = PublicationSection.objects.get(pk=id)
+			new_pub_section = PubSection(section = section, publication = new_publication)
+			new_pub_section.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({'success': success}, status = 200)
 def adminNewPublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
@@ -351,7 +387,8 @@ def adminNewPublication(request):
 	adjustments = AdminAdjustment.objects.all()
 	rategroups = RateGroup.objects.all()
 	sections = PublicationSection.objects.all()
-	publications = Publication.objects.all()
+	publications = AdminPublication.objects.all()
+	all_states = AllStates.objects.all()
 	context = {
         "access": "allow",
         "message": "",
@@ -360,7 +397,8 @@ def adminNewPublication(request):
         "adjustments": adjustments,
 				"rategroups": rategroups,
 				"sections": sections,
-				"publications": publications
+				"publications": publications,
+				"all_states": all_states
     }
 	return render(request, 'admin/pubs/new-publication.html', context)
 
@@ -468,7 +506,7 @@ def adminCreateRegion(request):
 		new_region.save()
 		pub_regions = json.loads(data['publication_id'])
 		for id in pub_regions:
-			publication = Publication.objects.get(pk=id)
+			publication = AdminPublication.objects.get(pk=id)
 			new_pub_region = PubRegion(region = new_region, publication = publication)
 			new_pub_region.save()
 	except Exception as e:
@@ -494,7 +532,7 @@ def adminEditRegion(request):
 
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
-		publication = Publication.objects.get(pk=id)
+		publication = AdminPublication.objects.get(pk=id)
 		new_pub_region = PubRegion(region=region, publication=publication)
 		new_pub_region.save()
 
@@ -509,7 +547,7 @@ def adminRegionDetail(request):
 	for pub_region in pub_regions:
 		pub_ids.append(pub_region.publication.id)
 
-	unsigned = Publication.objects.exclude(id__in=pub_ids)
+	unsigned = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in unsigned] 
 
 	response_data = {
@@ -517,5 +555,46 @@ def adminRegionDetail(request):
 			'region': serializers.serialize('json', [region]),
 			'assigned_publications': assigned_publications,
 			'unsigned_publications': unsigned_publications,
+	}
+	return JsonResponse(response_data, safe=False)
+def adminCreateMarketCode(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	new_adminmarketcode = AdminMarketCode(name = data['name'], code = data['code'])
+	success = True
+	try:
+		new_adminmarketcode.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success":success, "errors": []}, status=200)
+def adminEditMarketCode(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+
+	if not request.user.has_perm('BI.advertising_access'):
+		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
+
+	data = json.loads(request.body.decode('utf-8'))
+	marketcode = AdminMarketCode.objects.get(pk=data['id'])
+	marketcode.name = data['name']
+	marketcode.code = data['code']
+	marketcode.active = data['active']
+	marketcode.status = data['status']
+	success = True
+	try:
+		marketcode.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success":success, "errors": []}, status=200)
+def adminMarketCodeDetail(request):
+
+	data = json.loads(request.body.decode('utf-8'))
+	marketcode = AdminMarketCode.objects.get(pk=data['id'])
+
+	response_data = {
+			'id': marketcode.id,
+			'marketcode': serializers.serialize('json', [marketcode]),
 	}
 	return JsonResponse(response_data, safe=False)
