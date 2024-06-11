@@ -1,0 +1,460 @@
+{% extends "templates/base.html" %} {% load static %} {% block endjs %}
+<!-- <script src="{% static "dist/js/advertising/SearchPublic.js" %}"></script>
+<script src="{% static "admin/js/event-calendar.js" %}"></script>
+<script src="{% static "dist/js/advertising/publicationNew.js" %}"></script> -->
+
+{% endblock %} {% block breadcrumb %}
+<li class="active">Advertising</li>
+{% endblock %} {% block content %}
+<!-- <div class="advertising-back-image" style="bottom:0; width:100%;">
+    <img src="{% static "svg/advertising_back_img.svg" %}" width="100%">
+</div> -->
+
+<div class="container">
+  <div class="heading-container text-center">
+    <h3 class="heading">Edit Publication</h3>
+  </div>
+  <div class="multistep-container mgb-3">
+    <div class="c-card">
+      <div class="progress-icons">
+        <div class="progress-dot-container">
+          <div id="progress_0" class="progress-dot progress-active">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">General Info</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_1" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Scheduling</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_2" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Rate Groups</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_3" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Ad Type</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_4" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Adjustments</p>
+        </div>
+        <div class="progress-dot-container">
+          <div id="progress_5" class="progress-dot">
+            <span><i class="fa fa-solid fa-check"></i></span>
+          </div>
+          <p class="step-label">Sections</p>
+        </div>
+      </div>
+      <!-- End Icons -->
+      <div id="section1" class="section multistep-content mgb-3">
+        <div class="heading-container text-center">
+          <h3 class="heading">General Info</h3>
+        </div>
+
+        <div class="section-content text-center mgb-3">
+          <div class="text-center">
+            <p>Fill out the information below to begin!</p>
+          </div>
+
+          <form method="post" id="edit-publication-info-form">
+            <div class="form-group mgb-3 w50 center-block text-left">
+              <label for="">* Publication Name:</label>
+              <input type="text" name="name" id="" class="form-control" value="{{pub.name}}"/>
+            </div>
+
+            <div class="form-group mgb-3 w50 center-block text-left">
+              <label for="">* Address Line 1:</label>
+              <input type="text" name="address" id="" class="form-control" value="{{pub.address}}"/>
+              <a href="#">Add another address line</a>
+            </div>
+
+            <div class="row mgb-3 w50 center-block">
+              <div class="col-md-12 col-lg-6 pl-0">
+                <div class="form-group text-left">
+                  <label for="city">* City:</label>
+                  <input type="text" name="city" id="city" class="form-control" value="{{pub.city}}"/>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6 pr-0">
+                <div class="form-group text-left">
+                  <label for="state">* State:</label>
+                  <select name="state" id="state" class="form-control" >
+                    {% for state in all_states %}
+                    <option value="{{state.id}}"  {% if pub.state_id == state.id %} selected {% endif %}>{{state.name}}-{{state.abbreviation}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mgb-3 w50 center-block">
+              <div class="col-md-12 col-lg-6 pl-0">
+                <div class="form-group mgb-3 text-left">
+                  <label for="city">* Zip Code:</label>
+                  <input type="text" name="zip_code" id="zip-code" class="form-control" value="{{pub.zip_code}}"/>
+                </div>
+              </div>
+              <!-- <div class="col-md-12 col-lg-6 pr-0">
+                <div class="form-group mgb-3 text-left">
+                  <label for="state">* Location:</label>
+                  <select name="location" id="state" class="form-control"></select>
+                </div>
+              </div> -->
+            </div>
+
+            <!-- <div class="form-group w50 center-block text-left">
+              <label for="state">Parent Publication (optional):</label>
+              <select name="parent_id" id="state" class="form-control">
+                {% for publication in publications %}
+                <option value="{{publication.id}}">{{publication.name}}</option>
+                {% endfor %}
+              </select>
+            </div> -->
+          </form>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section2" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Scheduling</h3>
+        </div>
+
+        <div class="section-content w50 center-block">
+          <form method="post" id="edit-publication-scheduling-form">
+            <div class="text-center mgb-3">
+              <p>Calendar Type:</p>
+              <div class="toggle-switch-container">
+                <div class="switch-field center-block">
+                  <input type="radio" id="0001-calendar-radio-one" name="calendar_type" value="repeat" {% if pub.calendar_type == 'repeat' %} checked {% endif %}/>
+                  <label for="0001-calendar-radio-one">Repeat</label>
+                  <input type="radio" id="0001-calendar-radio-two" name="calendar_type" value="non-repeating"  {% if pub.calendar_type == 'non-repeating' %} checked {% endif %}/>
+                  <label for="0001-calendar-radio-two">Non-repeating</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="repeating-calendar active">
+              <div class="row mgb-3">
+                <div class="col-md-12 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Name:</label>
+                    <input type="text" name="product_name" id="" class="form-control" value="{{pub.product_name}}"/>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <label for="">Product Type:</label>
+                  <select name="product_type" id="" class="form-control">
+                    <option value="magazine" {% if pub.product_type == 'magazine' %} selected {% endif %}>Magazine</option>
+                    <option value="newspaper" {% if pub.product_type == 'newspaper' %} selected {% endif %}>Newspaper</option>
+                    <option value="digital" {% if pub.product_type == 'digital' %} selected {% endif %}>Digital</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mgb-3">
+                <div class="col-md-12 col-lg-6">
+                  <div>
+                    <label for="gl-override">GL Override (optional)</label>
+                  </div>
+                  <div class="toggle-switch-container">
+                    <div class="switch-field">
+                      <input type="radio" id="0001-override-radio-one" name="gl_override" value="Yes" {% if pub.gl_override == 'Yes' %} checked {% endif %} />
+                      <label for="0001-override-radio-one">Yes</label>
+                      <input type="radio" id="0001-override-radio-two" name="gl_override" value="No" {% if pub.gl_override == 'No' %} checked {% endif %} />
+                      <label for="0001-override-radio-two">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <label for="">GL Code:</label>
+                  <select name="gl_code" id="" class="form-control">
+                    {% for gl_code in gl_codes %}
+                    <option value="{{gl_code.id}}" {% if pub.gl_code_id == gl_code.id %} selected {% endif %}>{{gl_code.code}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mgb-3">
+                <div class="col-md-12 col-lg-6"></div>
+                <div class="col-md-12 col-lg-6"></div>
+              </div>
+
+              <div class="row mgb-3">
+                <div class="col-md-12 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Start Date:</label>
+                    <input type="date" name="start_date" id="" class="form-control" value="{{start_date}}"/>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <div class="form-group">
+                    <label for="">End Date (optional):</label>
+                    <input type="date" name="end_date" id="" class="form-control" value="{{end_date}}"/>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="calendar-container mgb-3">
+                <div class="calendar">
+                  <div class="header">
+                    <button id="prevBtn">&lt;</button>
+                    <h1 id="monthYear"></h1>
+                    <button id="nextBtn">&gt;</button>
+                  </div>
+                  <div class="days">
+                    <div class="day">Sun</div>
+                    <div class="day">Mon</div>
+                    <div class="day">Tue</div>
+                    <div class="day">Wed</div>
+                    <div class="day">Thu</div>
+                    <div class="day">Fri</div>
+                    <div class="day">Sat</div>
+                  </div>
+                  <div class="dates" id="dates">
+                    <div class="date" data-day="1">1</div>
+                    <div class="date" data-day="2">2</div>
+                    <div class="date" data-day="3">3</div>
+                    <div class="date" data-day="4">4</div>
+                    <div class="date" data-day="5">5</div>
+                    <div class="date" data-day="6">6</div>
+                  </div>
+                </div>
+
+                Modal for Event Details 
+                <div class="modal event show-modal hide-modal" id="eventModal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="eventDate"></h2>
+                    <textarea class="area" id="eventDescription"></textarea>
+                    <button id="saveEventBtn">Save</button>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </form>
+          <div class="non-repeating-calendar">Non Repeating</div>
+        </div>
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section3" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Rate Groups</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>
+              Select which rate groups you'd like to be<br />
+              assign to this publication
+            </p>
+          </div>
+
+           {% include "components/item_select.html" with item_type="rate groups" available_items=unsigned_rategroups selected_items=assigned_rategroups id="edit-pub-rategroup" %}
+
+          
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section4" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Ad Type</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>
+              Select from the available Ad Types you<br />
+              would like associated with this Publication
+            </p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="ad types" available_items=unsigned_adminadtypes selected_items=assigned_adminadtypes id="edit-pub-adtype" %}
+
+          
+
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section5" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Adjustments</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>Choose which Adjustments that are<br />assigned to this Publication</p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="adjustments" available_items=unsigned_adminadjustments selected_items=assigned_adminadjustments id="edit-pub-adjustment" %}
+
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section6" class="section multistep-content mgb-3 hide">
+        <div class="heading-container text-center">
+          <h3 class="heading">Sections</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="text-center mgb-3">
+            <p>Select the sections you would like to be<br />available to use with this Publication</p>
+          </div>
+
+          {% include "components/item_select.html" with item_type="sections" available_items=unsigned_sections selected_items=assigned_sections id="edit-pub-section" %}
+        </div>
+
+        <div class="link-container text-center mgb-3">
+          <a href="#">Advanced Ad Type Assignment</a>
+        </div>
+
+        <div class="btn-container content-even">
+          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
+          <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
+        </div>
+      </div>
+
+      <div id="section7" class="section multistep-content hide">
+        <div class="section-content">
+          <div class="complete-product-container text-center">
+            <h3 class="heading">Edit Publication Finished!</h3>
+            <div class="big-check mx-auto my-5">
+              <i class="fa fa-solid fa-check"></i>
+            </div>
+            <div class="btn-container content-even">
+              <button class="btn btn-danger" onclick="savePublication(1, '{{pub.id}}', '{{pub.active}}', '{{pub.status}}')">{{pub.active|yesno:"Deativate,Active"}}</button>
+              <a href="{% url 'adminGeneral' %}" class="btn btn-gray" onclick="savePublication(2, '{{pub.id}}', '{{pub.active}}', '{{pub.status}}')">Archive</a>
+              <button class="btn btn-secondary" onclick="savePublication(3, '{{pub.id}}', '{{pub.active}}', '{{pub.status}}')">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function savePublication(index, id, active, status) {
+      let form = $('#edit-publication-info-form');
+      var formData = new FormData(form[0]);
+      let data = {};
+      for (const [key, value] of formData) {
+          data[key] = value;
+      }
+
+      form = $('#edit-publication-scheduling-form');
+      formData = new FormData(form[0]);
+      for (const [key, value] of formData) {
+          data[key] = value;
+      }
+      if(active == 'False') data['active'] = false;
+      else data['active'] = true;
+      data['status'] = status;
+      if(index == 1) {
+        data['active'] = !data['active'];
+      } else if(index == 2) {
+        data['status'] = 2;
+      }
+      var selectElement = document.getElementById('edit-pub-rategroup-lstBox2');
+      var values = [];
+      
+      for (var i = 0; i < selectElement.options.length; i++) {
+          values.push(selectElement.options[i].value);
+      }
+      data['rategroup_id'] = JSON.stringify(values);
+      
+      var selectElement = document.getElementById('edit-pub-adtype-lstBox2');
+      var values = [];
+      
+      for (var i = 0; i < selectElement.options.length; i++) {
+          values.push(selectElement.options[i].value);
+      }
+      data['adtype_id'] = JSON.stringify(values);
+      
+      var selectElement = document.getElementById('edit-pub-adjustment-lstBox2');
+      var values = [];
+      
+      for (var i = 0; i < selectElement.options.length; i++) {
+          values.push(selectElement.options[i].value);
+      }
+      data['adjustment_id'] = JSON.stringify(values);
+      
+      var selectElement = document.getElementById('edit-pub-section-lstBox2');
+      var values = [];
+      
+      for (var i = 0; i < selectElement.options.length; i++) {
+          values.push(selectElement.options[i].value);
+      }
+      data['section_id'] = JSON.stringify(values);
+      var hrefUrl = `{% url 'adminGeneral' %}`
+      fetch(`${id}/save`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(res => {
+        if(res.success) {
+          $.toastr.success("Publication saved successfully!");
+          window.location.href = hrefUrl;
+        } else {
+          $.toastr.error("Saving Publication Failed");
+        }
+      }).catch((error) => {
+        $.toastr.error("Saving Publication Failed");
+      })
+    }
+  </script>
+</div>
+
+<script src="{% static "admin/js/item-select.js" %}"></script>
+
+
+{% endblock %}

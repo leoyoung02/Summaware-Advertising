@@ -99,7 +99,7 @@ def adminAdsEditAdType(request):
 		pub_ids = json.loads(data['publication_id'])
 		for id in pub_ids:
 			publication = AdminPublication.objects.get(pk=id)
-			new_pub_adtype = PubAdType(adminadtype=adtype, publication=publication)
+			new_pub_adtype = PubAdType(adminadtype=adtype, adminpublication=publication)
 			new_pub_adtype.save()
 	except Exception as e:
 		success = False
@@ -109,7 +109,7 @@ def adminAdsAdTypeDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adtype = AdminAdType.objects.get(pk=data['id'])
-	pub_adtypes = PubAdType.objects.filter(adminadtype=adtype.id).select_related('publication')
+	pub_adtypes = PubAdType.objects.filter(adminadtype=adtype.id).select_related('adminpublication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adtypes]
 	pub_ids = []
 	for pub_adtype in pub_adtypes:
@@ -140,7 +140,7 @@ def adminAdsCreateAdType(request):
 		pub_ids = json.loads(data['publication_id'])
 		for id in pub_ids:
 			publication = AdminPublication.objects.get(pk=id)
-			new_pub_adtype = PubAdType(adminadtype=new_adtype, publication=publication)
+			new_pub_adtype = PubAdType(adminadtype=new_adtype, adminpublication=publication)
 			new_pub_adtype.save()
 	except Exception as e:
 		success = False
@@ -161,7 +161,7 @@ def adminAdjustmentDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adjustment = AdminAdjustment.objects.get(pk=data['id'])
-	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment.id).select_related('publication')
+	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment.id).select_related('adminpublication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments]
 	pub_ids = []
 	for pub_adjustment in pub_adjustments:
@@ -219,7 +219,7 @@ def adminEditAdjustment(request):
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
 		publication = AdminPublication.objects.get(pk=id)
-		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, publication=publication)
+		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, adminpublication=publication)
 		new_pub_adjustment.save()
 
 	return JsonResponse({"errors": []}, status=200)
@@ -239,7 +239,7 @@ def adminCreateAdjustment(request):
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
 		publication = AdminPublication.objects.get(pk=id)
-		new_pub_adjustment = PubAdjustment(adminadjustment=new_adjustment, publication=publication)
+		new_pub_adjustment = PubAdjustment(adminadjustment=new_adjustment, adminpublication=publication)
 		new_pub_adjustment.save()
 	return JsonResponse({"errors": []}, status=200)
 
@@ -260,7 +260,7 @@ def adminPricingSaveRate(request, groupId):
 	pub_ids = json.loads(data['assigned_publications'])
 	for id in pub_ids:
 		publication = AdminPublication.objects.get(pk=id)
-		new_pub_rategroup = PubRategroup(rategroup = rategroup, publication = publication)
+		new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = publication)
 		new_pub_rategroup.save()
 	if data['status'] != -1:
 		rategroup.status = data['status']
@@ -290,7 +290,7 @@ def adminPricingEditRateGroup(request, groupId):
 	glcodes = GLCode.objects.all()
 	extra_groups = RateGroup.objects.exclude(id=groupId)
 	
-	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('publication')
+	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('adminpublication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_rategroups]
 	pub_ids = []
 	for pub_rategroup in pub_rategroups:
@@ -342,12 +342,70 @@ def adminClassifieds(request):
 			'publications': publications,
 	}
 	return render(request, 'admin/classifieds/classifieds.html', context)
+def adminSavePublication(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	pub = AdminPublication.objects.get(pk=id)
+	pub.name = data['name']
+	pub.address = data['address']
+	pub.city = data['city']
+	pub.state_id = data['state']
+	pub.zip_code = data['zip_code']
+	pub.product_name = data['product_name']
+	pub.gl_override = data['gl_override']
+	pub.gl_code_id = data['gl_code']
+	pub.start_date = data['start_date']
+	pub.end_date = data['end_date']
+	pub.calendar_type = data['calendar_type']
+	pub.product_type = data['product_type']
+	pub.active = data['active']
+	pub.status = data['status']
+	success = True
+	try:
+		pub.save()
+		rategroups = PubRategroup.objects.filter(adminpublication=pub)
+		for rategroup in rategroups:
+			rategroup.delete()
+		rategroup_ids = json.loads(data['rategroup_id'])
+		for id in rategroup_ids:
+			rategroup = RateGroup.objects.get(pk=id)
+			new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = pub)
+			new_pub_rategroup.save()
+		adminadtypes = PubAdType.objects.filter(adminpublication=pub)
+		for adminadtype in adminadtypes:
+			adminadtype.delete()
+		adtype_ids = json.loads(data['adtype_id'])
+		for id in adtype_ids:
+			adtype = AdminAdType.objects.get(pk=id)
+			new_pub_adtype = PubAdType(adminadtype = adtype, adminpublication = pub)
+			new_pub_adtype.save()
+		adminadjustments = PubAdjustment.objects.filter(adminpublication=pub)
+		for adminadjustment in adminadjustments:
+			adminadjustment.delete()
+		adjustment_ids = json.loads(data['adjustment_id'])
+		for id in adjustment_ids:
+			adjustment = AdminAdjustment.objects.get(pk=id)
+			new_pub_adjustment = PubAdjustment(adminadjustment = adjustment, adminpublication = pub)
+			new_pub_adjustment.save()
+		sections = PubSection.objects.filter(adminpublication=pub)
+		for section in sections:
+			section.delete()
+		section_ids = json.loads(data['section_id'])
+		for id in section_ids:
+			section = PublicationSection.objects.get(pk=id)
+			new_pub_section = PubSection(section = section, adminpublication = pub)
+			new_pub_section.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({'success': success}, status = 200)
 def adminCreatePublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	data = json.loads(request.body.decode('utf-8'))
-	new_publication = AdminPublication(name = data['name'], address = data['address'], city = data['city'], state = data['state'], zip_code=data['zip_code'],
+	new_publication = AdminPublication(name = data['name'], address = data['address'], city = data['city'], state_id = int(data['state']), zip_code=data['zip_code'],
 																		location = '', parent_id = data['parent_id'], product_name = data['product_name'], gl_override = data['gl_override'],account = 'Times Leader',
 																		gl_code_id = int(data['gl_code']), start_date = data['start_date'], end_date = data['end_date'], created_by = data['created_by'],
 																		calendar_type = data['calendar_type'], product_type = data['product_type'])
@@ -357,26 +415,88 @@ def adminCreatePublication(request):
 		rategroup_ids = json.loads(data['rategroup_id'])
 		for id in rategroup_ids:
 			rategroup = RateGroup.objects.get(pk=id)
-			new_pub_rategroup = PubRategroup(rategroup = rategroup, publication = new_publication)
+			new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = new_publication)
 			new_pub_rategroup.save()
 		adtype_ids = json.loads(data['adtype_id'])
 		for id in adtype_ids:
 			adtype = AdminAdType.objects.get(pk=id)
-			new_pub_adtype = PubAdType(adminadtype = adtype, publication = new_publication)
+			new_pub_adtype = PubAdType(adminadtype = adtype, adminpublication = new_publication)
 			new_pub_adtype.save()
 		adjustment_ids = json.loads(data['adjustment_id'])
 		for id in adjustment_ids:
 			adjustment = AdminAdjustment.objects.get(pk=id)
-			new_pub_adjustment = PubAdjustment(adminadjustment = adjustment, publication = new_publication)
+			new_pub_adjustment = PubAdjustment(adminadjustment = adjustment, adminpublication = new_publication)
 			new_pub_adjustment.save()
 		section_ids = json.loads(data['section_id'])
 		for id in section_ids:
 			section = PublicationSection.objects.get(pk=id)
-			new_pub_section = PubSection(section = section, publication = new_publication)
+			new_pub_section = PubSection(section = section, adminpublication = new_publication)
 			new_pub_section.save()
 	except Exception as e:
 		success = False
 	return JsonResponse({'success': success}, status = 200)
+def adminEditPublication(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	pub = AdminPublication.objects.get(pk=id)
+	gl_codes = GLCode.objects.all()
+	publications = AdminPublication.objects.all()
+	all_states = AllStates.objects.all()
+	pub_rategroups = PubRategroup.objects.filter(adminpublication=pub.id).select_related('rategroup')
+	assigned_rategroups = [{'id': pa.rategroup.id, 'name': pa.rategroup.name} for pa in pub_rategroups]
+	rategroup_ids = []
+	for pub_rategroup in pub_rategroups:
+		rategroup_ids.append(pub_rategroup.rategroup.id)
+
+	unsigned = RateGroup.objects.exclude(id__in=rategroup_ids)
+	unsigned_rategroups = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
+
+	pub_adminadtypes = PubAdType.objects.filter(adminpublication=pub.id).select_related('adminadtype')
+	assigned_adminadtypes = [{'id': pa.adminadtype.id, 'name': pa.adminadtype.name} for pa in pub_adminadtypes]
+	adminadtype_ids = []
+	for pub_adminadtype in pub_adminadtypes:
+		adminadtype_ids.append(pub_adminadtype.adminadtype.id)
+
+	unsigned = AdminAdType.objects.exclude(id__in=adminadtype_ids)
+	unsigned_adminadtypes = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
+	
+	pub_adminadjustments = PubAdjustment.objects.filter(adminpublication=pub.id).select_related('adminadjustment')
+	assigned_adminadjustments = [{'id': pa.adminadjustment.id, 'name': pa.adminadjustment.name} for pa in pub_adminadjustments]
+	adminadjustment_ids = []
+	for pub_adminadjustment in pub_adminadjustments:
+		adminadjustment_ids.append(pub_adminadjustment.adminadjustment.id)
+
+	unsigned = AdminAdjustment.objects.exclude(id__in=adminadjustment_ids)
+	unsigned_adminadjustments = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
+	
+	pub_sections = PubSection.objects.filter(adminpublication=pub.id).select_related('section')
+	assigned_sections = [{'id': pa.section.id, 'name': pa.section.name} for pa in pub_sections]
+	section_ids = []
+	for pub_section in pub_sections:
+		section_ids.append(pub_section.section.id)
+
+	unsigned = PublicationSection.objects.exclude(id__in=section_ids)
+	unsigned_sections = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
+	context = {
+        "access": "allow",
+        "message": "",
+        "gl_codes": gl_codes,
+				"publications": publications,
+				"all_states": all_states,
+				"assigned_rategroups": assigned_rategroups,
+				"unsigned_rategroups": unsigned_rategroups,
+				"assigned_adminadtypes": assigned_adminadtypes,
+				"unsigned_adminadtypes": unsigned_adminadtypes,
+				"assigned_adminadjustments": assigned_adminadjustments,
+				"unsigned_adminadjustments": unsigned_adminadjustments,
+				"assigned_sections": assigned_sections,	
+				"unsigned_sections": unsigned_sections,
+				"pub": pub,
+				"start_date": pub.start_date.isoformat(),
+				"end_date": pub.end_date.isoformat()
+    }
+	return render(request, 'admin/pubs/edit-publication.html', context)
 def adminNewPublication(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
@@ -507,7 +627,7 @@ def adminCreateRegion(request):
 		pub_regions = json.loads(data['publication_id'])
 		for id in pub_regions:
 			publication = AdminPublication.objects.get(pk=id)
-			new_pub_region = PubRegion(region = new_region, publication = publication)
+			new_pub_region = PubRegion(region = new_region, adminpublication = publication)
 			new_pub_region.save()
 	except Exception as e:
 		success = False
@@ -533,7 +653,7 @@ def adminEditRegion(request):
 	pub_ids = json.loads(data['publication_id'])
 	for id in pub_ids:
 		publication = AdminPublication.objects.get(pk=id)
-		new_pub_region = PubRegion(region=region, publication=publication)
+		new_pub_region = PubRegion(region=region, adminpublication=publication)
 		new_pub_region.save()
 
 	return JsonResponse({"errors": []}, status=200)
@@ -541,7 +661,7 @@ def adminRegionDetail(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	region = Region.objects.get(pk=data['id'])
-	pub_regions = PubRegion.objects.filter(region=region.id).select_related('publication')
+	pub_regions = PubRegion.objects.filter(region=region.id).select_related('adminpublication')
 	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_regions]
 	pub_ids = []
 	for pub_region in pub_regions:
