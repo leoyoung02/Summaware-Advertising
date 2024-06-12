@@ -87,7 +87,7 @@ function next_step(event, type) {
     document.querySelector('.review-page-height').textContent = page_height;
     document.querySelector('.review-page-border').textContent = page_border;
     document.querySelector('.review-gutter-size').textContent = gutter_size;
-  } else {
+  } else if(type == 'digital') {
     var product_mag = product.querySelector("#product-mag").value;
     var format = product.querySelector("#format").value;
     var ad_type = product.querySelector("#ad-type").value;
@@ -97,6 +97,35 @@ function next_step(event, type) {
     document.querySelector('.review-format').textContent = format;
     document.querySelector('.review-ad-type').textContent = ad_type;
     document.querySelector('.review-size').textContent = `${height} * ${width}`;
+  }
+  if(type == 'review-newspaper' || type == 'review-magazine' || type == 'review-digital') {
+    let form = $(`#${type.split('-')[1]}-standardsize-table`);
+    var formData = new FormData(form[0]);
+    let data = {};
+    var tbody = document.getElementById('review-standardsize-table-body');
+    tbody.innerHTML = '';
+    for (const [key, value] of formData) {
+        data[key] = value;
+        var id = key.split('-');
+        id = id[0];
+        if(value == 'active') {
+          var trElement = document.querySelector(`tr[data-index="${id}"]`);
+          var newRow = '<tr>';
+          if (trElement) {
+            const tdElements = trElement.querySelectorAll('td');
+            var i = 0;
+            tdElements.forEach(td => {
+                const tdData = td.textContent;
+                if(i == 5) newRow += `<td>Active</td>`;
+                else newRow += `<td>${tdData}</td>`;
+                i++;
+            });
+          }
+          newRow += '</tr>';
+          
+          tbody.insertAdjacentHTML('beforeend', newRow);
+        }
+    }
   }
 }
 

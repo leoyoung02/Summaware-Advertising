@@ -176,42 +176,43 @@
                   <h3 class="heading">Created Standard Size</h3>
                   <hr />
                 </div>
-
-                <div class="product-table-container mt-3">
-                  <table class="table product-table">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">No. of Columns</th>
-                        <th scope="col">Height</th>
-                        <th scope="col">Total Column In.</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="standardsize-table-body">
-                      {% for size in standardsizes %}
-                      <tr>
-                        <td>{{size.id}}</td>
-                        <td>{{size.description}}</td>
-                        <td>{{size.columns}}</td>
-                        <td>{{size.height}}</td>
-                        <td>2.25</td>
-                        <td>
-                          <div class="toggle-switch-container">
-                            <div class="switch-field">
-                              <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" checked />
-                              <label for="{{size.id}}-prodcut-radio-one">Active</label>
-                              <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" />
-                              <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
+                <form method="post" id="newspaper-standardsize-table">
+                  <div class="product-table-container mt-3">
+                    <table class="table product-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">No. of Columns</th>
+                          <th scope="col">Height</th>
+                          <th scope="col">Total Column In.</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="standardsize-table-body">
+                        {% for size in standardsizes %}
+                        <tr data-index="{{size.id}}">
+                          <td>{{size.id}}</td>
+                          <td>{{size.description}}</td>
+                          <td>{{size.columns}}</td>
+                          <td>{{size.height}}</td>
+                          <td>2.25</td>
+                          <td>
+                            <div class="toggle-switch-container">
+                              <div class="switch-field">
+                                <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" checked />
+                                <label for="{{size.id}}-prodcut-radio-one">Active</label>
+                                <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" />
+                                <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -219,7 +220,7 @@
 
         <div class="btn-container text-center">
           <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
-          <button class="btn btn-secondary" id="newspaper" onclick="next_step(event)">Next</button>
+          <button class="btn btn-secondary" id="review-newspaper" onclick="next_step(event)">Next</button>
         </div>
       </div>
 
@@ -311,15 +312,7 @@
                         <th scope="col">Status</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>0001</td>
-                        <td>Description</td>
-                        <td>4</td>
-                        <td>8</td>
-                        <td>2.25</td>
-                        <td>Active</td>
-                      </tr>
+                    <tbody id="review-standardsize-table-body">
                     </tbody>
                   </table>
                 </div>
