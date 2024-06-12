@@ -551,6 +551,38 @@ def adminNewMagazine(request):
 	)
 	task.save()
 	return JsonResponse(data)
+def adminEditMagazine(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	product = MagazineProduct.objects.get(pk=id)
+	standardsizes = StandardSize.objects.filter(type = 1)
+	return render(request, 'admin/products/edit-magazine.html', {'product': product, 'standardsizes': standardsizes})
+
+def adminSaveMagazine(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	product = MagazineProduct.objects.get(pk=id)
+	product.product_mag = data['product_mag']
+	product.measurement_type = data['measurement_type']
+	product.fold_orientation = data['fold_orientation']
+	product.height = data['height']
+	product.width = data['width']
+	product.columns = data['columns']
+	product.column_width = data['column_width']
+	product.page_width = data['page_width']
+	product.page_height = data['page_height']
+	product.page_border = data['page_border']
+	product.gutter_size = data['gutter_size']
+	success = True
+	try:
+		product.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({'success': success}, status = 200)
 
 def adminNewNewspaper(request):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -582,6 +614,39 @@ def adminNewNewspaper(request):
 	task.save()
 	return JsonResponse(data)
 
+def adminEditNewspaper(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	product = NewspaperProduct.objects.get(pk=id)
+	standardsizes = StandardSize.objects.filter(type = 2)
+	return render(request, 'admin/products/edit-newspaper.html', {'product': product, 'standardsizes': standardsizes})
+
+def adminSaveNewspaper(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	product = NewspaperProduct.objects.get(pk=id)
+	product.product_mag = data['product_mag']
+	product.measurement_type = data['measurement_type']
+	product.fold_orientation = data['fold_orientation']
+	product.height = data['height']
+	product.width = data['width']
+	product.columns = data['columns']
+	product.column_width = data['column_width']
+	product.page_width = data['page_width']
+	product.page_height = data['page_height']
+	product.page_border = data['page_border']
+	product.gutter_size = data['gutter_size']
+	success = True
+	try:
+		product.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({'success': success}, status = 200)
+
 def adminNewDigital(request):
 	if request.method == 'GET':
 		adtypes = AdminAdType.objects.all()
@@ -605,6 +670,35 @@ def adminNewDigital(request):
 	)
 	task.save()
 	return JsonResponse(data)
+
+def adminEditDigital(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	product = DigitalProduct.objects.get(pk=id)
+	adtypes = AdminAdType.objects.all()
+	standardsizes = StandardSize.objects.filter(type = 3)
+	return render(request, 'admin/products/edit-digital.html', {'product': product, 'standardsizes': standardsizes, 'adtypes': adtypes})
+
+def adminSaveDigital(request, id):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	body = request.body.decode('utf-8')
+	data = json.loads(body)
+	product = DigitalProduct.objects.get(pk=id)
+	product.product_mag = data['product_mag']
+	product.format = data['format']
+	product.adminadtype_id = data['adminadtype']
+	product.height = data['height']
+	product.width = data['width']
+	success = True
+	try:
+		product.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({'success': success}, status = 200)
+
 def adminCreateStandardSize(request):
 	body = request.body.decode('utf-8')
 	data = json.loads(body)

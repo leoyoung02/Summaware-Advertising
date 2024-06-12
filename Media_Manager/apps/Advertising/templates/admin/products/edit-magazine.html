@@ -2,7 +2,7 @@
 
 <div class="container mt-5 magazine">
   <div class="heading-container product text-center">
-    <h3 class="heading">New Magazine Product</h3>
+    <h3 class="heading">Edit Magazine Product</h3>
     <img class="img-fluid" src="{% static 'images/Magazine.png' %}" alt="Magazine" />
   </div>
 
@@ -24,13 +24,6 @@
           </div>
           <p class="step-label">Size Setup</p>
         </div>
-
-        <div class="progress-dot-container">
-          <div id="progress_2" class="progress-dot">
-            <span><i class="fa fa-solid fa-check"></i></span>
-          </div>
-          <p class="step-label">Review</p>
-        </div>
       </div>
 
       <div id="section1" class="section multistep-content mgb-3">
@@ -41,77 +34,79 @@
         <div class="section-content">
           <div class="row mgb-3">
             <div class="col-lg-6 col-md-12">
-              <div class="form-group mb-5">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="product-mag">Magazine Product:</label>
-                    <input type="text" name="" id="product-mag" class="form-control" required />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="measurement-type">Measurement Type:</label>
-                    <select name="" id="measurement-type" class="form-control" required>
-                      <option value="inch">Inch</option>
-                      <option value="cm">Cm</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group mb-5">
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <label for="orientation">Fold Orientation:</label>
-                    <select name="" id="orientation" class="form-control" required>
-                      <option value="horizontal">Horizontal</option>
-                      <option value="vertical">Vertical</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="orientation">Size:</label>
-                    <div class="double">
-                      <input type="text" name="" id="height" class="form-control" required />
-                      <strong class="px-1 font-weight-bold">X</strong>
-                      <input type="text" name="" id="width" class="form-control" required />
+              <form method="post" id="edit-magazine-form">
+                <div class="form-group mb-5">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="product-mag">Magazine Product:</label>
+                      <input type="text" name="product_mag" id="product-mag" class="form-control" value="{{product.product_mag}}" required />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="measurement-type">Measurement Type:</label>
+                      <select name="measurement_type" id="measurement-type" class="form-control" value="{{product.measurement_type}}" required>
+                        <option value="inch" {% if product.measurement_type == 'inch' %} selected {% endif %}>Inch</option>
+                        <option value="cm" {% if product.measurement_type == 'cm' %} selected {% endif %}>Cm</option>
+                      </select>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="columns">Columns Per Page: (Optional)</label>
-                    <input type="text" name="" id="columns" class="form-control" />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="column-width">Column Width: (Optional)</label>
-                    <input type="text" name="" id="column-width" class="form-control" />
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <label for="page-width">Page Width: (Optional)</label>
-                    <input type="text" name="" id="page-width" class="form-control" />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="page-height">Page Height: (Optional)</label>
-                    <input type="text" name="" id="page-height" class="form-control" />
+
+                <div class="form-group mb-5">
+                  <div class="row mb-5">
+                    <div class="col-md-6">
+                      <label for="orientation">Fold Orientation:</label>
+                      <select name="fold_orientation" id="orientation" class="form-control" value="{{product.fold_orientation}}" required>
+                        <option value="horizontal" {% if product.fold_orientation == 'horizontal' %} selected {% endif %}>Horizontal</option>
+                        <option value="vertical" {% if product.fold_orientation == 'vertical' %} selected {% endif %}>Vertical</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="orientation">Size:</label>
+                      <div class="double">
+                        <input type="text" name="height" id="height" class="form-control" value="{{product.height}}" required />
+                        <strong class="px-1 font-weight-bold">X</strong>
+                        <input type="text" name="width" id="width" class="form-control" value="{{product.width}}" required />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="page-border">Page Border: (Optional)</label>
-                    <input type="text" name="" id="page-border" class="form-control" />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="gutter-size">Gutter Size: (Optional)</label>
-                    <input type="text" name="" id="gutter-size" class="form-control" />
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="columns">Columns Per Page: (Optional)</label>
+                      <input type="text" name="columns" id="columns" class="form-control" value="{{product.columns}}"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="column-width">Column Width: (Optional)</label>
+                      <input type="text" name="column_width" id="column-width" class="form-control" value="{{product.column_width}}"/>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class="form-group">
+                  <div class="row mb-5">
+                    <div class="col-md-6">
+                      <label for="page-width">Page Width: (Optional)</label>
+                      <input type="text" name="page_width" id="page-width" class="form-control" value="{{product.page_width}}"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="page-height">Page Height: (Optional)</label>
+                      <input type="text" name="page_height" id="page-height" class="form-control" value="{{product.page_height}}"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="page-border">Page Border: (Optional)</label>
+                      <input type="text" name="page_border" id="page-border" class="form-control" value="{{product.page_border}}"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="gutter-size">Gutter Size: (Optional)</label>
+                      <input type="text" name="gutter_size" id="gutter-size" class="form-control" value="{{product.gutter_size}}"/>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
             <div class="col-lg-6 col-md-12">
               <div class="measurement-container text-center">
@@ -220,132 +215,7 @@
 
         <div class="btn-container text-center">
           <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
-          <button class="btn btn-secondary" id="magazine" onclick="next_step(event)">Next</button>
-        </div>
-      </div>
-
-      <div id="section3" class="section multistep-content hide">
-        <div class="heading-container text-center">
-          <h3 class="heading">Review</h3>
-        </div>
-
-        <div class="section-content">
-          <div class="row mgb-3">
-            <div class="col-lg-4 col-md-12">
-              <div class="product-info">
-                <div class="heading-container text-center">
-                  <h3 class="heading">Product Info</h3>
-                  <hr />
-                </div>
-
-                <div class="info-container">
-                  <span>Magazine Product:</span>
-                  <span class="d-block font-weight-bold review-product-mag">Mini Mag</span>
-                </div>
-
-                <div class="info-container">
-                  <span>Fold Orientation: <span class="color-primary review-orientation">*</span></span>
-                </div>
-
-                <div class="info-container">
-                  <span>Size: <span class="color-primary review-size">*</span></span>
-                </div>
-
-                <div class="info-container">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="page-columns">
-                        <span>Columns Per Page: (optional)</span>
-                        <div class="value-container d-flex justify-content-between">
-                          <span class="value review-columns"></span>
-                          <span class="inch">In</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="page-height">
-                        <span>Page Height: (optional)</span>
-                        <div class="value-container d-flex justify-content-between">
-                          <span class="value review-page-height"></span>
-                          <span class="inch">In</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="page-border">
-                      <div>Page Border: (optional)</div>
-                      <span class="review-page-border"></span>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="gutter-size">
-                      <span>Gutter Size: (optional)</span>
-                      <div class="value-container d-flex justify-content-between">
-                        <span class="value review-gutter-size"></span>
-                        <span class="inch">In</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8 col-md-12">
-              <div class="created-sizes-container">
-                <div class="heading-container">
-                  <h3 class="heading">Applied Standard Size</h3>
-                  <hr />
-                </div>
-
-                <div class="product-table-container mt-3">
-                  <table class="table product-table">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">No. of Columns</th>
-                        <th scope="col">Height</th>
-                        <th scope="col">Total Column In.</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>0001</td>
-                        <td>Description</td>
-                        <td>4</td>
-                        <td>8</td>
-                        <td>2.25</td>
-                        <td>Active</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="btn-container text-center">
-          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
-          <button class="btn btn-secondary" onclick="create_product('magazine')">Create Product</button>
-        </div>
-      </div>
-      <div id="section4" class="section multistep-content hide">
-        <div class="section-content">
-          <div class="complete-product-container text-center">
-            <h3 class="heading">Product has been created!</h3>
-            <div class="big-check mx-auto my-5">
-              <i class="fa fa-solid fa-check"></i>
-            </div>
-            <div class="btn-container d-flex justify-content-around">
-              <a href="" class="btn btn-gray">Create Another Product</a>
-              <a href="{% url 'adminGeneral' %}" class="btn btn-secondary">Return to Products</a>
-            </div>
-          </div>
+          <button class="btn btn-secondary" id="magazine" onclick="saveChange({{product.id}})">Save Changes</button>
         </div>
       </div>
     </div>
@@ -358,6 +228,31 @@
         cookie[k.trim()] = v;
       })
       return cookie[name];
+    }
+    function saveChange(id) {
+      let form = $('#edit-magazine-form');
+      var formData = new FormData(form[0]);
+      let data = {};
+      
+      for (const [key, value] of formData) {
+          data[key] = value;
+      }
+      fetch(`${id}/save`, {
+          method: 'POST',
+          headers: {
+              "X-CSRFToken": getCookie('csrftoken'),
+              "Accept": "application/json",
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(data => {
+          $.toastr.success('Saved Success');
+      })
+      .catch(error => {
+          $.toastr.error("Saved failure");
+      });
     }
     function createStandardSize() {
       let form = $('#standardsize-form');
