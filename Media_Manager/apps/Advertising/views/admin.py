@@ -243,7 +243,7 @@ def adminCreateAdjustment(request):
 		new_pub_adjustment.save()
 	return JsonResponse({"errors": []}, status=200)
 
-def adminPricingSaveRate(request, groupId):
+def adminPricingSaveRateGroup(request, groupId):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + "advertising")
 
@@ -251,28 +251,52 @@ def adminPricingSaveRate(request, groupId):
 		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
 
 	data = json.loads(request.body.decode('utf-8'))
+	print(data)
 	rategroup = RateGroup.objects.get(pk=groupId)
 	rategroup.name = data['name']
 	rategroup.description = data['description']
-	publications = PubRategroup.objects.filter(rategroup=rategroup)
-	for publication in publications:
-		publication.delete()
-	pub_ids = json.loads(data['assigned_publications'])
-	for id in pub_ids:
-		publication = AdminPublication.objects.get(pk=id)
-		new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = publication)
-		new_pub_rategroup.save()
 	if data['status'] != -1:
 		rategroup.status = data['status']
 	if data['active'] != -1:
 		rategroup.active = data['active']
-	rategroup.save()
-	return JsonResponse({"errors": []}, status=200)
+	success = True
+	try:
+		rategroup.save()
+		publications = PubRategroup.objects.filter(rategroup=rategroup)
+		for publication in publications:
+			publication.delete()
+		pub_ids = json.loads(data['assigned_publications'])
+		for id in pub_ids:
+			publication = AdminPublication.objects.get(pk=id)
+			new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = publication)
+			new_pub_rategroup.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success": success}, status=200)
+
 def adminPricingEditRate(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	return render(request, 'admin/pricing/edit-rate.html')
+
+def adminPricingCreateRateGroup(request):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	rategroup = RateGroup(name = data['name'], description = data['description'], active = data['active'])
+	success = True
+	try:
+		rategroup.save()
+		pub_ids = json.loads(data['publication_id'])
+		for id in pub_ids:
+			publication = AdminPublication.objects.get(pk=id)
+			new_pub_rategroup = PubRategroup(rategroup = rategroup, adminpublication = publication)
+			new_pub_rategroup.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success": success}, status=200)
 def adminPricingEditRateGroup(request, groupId):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
@@ -291,10 +315,10 @@ def adminPricingEditRateGroup(request, groupId):
 	extra_groups = RateGroup.objects.exclude(id=groupId)
 	
 	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('adminpublication')
-	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_rategroups]
+	assigned_publications = [{'id': pa.adminpublication.id, 'name': pa.adminpublication.name} for pa in pub_rategroups]
 	pub_ids = []
 	for pub_rategroup in pub_rategroups:
-		pub_ids.append(pub_rategroup.publication.id)
+		pub_ids.append(pub_rategroup.adminpublication.id)
 
 	pub_rategroups = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_rategroups]
@@ -308,7 +332,7 @@ def adminPricingEditRateGroup(request, groupId):
 		'extra_groups': extra_groups,
 		'rates': rates,
 	}
-	return render(request, 'admin/pricing/edit-rate.html', context)
+	return render(request, 'admin/pricing/edit-rategroup.html', context)
 
 def adminPricingCreateRate(request, groupId):
 	# Check if user is logged in, if not, redirect  to login screen

@@ -14,7 +14,7 @@ class RateGroup(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True)
     active = models.BooleanField(default=True)
-    status = models.IntegerField()
+    status = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name

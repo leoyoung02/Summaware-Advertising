@@ -1,4 +1,4 @@
-{% include 'templates/partials/modal/admin/pricing/_new-rate.html'%} {% include 'templates/partials/modal/admin/pricing/_edit-rate.html'%}
+{% include 'templates/partials/modal/admin/pricing/_new-rategroup.html'%} {% include 'templates/partials/modal/admin/pricing/_edit-rate.html'%}
 <div class="multisteps-form__panel p-4 rounded" data-animation="scaleIn">
   <div class="heading-arrows-container d-flex justify-content-between">
     <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <div class="filter-container">
-          <button class="btn btn-secondary mb-1" onclick="document.getElementById('newRate').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Rate</button>
+          <button class="btn btn-secondary mb-1" onclick="document.getElementById('newRateGroup').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-plus"></i> New Rate Group</button>
           <div class="filters ps-3 d-flex align-items-center"><a href="" class="active">Active</a>&nbsp;|&nbsp;<a href="">Inactive</a>&nbsp;|&nbsp;<a href="">Archived</a></div>
         </div>
       </div>
@@ -40,26 +40,27 @@
         </tr>
       </thead>
       <tbody>
+        {% for rategroup in rategroups %}
         <tr>
-          <td>0001</td>
-          <td><a href="#">Rate Group Name</a></td>
-          <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+          <td>{{rategroup.id}}</td>
+          <td><a href="#">{{rategroup.name}}</a></td>
+          <td>{{rategroup.description}}</td>
           <td><a href="#">See Assigned</a></td>
           <td>
             <div class="rates-switch-container">
               <div class="switch-field">
-                <input type="radio" id="0001-rate-radio-one" name="0001-rate-switch-one" value="active" checked />
-                <label for="0001-rate-radio-one">Active</label>
-                <input type="radio" id="0001-rate-radio-two" name="0001-rate-switch-one" value="inactive" />
-                <label for="0001-rate-radio-two">Inactive</label>
+                <input type="radio" id="{{rategroup.id}}-rate-radio-one" name="{{rategroup.id}}-rate-switch-one" value="active" {{rategroup.active|yesno:"checked, unchecked"}} />
+                <label for="{{rategroup.id}}-rate-radio-one">Active</label>
+                <input type="radio" id="{{rategroup.id}}-rate-radio-two" name="{{rategroup.id}}-rate-switch-one" value="inactive" {{rategroup.active|yesno:"unchecked, checked"}} />
+                <label for="{{rategroup.id}}-rate-radio-two">Inactive</label>
               </div>
             </div>
           </td>
           <td>
-            <span class="mgr-1" onclick="document.getElementById('editRate').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
-            <span><i class="fa fa-solid fa-envelope-open"></i></span>
+            <a href="{% url 'adminPricingEditRateGroup' groupId=rategroup.id %}"><i class="fa fa-solid fa-envelope-open"></i></a>
           </td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
