@@ -179,6 +179,7 @@ urlpatterns = [
 	path('adadmin/pricing/create-rategroup', views.adminPricingCreateRateGroup, name='adminPricingCreateRateGroup'),
 	path('adadmin/pricing/edit-rategroup/<int:groupId>', views.adminPricingEditRateGroup, name='adminPricingEditRateGroup'),
 	path('adadmin/pricing/edit-rategroup/<int:groupId>/save', views.adminPricingSaveRateGroup, name='adminPricingSaveRateGroup'),
+	path('adadmin/pricing/edit-rategroup/<int:groupId>/create-rate', views.adminPricingCreateRate, name='adminPricingCreateRate'),
 	path('adadmin/pubs/new-publication', views.adminNewPublication, name='adminNewPublication'),
   path('adadmin/pubs/create-publication', views.adminCreatePublication, name='adminCreatePublication'),
   path('adadmin/pubs/edit-publication/<int:id>', views.adminEditPublication, name='adminEditPublication'),

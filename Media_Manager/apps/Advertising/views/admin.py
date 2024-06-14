@@ -313,7 +313,6 @@ def adminPricingEditRateGroup(request, groupId):
 	adtypes = AdType.objects.all()
 	glcodes = GLCode.objects.all()
 	extra_groups = RateGroup.objects.exclude(id=groupId)
-	
 	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('adminpublication')
 	assigned_publications = [{'id': pa.adminpublication.id, 'name': pa.adminpublication.name} for pa in pub_rategroups]
 	pub_ids = []
@@ -342,15 +341,19 @@ def adminPricingCreateRate(request, groupId):
 	new_rate = Rate(name=data['name'], pricing=data['pricing'], measurement_type=data['measurement_type'], tax_category=data['tax_category'], override_privileges=data['override_privileges'], 
 								 assigned_groups=data['assigned_groups'], ad_type_id=data['ad_type'], start_date=data['start_date'], end_date=data['end_date'],
 								 insertion_min=data['insertion_min'], insertion_max=data['insertion_max'], line_for_ad_min=data['line_for_ad_min'], line_for_ad_max=data['line_for_ad_max'],
-								 insertions_count=data['insertions_count'], base_cost=data['base_cost'], lines_count=data['lines_count'], additional_cost=data['additional_cost'], 
-								 additional_lines_count=data['additional_lines_count'], charge_for=data['charge_for'], default_gl_code_id=data['default_gl_code'])
-	new_rate.save()
-	extra_groups = json.loads(data['extra_groups'])
-	for id in extra_groups:
-		rategroup = RateGroup.objects.get(pk=id)
-		new_extra_group = ExtraRateGroup(rate=new_rate, rategroup=rategroup)
-		new_extra_group.save()
-	return JsonResponse({"errors": []}, status=200)
+								 insertion_count=data['insertion_count'], base_cost=data['base_cost'], base_count=data['base_count'], additional_cost=data['additional_cost'], 
+								 additional_count=data['additional_count'], charge_for=data['charge_for'], default_gl_code_id=data['default_gl_code'])
+	success = True
+	try:
+		new_rate.save()
+		extra_groups = json.loads(data['extra_groups'])
+		for id in extra_groups:
+			rategroup = RateGroup.objects.get(pk=id)
+			new_extra_group = ExtraRateGroup(rate=new_rate, rategroup=rategroup)
+			new_extra_group.save()
+	except Exception as e:
+		success = False
+	return JsonResponse({"success": success}, status=200)
 def adminClassifieds(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
