@@ -274,11 +274,66 @@ def adminPricingSaveRateGroup(request, groupId):
 		success = False
 	return JsonResponse({"success": success}, status=200)
 
-def adminPricingEditRate(request):
+def adminPricingSaveRate(request, groupId):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/pricing/edit-rate.html')
+	data = json.loads(request.body.decode('utf-8'))
+	rate = Rate.objects.get(pk = int(data['id']))
+	rate.name=data['name']
+	rate.pricing=data['pricing']
+	rate.measurement_type=data['measurement_type']
+	rate.tax_category=data['tax_category']
+	rate.override_privileges=data['override_privileges']
+	rate.assigned_groups=data['assigned_groups']
+	rate.ad_type_id=data['ad_type']
+	rate.start_date=data['start_date']
+	rate.end_date=data['end_date']
+	rate.insertion_min=data['insertion_min']
+	rate.insertion_max=data['insertion_max']
+	rate.line_for_ad_min=data['line_for_ad_min']
+	rate.line_for_ad_max=data['line_for_ad_max']
+	rate.insertion_count=data['insertion_count']
+	rate.base_cost=data['base_cost']
+	rate.base_count=data['base_count']
+	rate.additional_cost=data['additional_cost']
+	rate.additional_count=data['additional_count']
+	rate.charge_for=data['charge_for']
+	rate.default_gl_code_id=data['default_gl_code']
+	success = True
+	try:
+		rate.save()
+		# extra_groups = ExtraRateGroup.objects.filter(rate = rate)
+		# for group in extra_groups:
+		# 	group.delete()
+		# extra_groups = json.loads(data['extra_groups'])
+		# for id in extra_groups:
+		# 	rategroup = RateGroup.objects.get(pk=id)
+		# 	new_extra_group = ExtraRateGroup(rate=rate, rategroup=rategroup)
+		# 	new_extra_group.save()
+	except Exception as e:
+		print(e)
+		success = False
+	return JsonResponse({"success": success}, status=200)
+
+def adminPricingEditRate(request, groupId):
+	# Check if user is logged in, if not, redirect  to login screen
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + '/')
+	data = json.loads(request.body.decode('utf-8'))
+	print(data)
+	rate = Rate.objects.get(pk = data['id'])
+	extra_groups = ExtraRateGroup.objects.filter(rate = data['id']).select_related('rategroup')
+	assigned_groups = [{'id': pa.rategroup.id, 'name': pa.rategroup.name} for pa in extra_groups]
+	print(assigned_groups)
+	response_data = {
+			'id': rate.id,
+			'rate': serializers.serialize('json', [rate]),
+			'start_date': rate.start_date.isoformat(),
+			'end_date': rate.end_date.isoformat(),
+			'assigned_groups': assigned_groups,
+	}
+	return JsonResponse(response_data)
 
 def adminPricingCreateRateGroup(request):
 	# Check if user is logged in, if not, redirect  to login screen

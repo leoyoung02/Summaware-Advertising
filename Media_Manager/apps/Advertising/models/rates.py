@@ -40,8 +40,8 @@ class Rate(models.Model):
     assigned_groups = models.BooleanField(default=True)
     ad_type = models.ForeignKey(AdType, on_delete=CASCADE)
     # ad_type = models.IntegerField(max_length = 14)
-    start_date = models.CharField(max_length=100, blank=False)
-    end_date = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
     insertion_min = models.CharField(max_length=255)
     insertion_max = models.CharField(max_length=255)
     line_for_ad_min = models.CharField(max_length=255)
@@ -55,7 +55,7 @@ class Rate(models.Model):
     account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     default_gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE)
-    status = models.IntegerField()
+    status = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name

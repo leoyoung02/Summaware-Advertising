@@ -12,7 +12,7 @@ function next_step(event, type) {
 
   // Get the button that triggered the function
   var button = event.target;
-
+  var parent = button.closest('.multistep-container');
   // Get the closest form section to the button
   var currentSection = button.closest('.multistep-content');
 
@@ -52,7 +52,7 @@ function next_step(event, type) {
   nextSection.classList.remove('hide');
 
   // Get all progress icons within the specified form
-  var progressIcons = document.querySelectorAll('.progress-icons > .progress-dot-container > div');
+  var progressIcons = parent.querySelectorAll('.progress-icons > .progress-dot-container > div');
 
   // Find the index of the current active progress icon
   var currentIndex;
@@ -70,6 +70,7 @@ function next_step(event, type) {
   // Hide the current section
   currentSection.classList.add('hide');
   var type = button.id
+  if(type == '') return;
   var product = document.querySelector(`.${type}`);
   if(type == 'magazine' || type == 'newspaper') {
     var product_mag = product.querySelector("#product-mag").value;
@@ -129,9 +130,11 @@ function next_step(event, type) {
   }
 }
 
-function previous_step() {
+function previous_step(event) {
+  var button = event.target;
+  var parent = button.closest('.multistep-container');
   // Get the current active section
-  var currentSection = document.querySelector('.multistep-content:not(.hide)');
+  var currentSection = parent.querySelector('.multistep-content:not(.hide)');
 
   // Find the previous section
   var previousSection = currentSection.previousElementSibling;
@@ -143,7 +146,7 @@ function previous_step() {
   previousSection.classList.remove('hide');
 
   // Get all progress icons
-  var progressIcons = document.querySelectorAll('.progress-icons > .progress-dot-container > div');
+  var progressIcons = parent.querySelectorAll('.progress-icons > .progress-dot-container > div');
 
   // Find the index of the current active progress icon
   var currentIndex;
@@ -162,12 +165,14 @@ function previous_step() {
   currentSection.classList.add('hide');
 }
 
-function create_product(type) {
+function create_product(event, type = '') {
+  var button = event.target;
+  var parent = button.closest('.multistep-container');
   // Get the current active section
-  var currentSection = document.querySelector('.multistep-content:not(.hide)');
+  var currentSection = parent.querySelector('.multistep-content:not(.hide)');
 
   // Find the last section
-  var lastSection = document.querySelector('.multistep-content:last-of-type');
+  var lastSection = parent.querySelector('.multistep-content:last-of-type');
 
   // If the current section is the last section, exit the function
   if (currentSection === lastSection) return;
@@ -176,7 +181,7 @@ function create_product(type) {
   lastSection.classList.remove('hide');
 
   // Get all progress icons
-  var progressIcons = document.querySelectorAll('.progress-icons > div');
+  var progressIcons = parent.querySelectorAll('.progress-icons > div');
 
   // Add the 'progress-active' class to the last progress icon
   progressIcons[progressIcons.length - 1].classList.add('progress-active');
@@ -184,7 +189,7 @@ function create_product(type) {
   // Hide the current section
   currentSection.classList.add('hide');
   let data = {};
-  var product = document.querySelector(`.${type}`);
+  var product = parent.querySelector(`.${type}`);
   if(type == 'magazine' || type == 'newspaper') {
     var product_mag = product.querySelector("#product-mag").value;
     var measurement_type = product.querySelector("#measurement-type").value;

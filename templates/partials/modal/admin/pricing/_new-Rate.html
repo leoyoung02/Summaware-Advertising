@@ -2,7 +2,7 @@
   <div class="custom-modal-content">
     <span class="close" onclick="document.getElementById('newRate').style.display='none'">&times;</span>
 
-    <div class="multistep-container mgt-5 mgb-100">
+    <div class="multistep-container mgt-5 mgb-100 new-rate-container">
       {% load static %}
       <div class="c-card">
         <div class="heading-container text-center mb-5" style="position: relative; z-index: 2">
@@ -805,6 +805,7 @@
 
 <script>
   function createRate(id) {
+    var parent = document.querySelector('.new-rate-container');
     let form = $('#new-rate-info-form');
     var formData = new FormData(form[0]);
     let data = {};
@@ -813,7 +814,7 @@
         data[key] = value;
     }
 
-    var selectElement = document.getElementById('extra_lstBox1');
+    var selectElement = parent.querySelector('#extra_lstBox1');
     var values = [id];
     
     for (var i = 0; i < selectElement.options.length; i++) {
@@ -922,18 +923,21 @@
     })
   }
   document.getElementById('assigned_groups-one').addEventListener('change', function (event) {
+    var parent = document.querySelector('.new-rate-container');
     if(event.target.checked) {
-      document.getElementById('select_extra_group').style.display='block';
+      parent.querySelector('#select_extra_group').style.display='block';
     }
   })
   document.getElementById('assigned_groups-two').addEventListener('change', function (event) {
+    var parent = document.querySelector('.new-rate-container');
     if(event.target.checked) {
-      document.getElementById('select_extra_group').style.display='none';
+      parent.querySelector('#select_extra_group').style.display='none';
     }
   })
   document.addEventListener('DOMContentLoaded', function () {
-    var measurementSelect = document.getElementById('measurementSelect');
-    var sections = document.querySelectorAll('#section3 .content .measurment-container');
+    var parent = document.querySelector('.new-rate-container');
+    var measurementSelect = parent.querySelector('#measurementSelect');
+    var sections = parent.querySelectorAll('#section3 .content .measurment-container');
 
     measurementSelect.addEventListener('change', function () {
       // Hide all sections
@@ -943,7 +947,7 @@
 
       // Show the selected section
       var selectedValue = measurementSelect.value;
-      var selectedSection = document.getElementById(selectedValue);
+      var selectedSection = parent.querySelector(`#${selectedValue}`);
       if (selectedSection) {
         selectedSection.classList.remove('hide');
       }
@@ -951,10 +955,11 @@
   });
 
   document.addEventListener('DOMContentLoaded', function () {
-    var flatRateRadio = document.getElementById('flat-rate-radio');
-    var cpmRadio = document.getElementById('cpm-radio');
-    var flatRateDiv = document.getElementById('flat-rate');
-    var cpmDiv = document.getElementById('CPM');
+    var parent = document.querySelector('.new-rate-container');
+    var flatRateRadio = parent.querySelector('#flat-rate-radio');
+    var cpmRadio = parent.querySelector('#cpm-radio');
+    var flatRateDiv = parent.querySelector('#flat-rate');
+    var cpmDiv = parent.querySelector('#CPM');
 
     function toggleVisibility() {
       if (flatRateRadio.checked) {
