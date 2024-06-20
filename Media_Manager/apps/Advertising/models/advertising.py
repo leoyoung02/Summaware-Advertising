@@ -312,8 +312,27 @@ class Adjustment(models.Model):
 
     def __str__(self):
         return self.code
+class DigitalSize(models.Model):
+    product = models.ForeignKey('DigitalProduct', on_delete=models.CASCADE)
+    size = models.ForeignKey('StandardSize', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_digital_size'
+
+class MagazineSize(models.Model):
+    product = models.ForeignKey('MagazineProduct', on_delete=models.CASCADE)
+    size = models.ForeignKey('StandardSize', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_magazine_size'
+        
+class NewspaperSize(models.Model):
+    product = models.ForeignKey('NewspaperProduct', on_delete=models.CASCADE)
+    size = models.ForeignKey('StandardSize', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'advertising_Newspaper_size'
 class MagazineProduct(models.Model):
-    id = models.AutoField(primary_key=True, default=None)
     product_mag = models.TextField(null=True)
     measurement_type = models.TextField(null=True)
     fold_orientation = models.TextField(null=True)
@@ -333,7 +352,6 @@ class MagazineProduct(models.Model):
         return self.code
     
 class NewspaperProduct(models.Model):
-    id = models.AutoField(primary_key=True)
     product_mag = models.TextField(null=True)
     measurement_type = models.TextField(null=True)
     fold_orientation = models.TextField(null=True)
@@ -353,7 +371,6 @@ class NewspaperProduct(models.Model):
         return self.code
 
 class DigitalProduct(models.Model):
-    id = models.AutoField(primary_key=True)
     product_mag = models.TextField(null=True)
     format = models.TextField(null=True)
     adminadtype = models.ForeignKey('AdminAdType', on_delete=models.CASCADE)

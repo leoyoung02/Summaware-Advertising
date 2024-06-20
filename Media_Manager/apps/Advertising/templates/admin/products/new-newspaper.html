@@ -7,8 +7,8 @@
 
   <div class="breadcrumb"><a href="{% url 'admin' %}">Admin Home</a></div>
 
-  <div class="multistep-container mgb-3 newspaper">
-    <div class="c-card">
+  <div class="multistep-container mgb-3">
+    <div class="c-card newspaper">
       <div class="progress-icons">
         <div class="progress-dot-container">
           <div id="progress_0" class="progress-dot progress-active">
@@ -404,7 +404,7 @@
             }
             var newRow = `
             <tr>
-              <td>${Number(lastRateId) + 1}</td>
+              <td>${res.id}</td>
               <td>${data['description']}</td>
               <td>${data['columns']}</td>
               <td>${data['height']}</td>

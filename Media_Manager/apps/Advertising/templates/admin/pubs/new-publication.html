@@ -114,6 +114,7 @@
             <div class="form-group w50 center-block text-left">
               <label for="state">Parent Publication (optional):</label>
               <select name="parent_id" id="state" class="form-control">
+                <option value="0">None</option>
                 {% for publication in publications %}
                 <option value="{{publication.id}}">{{publication.name}}</option>
                 {% endfor %}
@@ -171,16 +172,16 @@
                   </div>
                   <div class="toggle-switch-container">
                     <div class="switch-field">
-                      <input type="radio" id="0001-override-radio-one" name="gl_override" value="Yes" checked />
+                      <input type="radio" id="0001-override-radio-one" name="gl_override" value="Yes" />
                       <label for="0001-override-radio-one">Yes</label>
-                      <input type="radio" id="0001-override-radio-two" name="gl_override" value="No" />
+                      <input type="radio" id="0001-override-radio-two" name="gl_override" value="No" checked/>
                       <label for="0001-override-radio-two">No</label>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-12 col-lg-6">
                   <label for="">GL Code:</label>
-                  <select name="gl_code" id="" class="form-control">
+                  <select name="gl_code" id="gl_code" class="form-control" disabled>
                     {% for gl_code in gl_codes %}
                     <option value="{{gl_code.id}}">{{gl_code.code}}</option>
                     {% endfor %}
@@ -443,6 +444,16 @@
       }).catch((error) => {
       })
     }
+    document.getElementById('0001-override-radio-one').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('#gl_code').disabled = false;
+      }
+    })
+    document.getElementById('0001-override-radio-two').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('#gl_code').disabled = true;
+      }
+    })
   </script>
 </div>
 

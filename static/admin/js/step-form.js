@@ -165,7 +165,7 @@ function previous_step(event) {
   currentSection.classList.add('hide');
 }
 
-function create_product(event, type = '') {
+function create_product(event, type) {
   var button = event.target;
   var parent = button.closest('.multistep-container');
   // Get the current active section
@@ -190,6 +190,13 @@ function create_product(event, type = '') {
   currentSection.classList.add('hide');
   let data = {};
   var product = parent.querySelector(`.${type}`);
+  console.log(product);
+  const tbody = document.getElementById('review-standardsize-table-body');
+  const rows = tbody.getElementsByTagName('tr');
+  var sizes = [];
+  for(var i = 0; i < rows.length; i++) {
+    sizes.push(Number(rows[i].getElementsByTagName('td')[0].innerText));
+  }
   if(type == 'magazine' || type == 'newspaper') {
     var product_mag = product.querySelector("#product-mag").value;
     var measurement_type = product.querySelector("#measurement-type").value;
@@ -215,6 +222,7 @@ function create_product(event, type = '') {
       page_height : page_height ? page_height : 0,
       page_border : page_border ? page_border : 0,
       gutter_size : gutter_size ? gutter_size : 0,
+      sizes: sizes
     }
   } else {
     var product_mag = product.querySelector("#product-mag").value;
@@ -228,7 +236,8 @@ function create_product(event, type = '') {
       adminadtype : ad_type,
       height : height ? height : 0,
       width : width ? width : 0,
-  }
+      sizes: sizes
+    }
   }
   fetch(`/advertising/adadmin/financial/new-${type}`, {
       method: 'POST',
@@ -241,7 +250,11 @@ function create_product(event, type = '') {
   })
   .then(response => response.json())
   .then(data => {
-      $.toastr.success('Saved Success');
+      if(data.success == true) {
+        $.toastr.success('Saved Success');
+      } else {
+        $.toastr.error('Saved Failure');
+      }
   })
   .catch(error => {
       $.toastr.error("Saved failure");

@@ -618,7 +618,6 @@ def adminNewMagazine(request):
 		max_id = 0
 	new_id = max_id + 1 if max_id is not None else 1
 	task = MagazineProduct(
-		id=new_id,
 		product_mag =  data['product_mag'],
 		measurement_type = data['measurement_type'],
 		fold_orientation = data['fold_orientation'],
@@ -631,15 +630,35 @@ def adminNewMagazine(request):
 		page_border = data['page_border'],
 		gutter_size = data['gutter_size']
 	)
-	task.save()
-	return JsonResponse(data)
+	success = True
+	try:
+		task.save()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			print(size)
+			new_product_size = MagazineSize(product = task, size = size)
+			new_product_size.save()
+	except Exception as e:
+		success = False
+		print(e)
+	return JsonResponse({'success': success}, status = 200)
 def adminEditMagazine(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	product = MagazineProduct.objects.get(pk=id)
 	standardsizes = StandardSize.objects.filter(type = 1)
-	return render(request, 'admin/products/edit-magazine.html', {'product': product, 'standardsizes': standardsizes})
+	selectedsizes = MagazineSize.objects.filter(product = product)
+	sizes = []
+	for size in standardsizes:
+		active = False
+		for selected in selectedsizes:
+			if size.id == selected.size_id:
+				sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': True})
+				active = True
+		if active == False:
+			sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': False})
+	return render(request, 'admin/products/edit-magazine.html', {'product': product, 'standardsizes': sizes})
 
 def adminSaveMagazine(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -662,6 +681,13 @@ def adminSaveMagazine(request, id):
 	success = True
 	try:
 		product.save()
+		sizes = MagazineSize.objects.filter(product = product)
+		for size in sizes:
+			size.delete()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			new_product_size = MagazineSize(product = product, size = size)
+			new_product_size.save()
 	except Exception as e:
 		success = False
 	return JsonResponse({'success': success}, status = 200)
@@ -680,7 +706,6 @@ def adminNewNewspaper(request):
 		max_id = 0
 	new_id = max_id + 1 if max_id is not None else 1
 	task = NewspaperProduct(
-		id=new_id,
 		product_mag =  data['product_mag'],
 		measurement_type = data['measurement_type'],
 		fold_orientation = data['fold_orientation'],
@@ -693,8 +718,18 @@ def adminNewNewspaper(request):
 		page_border = data['page_border'],
 		gutter_size = data['gutter_size']
 	)
-	task.save()
-	return JsonResponse(data)
+	success = True
+	try:
+		task.save()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			print(size)
+			new_product_size = NewspaperSize(product = task, size = size)
+			new_product_size.save()
+	except Exception as e:
+		success = False
+		print(e)
+	return JsonResponse({'success': success}, status = 200)
 
 def adminEditNewspaper(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -702,7 +737,17 @@ def adminEditNewspaper(request, id):
 		return redirect(login_redirect + '/')
 	product = NewspaperProduct.objects.get(pk=id)
 	standardsizes = StandardSize.objects.filter(type = 2)
-	return render(request, 'admin/products/edit-newspaper.html', {'product': product, 'standardsizes': standardsizes})
+	selectedsizes = NewspaperSize.objects.filter(product = product)
+	sizes = []
+	for size in standardsizes:
+		active = False
+		for selected in selectedsizes:
+			if size.id == selected.size_id:
+				sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': True})
+				active = True
+		if active == False:
+			sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': False})
+	return render(request, 'admin/products/edit-newspaper.html', {'product': product, 'standardsizes': sizes})
 
 def adminSaveNewspaper(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -725,6 +770,13 @@ def adminSaveNewspaper(request, id):
 	success = True
 	try:
 		product.save()
+		sizes = NewspaperSize.objects.filter(product = product)
+		for size in sizes:
+			size.delete()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			new_product_size = NewspaperSize(product = product, size = size)
+			new_product_size.save()
 	except Exception as e:
 		success = False
 	return JsonResponse({'success': success}, status = 200)
@@ -743,15 +795,23 @@ def adminNewDigital(request):
 		max_id = 0
 	new_id = max_id + 1 if max_id is not None else 1
 	task = DigitalProduct(
-		id=new_id,
 		product_mag =  data['product_mag'],
 		format = data['format'],
 		adminadtype_id = data['adminadtype'],
 		height = data['height'],
 		width = data['width'],
 	)
-	task.save()
-	return JsonResponse(data)
+	success = True
+	try:
+		task.save()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			new_product_size = DigitalSize(product = task, size = size)
+			new_product_size.save()
+	except Exception as e:
+		success = False
+		print(e)
+	return JsonResponse({'success': success}, status = 200)
 
 def adminEditDigital(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -760,7 +820,17 @@ def adminEditDigital(request, id):
 	product = DigitalProduct.objects.get(pk=id)
 	adtypes = AdminAdType.objects.all()
 	standardsizes = StandardSize.objects.filter(type = 3)
-	return render(request, 'admin/products/edit-digital.html', {'product': product, 'standardsizes': standardsizes, 'adtypes': adtypes})
+	selectedsizes = DigitalSize.objects.filter(product = product)
+	sizes = []
+	for size in standardsizes:
+		active = False
+		for selected in selectedsizes:
+			if size.id == selected.size_id:
+				sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': True})
+				active = True
+		if active == False:
+			sizes.append({'id': size.id, 'description': size.description, 'columns': size.columns, 'height': size.height, 'status': size.status, 'active': False})
+	return render(request, 'admin/products/edit-digital.html', {'product': product, 'standardsizes': sizes, 'adtypes': adtypes})
 
 def adminSaveDigital(request, id):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -777,6 +847,13 @@ def adminSaveDigital(request, id):
 	success = True
 	try:
 		product.save()
+		sizes = DigitalSize.objects.filter(product = product)
+		for size in sizes:
+			size.delete()
+		for id in data['sizes']:
+			size = StandardSize.objects.get(pk = id)
+			new_product_size = DigitalSize(product = product, size = size)
+			new_product_size.save()
 	except Exception as e:
 		success = False
 	return JsonResponse({'success': success}, status = 200)
@@ -790,7 +867,7 @@ def adminCreateStandardSize(request):
 		standardsize.save()
 	except Exception as e:
 		success = False		
-	return JsonResponse({'success': success, "errors": []}, status=200)
+	return JsonResponse({'success': success, "errors": [], 'id': standardsize.id}, status=200)
 def adminCreateRegion(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:

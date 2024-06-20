@@ -163,9 +163,9 @@
                         <td>
                           <div class="toggle-switch-container">
                             <div class="switch-field">
-                              <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" checked />
+                              <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" {% if size.active %} checked {% endif %}/>
                               <label for="{{size.id}}-prodcut-radio-one">Active</label>
-                              <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" />
+                              <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" {% if not size.active %} checked {% endif %}/>
                               <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
                             </div>
                           </div>
@@ -205,6 +205,17 @@
       for (const [key, value] of formData) {
           data[key] = value;
       }
+      
+      const tbody = document.getElementById('standardsize-table-body');
+      const rows = tbody.getElementsByTagName('input');
+      var sizes = [];
+      for(var i = 0; i < rows.length; i++) {
+        if(rows[i].checked) {
+          var split = rows[i].id.split('-');
+          if(split[split.length-1] == 'one') sizes.push(Number(split[0]));
+        }
+      }
+      data['sizes'] = sizes;
       fetch(`${id}/save`, {
           method: 'POST',
           headers: {
@@ -217,6 +228,7 @@
       .then(response => response.json())
       .then(data => {
           $.toastr.success('Saved Success');
+          window.location.href = `{% url 'adminGeneral' %}`
       })
       .catch(error => {
           $.toastr.error("Saved failure");
