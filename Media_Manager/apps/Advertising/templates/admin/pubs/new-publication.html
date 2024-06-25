@@ -133,16 +133,16 @@
           <h3 class="heading">Scheduling</h3>
         </div>
 
-        <div class="section-content w50 center-block">
+        <div class="section-content center-block">
           <form method="post" id="new-publication-scheduling-form">
             <div class="text-center mgb-3">
               <p>Calendar Type:</p>
               <div class="toggle-switch-container">
                 <div class="switch-field center-block">
-                  <input type="radio" id="0001-calendar-radio-one" name="calendar_type" value="repeat" checked />
-                  <label for="0001-calendar-radio-one">Repeat</label>
-                  <input type="radio" id="0001-calendar-radio-two" name="calendar_type" value="non-repeating" />
-                  <label for="0001-calendar-radio-two">Non-repeating</label>
+                  <input type="radio" id="calendar-radio-one" name="calendar_type" value="repeat" checked />
+                  <label for="calendar-radio-one">Repeat</label>
+                  <input type="radio" id="calendar-radio-two" name="calendar_type" value="non-repeating" />
+                  <label for="calendar-radio-two">Non-repeating</label>
                 </div>
               </div>
             </div>
@@ -188,7 +188,61 @@
                   </select>
                 </div>
               </div>
+              <div class="row mgb-3">
+                <div class="col-md-12 col-lg-6">
+                  <label for="">Select your schedule:</label>
+                  <div class="schedule-select-buttons">
+                    <button type="button" class="schedule-select-btn js-active" data-index="1">Daily</button>
+                    <button type="button" class="schedule-select-btn" data-index="2">Weekly</button>
+                    <button type="button" class="schedule-select-btn" data-index="3">Monthly</button>
+                    <button type="button" class="schedule-select-btn" data-index="4">Yearly</button>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <label for="">Frequency:</label>
+                  <form action="" class="content-center">
+                    <div class="form-group">
+                      <label for="">Repeat Every</label>
+                      <input type="number" name="repeat" id="" class="form-control w50" />
+                      <label for="">week(s)</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
 
+              <div class="dow-container mgb-3 text-center">
+                <label for="">Select your Day(s) of week:</label>
+                <div class="dow-picker">
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow1">
+                    <label for="dow1">Sun</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow2">
+                    <label for="dow2">Mon</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow3">
+                    <label for="dow3">Tues</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow4">
+                    <label for="dow4">Wed</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow5">
+                    <label for="dow5">Thur</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow6">
+                    <label for="dow6">Fri</label>
+                  </div>
+                  <div class="dow-picker-option">
+                    <input type="checkbox" id="dow7">
+                    <label for="dow7">Sat</label>
+                  </div>
+                </div>
+              </div>
               <div class="row mgb-3">
                 <div class="col-md-12 col-lg-6"></div>
                 <div class="col-md-12 col-lg-6"></div>
@@ -247,7 +301,77 @@
               </div> -->
             </div>
           </form>
-          <div class="non-repeating-calendar">Non Repeating</div>
+          <div class="non-repeating hide">
+            <form method="post" id="non-repeating-form">
+              <div class="row">
+                <div class="col-md-12 col-lg-6">
+                  <div class="non-repeating-container">
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">Name:</label>
+                          <input type="text" name="product_name" id="" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">Product Type:</label>
+                        <select name="product_type" id="" class="form-control">
+                          <option value="magazine">Magazine</option>
+                          <option value="newspaper">Newspaper</option>
+                          <option value="digital">Digital</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div>
+                          <label for="gl-override">GL Override (optional)</label>
+                        </div>
+                        <div class="toggle-switch-container">
+                          <div class="switch-field">
+                            <input type="radio" id="non-repeat-gl-override-radio-one" name="gl_override" value="Yes" checked />
+                            <label for="non-repeat-gl-override-radio-one">Yes</label>
+                            <input type="radio" id="non-repeat-gl-override-radio-two" name="gl_override" value="No" />
+                            <label for="non-repeat-gl-override-radio-two">No</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">GL Code:</label>
+                        <select name="gl_code" id="" class="form-control">
+                          {% for gl_code in gl_codes %}
+                          <option value="{{gl_code.id}}">{{gl_code.code}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">Start Date:</label>
+                          <input type="date" name="start_date" id="" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">End Date (optional):</label>
+                          <input type="date" name="end_date" id="" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <button class="start-schedule-button">
+                    <i class="fa fa-solid fa-plus"></i>
+                    <p>Start another schedule</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
         <div class="btn-container content-even">
           <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
@@ -377,6 +501,31 @@
     </div>
   </div>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const checkboxes = document.querySelectorAll('.dow-picker-option input[type="checkbox"]');
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+          if (this.checked) {
+            this.closest('.dow-picker-option').classList.add('checked');
+          } else {
+            this.closest('.dow-picker-option').classList.remove('checked');
+          }
+        });
+      });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      const buttons = document.querySelectorAll('.schedule-select-btn');
+
+      buttons.forEach(button => {
+        button.addEventListener('click', function () {
+          // Remove js-active class from all buttons
+          buttons.forEach(btn => btn.classList.remove('js-active'));
+          // Add js-active class to the clicked button
+          this.classList.add('js-active');
+        });
+      });
+    });
     function createPublication(event, user) {
       let form = $('#new-publication-info-form');
       var formData = new FormData(form[0]);
@@ -391,6 +540,16 @@
           data[key] = value;
       }
       data['created_by'] = user;
+      if(data['calendar_type'] == 'non-repeating') {
+        form = $('#non-repeating-form');
+        formData = new FormData(form[0]);
+        for (const [key, value] of formData) {
+            data[key] = value;
+        }
+        data['run_days'] = '';
+        data['repeat'] = '';
+        data['schedule_type'] = '';
+      }
       if(isNaN(data['parent_id'])) data['parent_id'] = 0;
       var selectElement = document.getElementById('pub-rategroup-lstBox2');
       var values = [];
@@ -423,6 +582,16 @@
           values.push(selectElement.options[i].value);
       }
       data['section_id'] = JSON.stringify(values);
+      data['schedule_type'] = document.querySelector('.schedule-select-btn.js-active').getAttribute('data-index');
+      var elements = document.querySelectorAll('.dow-picker-option.checked');
+      var run_days = [];
+      elements.forEach(element => {
+        var day_id = element.querySelector('input').id
+        run_days.push(day_id[3]);
+      });
+      data['run_days'] = JSON.stringify(run_days);
+      if(!data['gl_code']) data['gl_code'] = 0;
+      console.log(data);
       fetch("create-publication", {
         method: "POST",
         credentials: "same-origin",
@@ -454,6 +623,30 @@
         document.querySelector('#gl_code').disabled = true;
       }
     })
+    document.addEventListener('DOMContentLoaded', function () {
+      const repeatRadio = document.getElementById('calendar-radio-one');
+      const nonRepeatRadio = document.getElementById('calendar-radio-two');
+      const repeatingCalendar = document.querySelector('.repeating-calendar');
+      const nonRepeatingCalendar = document.querySelector('.non-repeating');
+
+      repeatRadio.addEventListener('change', function () {
+        if (repeatRadio.checked) {
+          repeatingCalendar.classList.add('active');
+          repeatingCalendar.classList.remove('hide');
+          nonRepeatingCalendar.classList.add('hide');
+          nonRepeatingCalendar.classList.remove('active');
+        }
+      });
+
+      nonRepeatRadio.addEventListener('change', function () {
+        if (nonRepeatRadio.checked) {
+          nonRepeatingCalendar.classList.add('active');
+          nonRepeatingCalendar.classList.remove('hide');
+          repeatingCalendar.classList.add('hide');
+          repeatingCalendar.classList.remove('active');
+        }
+      });
+    });
   </script>
 </div>
 

@@ -63,7 +63,55 @@ const findParent = (elem, parentClass) => {
 
   return currentNode;
 };
+document.addEventListener('DOMContentLoaded', function () {
+  const repeatRadio = document.getElementById('calendar-radio-one');
+  const nonRepeatRadio = document.getElementById('calendar-radio-two');
+  const repeatingCalendar = document.querySelector('.repeating-calendar');
+  const nonRepeatingCalendar = document.querySelector('.non-repeating');
 
+  repeatRadio.addEventListener('change', function () {
+    if (repeatRadio.checked) {
+      repeatingCalendar.classList.add('active');
+      repeatingCalendar.classList.remove('hide');
+      nonRepeatingCalendar.classList.add('hide');
+      nonRepeatingCalendar.classList.remove('active');
+    }
+  });
+
+  nonRepeatRadio.addEventListener('change', function () {
+    if (nonRepeatRadio.checked) {
+      nonRepeatingCalendar.classList.add('active');
+      nonRepeatingCalendar.classList.remove('hide');
+      repeatingCalendar.classList.add('hide');
+      repeatingCalendar.classList.remove('active');
+    }
+  });
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const checkboxes = document.querySelectorAll('.dow-picker-option input[type="checkbox"]');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      if (this.checked) {
+        this.closest('.dow-picker-option').classList.add('checked');
+      } else {
+        this.closest('.dow-picker-option').classList.remove('checked');
+      }
+    });
+  });
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.schedule-select-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function () {
+      // Remove js-active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('js-active'));
+      // Add js-active class to the clicked button
+      this.classList.add('js-active');
+    });
+  });
+});
 //get active button step number
 const getActiveStep = elem => {
   return Array.from(DOMstrings.stepsBtns).indexOf(elem);

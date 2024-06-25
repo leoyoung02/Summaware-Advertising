@@ -51,7 +51,13 @@
                 <td>{{publication.id}}</td>
                 <td>{{publication.name}}</td>
                 <td>{{publication.account}}</td>
-                <td>Mon, Tues, Wed</td>
+                <td>
+                  {% if publication.run_days == '' %}
+                    No Selected
+                  {% else %}
+                    {{publication.run_day}}
+                  {% endif %}
+                </td>
                 <td>1</td>
                 <td>{{publication.active|yesno:"Active, Deactive"}}</td>
                 <td>{{publication.created_by}}</td>

@@ -44,6 +44,16 @@ def adminGeneral(request):
 	digitals = DigitalProduct.objects.all()
 	regions = Region.objects.all()
 	publications = AdminPublication.objects.all()
+	days_of_week = {'1': 'Sun', '2': 'Mon', '3': 'Tue', '4': 'Wed', '5': 'Thu', '6': 'Fri', '7': 'Sat'}
+	for publication in publications:
+		if publication.run_days:
+			run_days = json.loads(publication.run_days)
+			days = ''
+			for day in run_days:
+				days += (days_of_week[day] + ', ')
+			publication.run_day = days
+		else:
+			publication.run_days = []
 	context = {
 		'all_states': all_states,
 		'magazines': magazines,
@@ -444,6 +454,9 @@ def adminSavePublication(request, id):
 	pub.product_type = data['product_type']
 	pub.active = data['active']
 	pub.status = data['status']
+	pub.repeat = data['repeat']
+	pub.schedule_type = data['schedule_type']
+	pub.run_days = data['run_days']
 	success = True
 	try:
 		pub.save()
@@ -489,8 +502,8 @@ def adminCreatePublication(request):
 	data = json.loads(request.body.decode('utf-8'))
 	new_publication = AdminPublication(name = data['name'], address = data['address'], city = data['city'], state_id = int(data['state']), zip_code=data['zip_code'],
 																		location = '', parent_id = data['parent_id'], product_name = data['product_name'], gl_override = data['gl_override'],account = 'Times Leader',
-																		gl_code_id = int(data['gl_code']), start_date = data['start_date'], end_date = data['end_date'], created_by = data['created_by'],
-																		calendar_type = data['calendar_type'], product_type = data['product_type'])
+																		gl_code_id = int(data['gl_code']), start_date = data['start_date'], end_date = data['end_date'], created_by = data['created_by'], run_days = data['run_days'],
+																		calendar_type = data['calendar_type'], product_type = data['product_type'], schedule_type = data['schedule_type'], repeat = data['repeat'])
 	success = True
 	try:
 		new_publication.save()
@@ -560,6 +573,8 @@ def adminEditPublication(request, id):
 
 	unsigned = PublicationSection.objects.exclude(id__in=section_ids)
 	unsigned_sections = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
+	run_days = json.loads(pub.run_days)
+	daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat']
 	context = {
         "access": "allow",
         "message": "",
@@ -575,6 +590,8 @@ def adminEditPublication(request, id):
 				"assigned_sections": assigned_sections,	
 				"unsigned_sections": unsigned_sections,
 				"pub": pub,
+        'days_of_week': daysOfWeek,
+				"run_days": run_days,
 				"start_date": pub.start_date.isoformat(),
 				"end_date": pub.end_date.isoformat()
     }

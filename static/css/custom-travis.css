@@ -111,6 +111,82 @@
   width: 50%;
 }
 
+.schedule-select-buttons .schedule-select-btn {
+  transition-property: all;
+  transition-duration: 0.15s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+  position: relative;
+  font-size: 13px;
+  color: #000;
+  border: none;
+  background-color: transparent;
+  outline: none !important;
+  margin: 0 2px;
+  border: none;
+  border-radius: 10px;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+.schedule-select-buttons .schedule-select-btn.js-active {
+  background-color: #21215f;
+  color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3);
+}
+
+.non-repeating-container {
+  background-color: #f3f3f3;
+  border-radius: 12px;
+  border: 1px solid #000;
+  padding: 20px;
+}
+
+.start-schedule-button {
+  background-color: #f3f3f3;
+  border-radius: 12px;
+  border: 1px solid #000;
+  text-align: center;
+  padding: 30px;
+}
+
+.start-schedule-button i {
+  font-size: 50px;
+  color: #21215f;
+}
+
+/* DOW Picker Styles */
+
+.dow-picker {
+  width: 100%;
+  max-width: 410px;
+  margin: 10px auto 0 auto;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 12px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.dow-picker .dow-picker-option {
+  display: inline-block;
+  padding: 10px;
+}
+.dow-picker .dow-picker-option input[type='checkbox'] {
+  display: none;
+}
+.dow-picker .dow-picker-option label {
+  font-size: 18px;
+  color: #a7a7a7;
+  cursor: pointer;
+}
+.dow-picker .dow-picker-option input[type='checkbox']:checked ~ label {
+  color: #fff;
+  font-weight: 500;
+}
+.dow-picker-option.checked {
+  background-color: #21215f;
+  color: white;
+}
+
 .campaigns-list-container {
   max-width: 1150px;
   margin: 0 auto;

@@ -1,19 +1,12 @@
-{% extends "templates/base.html" %} {% load static %} {% block endjs %}
-<!-- <script src="{% static "dist/js/advertising/SearchPublic.js" %}"></script>
-<script src="{% static "admin/js/event-calendar.js" %}"></script>
-<script src="{% static "dist/js/advertising/publicationNew.js" %}"></script> -->
-
-{% endblock %} {% block breadcrumb %}
-<li class="active">Advertising</li>
-{% endblock %} {% block content %}
-<!-- <div class="advertising-back-image" style="bottom:0; width:100%;">
-    <img src="{% static "svg/advertising_back_img.svg" %}" width="100%">
-</div> -->
+{% extends 'templates/base_gamma.html' %}{% load static %} {% block content %}
 
 <div class="container">
+  
+
   <div class="heading-container text-center">
     <h3 class="heading">Edit Publication</h3>
   </div>
+  <a href="{% url 'adminGeneral' %}">Admin Home</a>
   <div class="multistep-container mgb-3">
     <div class="c-card">
       <div class="progress-icons">
@@ -132,21 +125,21 @@
           <h3 class="heading">Scheduling</h3>
         </div>
 
-        <div class="section-content w50 center-block">
+        <div class="section-content center-block">
           <form method="post" id="edit-publication-scheduling-form">
             <div class="text-center mgb-3">
               <p>Calendar Type:</p>
               <div class="toggle-switch-container">
                 <div class="switch-field center-block">
-                  <input type="radio" id="0001-calendar-radio-one" name="calendar_type" value="repeat" {% if pub.calendar_type == 'repeat' %} checked {% endif %}/>
-                  <label for="0001-calendar-radio-one">Repeat</label>
-                  <input type="radio" id="0001-calendar-radio-two" name="calendar_type" value="non-repeating"  {% if pub.calendar_type == 'non-repeating' %} checked {% endif %}/>
-                  <label for="0001-calendar-radio-two">Non-repeating</label>
+                  <input type="radio" id="calendar-radio-one" name="calendar_type" value="repeat" {% if pub.calendar_type == 'repeat' %} checked {% endif %}/>
+                  <label for="calendar-radio-one">Repeat</label>
+                  <input type="radio" id="calendar-radio-two" name="calendar_type" value="non-repeating"  {% if pub.calendar_type == 'non-repeating' %} checked {% endif %}/>
+                  <label for="calendar-radio-two">Non-repeating</label>
                 </div>
               </div>
             </div>
 
-            <div class="repeating-calendar active">
+            <div class="repeating-calendar {% if pub.calendar_type == 'repeat' %}active{% else %}hide{% endif %}">
               <div class="row mgb-3">
                 <div class="col-md-12 col-lg-6">
                   <div class="form-group">
@@ -180,17 +173,49 @@
                 </div>
                 <div class="col-md-12 col-lg-6">
                   <label for="">GL Code:</label>
-                  <select name="gl_code" id="" class="form-control">
+                  <select name="gl_code" id="gl_code" class="form-control" {% if pub.gl_override == 'No' %} disabled {% endif %}>
                     {% for gl_code in gl_codes %}
-                    <option value="{{gl_code.id}}" {% if pub.gl_code_id == gl_code.id %} selected {% endif %}>{{gl_code.code}}</option>
+                    <option value="{{gl_code.id}}" {% if pub.gl_code_id == gl_code.id %}selected{% endif %}>{{gl_code.code}}</option>
                     {% endfor %}
                   </select>
                 </div>
               </div>
 
               <div class="row mgb-3">
-                <div class="col-md-12 col-lg-6"></div>
-                <div class="col-md-12 col-lg-6"></div>
+                <div class="col-md-12 col-lg-6">
+                  <label for="">Select your schedule:</label>
+                  <div class="schedule-select-buttons">
+                    <button type="button" class="schedule-select-btn {% if pub.schedule_type == 1 %} js-active {% endif %}" data-index="1">Daily</button>
+                    <button type="button" class="schedule-select-btn {% if pub.schedule_type == 2 %} js-active {% endif %}" data-index="2">Weekly</button>
+                    <button type="button" class="schedule-select-btn {% if pub.schedule_type == 3 %} js-active {% endif %}" data-index="3">Monthly</button>
+                    <button type="button" class="schedule-select-btn {% if pub.schedule_type == 4 %} js-active {% endif %}" data-index="4">Yearly</button>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                  <label for="">Frequency:</label>
+                  <form action="" class="content-center">
+                    <div class="form-group">
+                      <label for="">Repeat Every</label>
+                      <input type="number" name="repeat" id="" class="form-control w50" value="{{pub.repeat}}"/>
+                      <label for="">week(s)</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="dow-container mgb-3 text-center">
+                <label for="">Select your Day(s) of week:</label>
+                <div class="dow-picker">
+                  {% for day in days_of_week %}
+                      {% with dow_id=forloop.counter|stringformat:"s" %}
+                          <div class="dow-picker-option {% if dow_id in run_days %}checked{% endif %}">
+                              <input type="checkbox" id="dow{{ dow_id }}" 
+                                     {% if dow_id in run_days %}checked{% endif %}>
+                              <label for="dow{{ dow_id }}">{{ day }}</label>
+                          </div>
+                      {% endwith %}
+                  {% endfor %}
+                </div>
               </div>
 
               <div class="row mgb-3">
@@ -245,10 +270,83 @@
                 </div>
               </div> -->
             </div>
+            
           </form>
-          <div class="non-repeating-calendar">Non Repeating</div>
+
+          <div class="non-repeating {% if pub.calendar_type == 'repeat' %}hide{% else %}active{% endif %}">
+          <div class="row">
+            <div class="col-md-12 col-lg-6">
+              <div class="non-repeating-container">
+                <form method="post" id="non-repeating-form">
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">Name:</label>
+                        <input type="text" name="product_name" id="" class="form-control" value="{{pub.product_name}}"/>
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <label for="">Product Type:</label>
+                      <select name="product_type" id="" class="form-control">
+                        <option value="magazine" {% if pub.product_type == 'magazine' %} selected {% endif %}>Magazine</option>
+                        <option value="newspaper" {% if pub.product_type == 'newspaper' %} selected {% endif %}>Newspaper</option>
+                        <option value="digital" {% if pub.product_type == 'digital' %} selected {% endif %}>Digital</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div>
+                        <label for="gl-override">GL Override (optional)</label>
+                      </div>
+                      <div class="toggle-switch-container">
+                        <div class="switch-field">
+                          <input type="radio" id="non-repeat-gl-override-radio-one" name="gl_override" value="Yes" {% if pub.gl_override == 'Yes' %} checked {% endif %} />
+                          <label for="non-repeat-gl-override-radio-one">Yes</label>
+                          <input type="radio" id="non-repeat-gl-override-radio-two" name="gl_override" value="No" {% if pub.gl_override == 'No' %} checked {% endif %} />
+                          <label for="non-repeat-gl-override-radio-two">No</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <label for="">GL Code:</label>
+                      <select name="gl_code" id="gl_code" class="form-control" {% if pub.gl_override == 'No' %} disabled {% endif %}>
+                        {% for gl_code in gl_codes %}
+                        <option value="{{gl_code.id}}" {% if pub.gl_code_id == gl_code.id %}selected{% endif %}>{{gl_code.code}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">Start Date:</label>
+                        <input type="date" name="start_date" id="" class="form-control" value="{{start_date}}" />
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">End Date (optional):</label>
+                        <input type="date" name="end_date" id="" class="form-control" value="{{end_date}}"/>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6">
+              <button class="start-schedule-button">
+                <i class="fa fa-solid fa-plus"></i>
+                <p>Start another schedule</p>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="btn-container content-even">
+          
+        </div>
+        <div class="btn-container content-even mgt-5">
           <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
           <button class="btn btn-secondary" onclick="next_step(event)">Next</button>
         </div>
@@ -389,6 +487,17 @@
       for (const [key, value] of formData) {
           data[key] = value;
       }
+      data['schedule_type'] = document.querySelector('.schedule-select-btn.js-active').getAttribute('data-index');
+      if(data['calendar_type'] == 'non-repeating') {
+        form = $('#non-repeating-form');
+        formData = new FormData(form[0]);
+        for (const [key, value] of formData) {
+            data[key] = value;
+        }
+        data['run_days'] = '';
+        data['repeat'] = 0;
+        data['schedule_type'] = 1;
+      }
       if(active == 'False') data['active'] = false;
       else data['active'] = true;
       data['status'] = status;
@@ -428,6 +537,14 @@
           values.push(selectElement.options[i].value);
       }
       data['section_id'] = JSON.stringify(values);
+      var elements = document.querySelectorAll('.dow-picker-option.checked');
+      var run_days = [];
+      elements.forEach(element => {
+        var day_id = element.querySelector('input').id
+        run_days.push(day_id[3]);
+      });
+      data['run_days'] = JSON.stringify(run_days);
+      console.log(data);
       var hrefUrl = `{% url 'adminGeneral' %}`
       fetch(`${id}/save`, {
         method: "POST",
@@ -451,6 +568,26 @@
         $.toastr.error("Saving Publication Failed");
       })
     }
+    document.getElementById('0001-override-radio-one').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('.repeating-calendar #gl_code').disabled = false;
+      }
+    })
+    document.getElementById('0001-override-radio-two').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('.repeating-calendar #gl_code').disabled = true;
+      }
+    })
+    document.getElementById('non-repeat-gl-override-radio-one').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('.non-repeating-container #gl_code').disabled = false;
+      }
+    })
+    document.getElementById('non-repeat-gl-override-radio-two').addEventListener('change', function (event) {
+      if(event.target.checked) {
+        document.querySelector('.non-repeating-container #gl_code').disabled = true;
+      }
+    })
   </script>
 </div>
 
