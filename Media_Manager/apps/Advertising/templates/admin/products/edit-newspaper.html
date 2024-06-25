@@ -1,4 +1,4 @@
-{% extends 'templates/base.html' %} {% block content %}{% load static %}
+{% extends 'templates/base_gamma.html' %} {% block content %}{% load static %}
 <div class="container mt-5">
   <div class="heading-container product text-center">
     <h3 class="heading">Edit Newspaper Product</h3>
@@ -7,220 +7,235 @@
 
   <div class="breadcrumb"><a href="{% url 'admin' %}">Admin Home</a></div>
 
-  <div class="multistep-container mgb-3 newspaper">
-    <div class="c-card">
-      <div class="progress-icons">
-        <div class="progress-dot-container">
-          <div id="progress_0" class="progress-dot progress-active">
-            <span><i class="fa fa-solid fa-check"></i></span>
-          </div>
-          <p class="step-label">Product Info</p>
-        </div>
-        <div class="progress-dot-container">
-          <div id="progress_1" class="progress-dot">
-            <span><i class="fa fa-solid fa-check"></i></span>
-          </div>
-          <p class="step-label">Size Setup</p>
-        </div>
-      </div>
-
-      <div id="section1" class="section multistep-content mgb-3">
-        <div class="heading-container text-center">
-          <h3 class="heading">Product Info</h3>
-        </div>
-
-        <div class="section-content">
-          <div class="row mgb-3">
-            <div class="col-lg-6 col-md-12">
-              <form method="post" id="edit-newspaper-form">
-                <div class="form-group">
-                  <div class="row mb-5">
-                    <div class="col-md-6">
-                      <label for="product-mag">Newspaper Product:</label>
-                      <input type="text" name="product_mag" id="product-mag" class="form-control" value="{{product.product_mag}}"/>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="measurement-type">Measurement Type:</label>
-                      <select name="measurement_type" id="measurement-type" class="form-control" value="{{product.measurement_type}}">
-                        <option value="inch" {% if product.measurement_type == 'inch' %} selected {% endif %}>Inch</option>
-                        <option value="cm" {% if product.measurement_type == 'cm' %} selected {% endif %}>Cm</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group mb-5">
-                  <div class="row mb-5">
-                    <div class="col-md-6">
-                      <label for="orientation">Fold Orientation:</label>
-                      <select name="fold_orientation" id="orientation" class="form-control" value="{{product.fold_orientation}}">
-                        <option value="horizontal" {% if product.fold_orientation == 'horizontal' %} selected {% endif %}>Horizontal</option>
-                        <option value="vertical" {% if product.fold_orientation == 'vertical' %} selected {% endif %}>Vertical</option>
-                      </select>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="size">Size:</label>
-                      <div class="double">
-                        <input type="text" name="height" id="height" class="form-control" value="{{product.height}}"/>
-                        <strong class="px-1 font-weight-bold">X</strong>
-                        <input type="text" name="width" id="width" class="form-control" value="{{product.width}}"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="row mb-5">
-                    <div class="col-md-6">
-                      <label for="columns">Columns Per Page: (Optional)</label>
-                      <input type="text" name="columns" id="columns" class="form-control" value="{{product.columns}}"/>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="column-width">Column Width: (Optional)</label>
-                      <input type="text" name="column_width" id="column-width" class="form-control" value="{{product.column_width}}"/>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="row mb-5">
-                    <div class="col-md-6">
-                      <label for="page-width">Page Width: (Optional)</label>
-                      <input type="text" name="page_width" id="page-width" class="form-control" value="{{product.page_width}}"/>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="page-height">Page Height: (Optional)</label>
-                      <input type="text" name="page_height" id="page-height" class="form-control" value="{{product.page_height}}"/>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label for="page-border">Page Border: (Optional)</label>
-                      <input type="text" name="page_border" id="page-border" class="form-control" value="{{product.page_border}}"/>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="gutter-size">Gutter Size: (Optional)</label>
-                      <input type="text" name="gutter_size" id="gutter-size" class="form-control" value="{{product.gutter_size}}"/>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-lg-6 col-md-12">
-              <div class="measurement-container">
-                <img class="img-fluid" src="{% static 'images/newspaper-img.png' %}" alt="newspaper-img" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="btn-container text-center">
-          <button class="btn btn-secondary" id="newspaper" onclick="next_step(event)">Next</button>
-        </div>
-      </div>
-
-      <div id="section2" class="section multistep-content mgb-3 hide">
-        <div class="heading-container">
-          <h3 class="heading">Size Setup</h3>
-        </div>
-
-        <div class="section-content">
-          <div class="row mgb-3">
-            <div class="col-lg-4 col-md-12">
-              <div class="standard-size-container">
-                <div class="heading-container">
-                  <h3 class="heading">New Standard Size</h3>
-                  <hr />
-                </div>
-                <form method="post" id="standardsize-form">
-                  <div class="form-group px-3 mb-3">
-                    <label for="size-description">Size Description</label>
-                    <input type="text" name="description" id="size-description" class="form-control" />
-                  </div>
-
-                  <div class="form-group px-3 mb-3">
-                    <div class="row">
-                      <div class="col-md-12 col-lg-6">
-                        <label for="column-num">No. of Columns</label>
-                        <input type="text" name="columns" id="column-num" class="form-control"  />
-                      </div>
-                      <div class="col-md-12 col-lg-6">
-                        <label for="height">Height</label>
-                        <input type="text" name="height" id="height" class="form-control"  />
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <div class="link-container text-center w-50 mx-auto">
-                  <a href="#" class="calculation-link">Click here to see Total Column Inches calculation</a>
-                </div>
-
-                <div class="total-container text-center my-5">
-                  <h3 class="total">Total Column Inches: <span>2.25</span></h3>
-                </div>
-
-                <div class="btn-container text-center mb-3">
-                  <button class="btn btn-secondary" onclick="createStandardSize()">Create</button>
+  <div class="step-form-container">
+    <div class="content">
+      <div class="content__inner">
+        <div>
+          <div class="multisteps-form">
+            <div class="row justify-content-center progress-btns-container">
+              <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                <div class="multisteps-form__progress">
+                  <button class="multisteps-form__progress-btn js-active" type="button">Product Info</button>
+                  <button class="multisteps-form__progress-btn" type="button">Ad Sizes Setup</button>
                 </div>
               </div>
             </div>
-            <div class="col-lg-8 col-md-12">
-              <div class="created-sizes-container">
-                <div class="heading-container">
-                  <h3 class="heading">Created Standard Size</h3>
-                  <hr />
-                </div>
 
-                <div class="product-table-container mt-3">
-                  <table class="table product-table">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">No. of Columns</th>
-                        <th scope="col">Height</th>
-                        <th scope="col">Total Column In.</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="standardsize-table-body">
-                      {% for size in standardsizes %}
-                      <tr>
-                        <td>{{size.id}}</td>
-                        <td>{{size.description}}</td>
-                        <td>{{size.columns}}</td>
-                        <td>{{size.height}}</td>
-                        <td>2.25</td>
-                        <td>
-                          <div class="toggle-switch-container">
-                            <div class="switch-field">
-                              <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" {% if size.active %} checked {% endif %}/>
-                              <label for="{{size.id}}-prodcut-radio-one">Active</label>
-                              <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" {% if not size.active %} checked {% endif %}/>
-                              <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
+            <div class="row">
+              <div class="col-12 m-auto">
+                <div class="multisteps-form__form">
+                  <div class="multisteps-form__panel p-4 rounded js-active" data-animation="scaleIn">
+                    <div class="heading-arrows-container d-flex justify-content-between">
+                      <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
+                      <h3 class="multisteps-form__title text-center">Product Info</h3>
+                      <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-right"></i></button>
+                    </div>
+
+                    <div class="multisteps-form__content">
+                      <div class="section-content">
+                        <div class="row mgb-3">
+                          <div class="col-lg-6 col-md-12">
+                            <form method="post" id="edit-newspaper-form">
+                              <div class="form-group">
+                                <div class="row mb-5">
+                                  <div class="col-md-6">
+                                    <label for="product-mag">Newspaper Product:</label>
+                                    <input type="text" name="product_mag" id="product-mag" class="form-control" value="{{product.product_mag}}"/>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="measurement-type">Measurement Type:</label>
+                                    <select name="measurement_type" id="measurement-type" class="form-control" value="{{product.measurement_type}}">
+                                      <option value="inch" {% if product.measurement_type == 'inch' %} selected {% endif %}>Inch</option>
+                                      <option value="cm" {% if product.measurement_type == 'cm' %} selected {% endif %}>Cm</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group mb-5">
+                                <div class="row mb-5">
+                                  <div class="col-md-6">
+                                    <label for="orientation">Fold Orientation:</label>
+                                    <select name="fold_orientation" id="orientation" class="form-control" value="{{product.fold_orientation}}">
+                                      <option value="horizontal" {% if product.fold_orientation == 'horizontal' %} selected {% endif %}>Horizontal</option>
+                                      <option value="vertical" {% if product.fold_orientation == 'vertical' %} selected {% endif %}>Vertical</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="size">Size:</label>
+                                    <div class="double">
+                                      <input type="text" name="height" id="height" class="form-control" value="{{product.height}}"/>
+                                      <strong class="px-1 font-weight-bold">X</strong>
+                                      <input type="text" name="width" id="width" class="form-control" value="{{product.width}}"/>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <div class="row mb-5">
+                                  <div class="col-md-6">
+                                    <label for="columns">Columns Per Page: (Optional)</label>
+                                    <input type="text" name="columns" id="columns" class="form-control" value="{{product.columns}}"/>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="column-width">Column Width: (Optional)</label>
+                                    <input type="text" name="column_width" id="column-width" class="form-control" value="{{product.column_width}}"/>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <div class="row mb-5">
+                                  <div class="col-md-6">
+                                    <label for="page-width">Page Width: (Optional)</label>
+                                    <input type="text" name="page_width" id="page-width" class="form-control" value="{{product.page_width}}"/>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="page-height">Page Height: (Optional)</label>
+                                    <input type="text" name="page_height" id="page-height" class="form-control" value="{{product.page_height}}"/>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label for="page-border">Page Border: (Optional)</label>
+                                    <input type="text" name="page_border" id="page-border" class="form-control" value="{{product.page_border}}"/>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="gutter-size">Gutter Size: (Optional)</label>
+                                    <input type="text" name="gutter_size" id="gutter-size" class="form-control" value="{{product.gutter_size}}"/>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="col-lg-6 col-md-12">
+                            <div class="measurement-container">
+                              <img class="img-fluid" src="{% static 'images/newspaper-img.png' %}" alt="newspaper-img" />
                             </div>
                           </div>
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="btn-container text-center">
+                      <a href="{% url 'adminGeneral' %}" class="btn btn-gray">Return to Products</a>
+                      <button class="btn btn-secondary" id="newspaper" onclick="saveChange({{product.id}})">Save Changes</button>
+                    </div>
+                  </div>
+
+                  <div class="multisteps-form__panel p-4 rounded" data-animation="scaleIn">
+                    <div class="heading-arrows-container d-flex justify-content-between">
+                      <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-left"></i></button>
+                      <h3 class="multisteps-form__title text-center">Ad Size Setup</h3>
+                      <button class="multistep-form__arrow"><i class="fa fa-solid fa-chevron-right"></i></button>
+                    </div>
+
+                    <div class="multisteps-form__content">
+                      <div class="section-content">
+                        <div class="row mgb-3">
+                          <div class="col-lg-4 col-md-12">
+                            <div class="standard-size-container">
+                              <div class="heading-container">
+                                <h3 class="heading">New Standard Size</h3>
+                                <hr />
+                              </div>
+                              <form method="post" id="standardsize-form">
+                                <div class="form-group px-3 mb-3">
+                                  <label for="size-description">Size Description</label>
+                                  <input type="text" name="description" id="size-description" class="form-control" />
+                                </div>
+
+                                <div class="form-group px-3 mb-3">
+                                  <div class="row">
+                                    <div class="col-md-12 col-lg-6">
+                                      <label for="column-num">No. of Columns</label>
+                                      <input type="text" name="columns" id="column-num" class="form-control"  />
+                                    </div>
+                                    <div class="col-md-12 col-lg-6">
+                                      <label for="height">Height</label>
+                                      <input type="text" name="height" id="height" class="form-control"  />
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                              <!-- <div class="link-container text-center w-50 mx-auto">
+                                <a href="#" class="calculation-link">Click here to see Total Column Inches calculation</a>
+                              </div>
+
+                              <div class="total-container text-center my-5">
+                                <h3 class="total">Total Column Inches: <span>2.25</span></h3>
+                              </div> -->
+
+                              <div class="btn-container text-center mb-3">
+                                <button class="btn btn-secondary" onclick="createStandardSize()">Create</button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-8 col-md-12">
+                            <div class="created-sizes-container">
+                              <div class="heading-container">
+                                <h3 class="heading">Created Standard Size</h3>
+                                <hr />
+                              </div>
+
+                              <div class="product-table-container mt-3">
+                                <table class="table product-table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Description</th>
+                                      <th scope="col">No. of Columns</th>
+                                      <th scope="col">Height</th>
+                                      <th scope="col">Total Column In.</th>
+                                      <th scope="col">Status</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="standardsize-table-body">
+                                    {% for size in standardsizes %}
+                                    <tr>
+                                      <td>{{size.id}}</td>
+                                      <td>{{size.description}}</td>
+                                      <td>{{size.columns}}</td>
+                                      <td>{{size.height}}</td>
+                                      <td>2.25</td>
+                                      <td>
+                                        <div class="toggle-switch-container">
+                                          <div class="switch-field">
+                                            <input type="radio" id="{{size.id}}-prodcut-radio-one" name="{{size.id}}-prodcut-switch-one" value="active" checked />
+                                            <label for="{{size.id}}-prodcut-radio-one">Active</label>
+                                            <input type="radio" id="{{size.id}}-prodcut-radio-two" name="{{size.id}}-prodcut-switch-one" value="inactive" />
+                                            <label for="{{size.id}}-prodcut-radio-two">Inactive</label>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-container text-center">
+                      <a href="{% url 'adminGeneral' %}" class="btn btn-gray">Return to Products</a>
+                      <button class="btn btn-secondary" id="newspaper" onclick="saveChange({{product.id}})">Save Changes</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="btn-container text-center">
-          <button class="btn btn-gray" onclick="previous_step(event)">Previous</button>
-          <button class="btn btn-secondary" id="newspaper" onclick="saveChange({{product.id}})">Save Changes</button>
         </div>
       </div>
-
     </div>
   </div>
+
+  
   <script>
     function getCookie(name) {
       let cookie = {};
@@ -238,16 +253,6 @@
       for (const [key, value] of formData) {
           data[key] = value;
       }
-      const tbody = document.getElementById('standardsize-table-body');
-      const rows = tbody.getElementsByTagName('input');
-      var sizes = [];
-      for(var i = 0; i < rows.length; i++) {
-        if(rows[i].checked) {
-          var split = rows[i].id.split('-');
-          if(split[split.length-1] == 'one') sizes.push(Number(split[0]));
-        }
-      }
-      data['sizes'] = sizes;
       fetch(`${id}/save`, {
           method: 'POST',
           headers: {
@@ -260,7 +265,6 @@
       .then(response => response.json())
       .then(data => {
           $.toastr.success('Saved Success');
-          window.location.href = `{% url 'adminGeneral' %}`
       })
       .catch(error => {
           $.toastr.error("Saved failure");
