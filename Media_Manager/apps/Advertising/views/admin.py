@@ -195,10 +195,11 @@ def adminPricing(request):
 	rategroups = RateGroup.objects.all()
 	adjustments = AdminAdjustment.objects.all()
 	publications = AdminPublication.objects.all()
+	taxs = AdminTax.objects.all()
 	sections = PublicationSection.objects.all()
 	glcodes = GLCode.objects.all()
 
-	content = {'rategroups': rategroups, 'adjustments': adjustments, 'publications': publications, 'sections': sections, 'glcodes': glcodes}
+	content = {'rategroups': rategroups, 'adjustments': adjustments, 'publications': publications, 'sections': sections, 'glcodes': glcodes, 'taxs': taxs}
 	return render(request, 'admin/pricing/admin-pricing.html', content)
 
 def adminEditAdjustment(request):
@@ -252,6 +253,59 @@ def adminCreateAdjustment(request):
 		new_pub_adjustment = PubAdjustment(adminadjustment=new_adjustment, adminpublication=publication)
 		new_pub_adjustment.save()
 	return JsonResponse({"errors": []}, status=200)
+
+def adminCreateTax(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+	
+	data = json.loads(request.body.decode('utf-8'))
+	new_tax = AdminTax(name=data['name'], description=data['description'], amount=data['amount'], assigned_gl=data['assigned_gl'], format=data['format'],
+										gl_code_id=data['gl_code'], start_date=data['start_date'], end_date=data['end_date'], active=data['active'], status=data['status'])
+	success = True
+	try:
+		new_tax.save()
+	except Exception as e:
+		print(f"error:", e)
+		success = False
+	return JsonResponse({"success": success}, status=200)
+
+def adminTaxDetail(request):
+
+	data = json.loads(request.body.decode('utf-8'))
+	tax = AdminTax.objects.get(pk=data['id'])
+
+	response_data = {
+			'id': tax.id,
+			'tax': serializers.serialize('json', [tax]),
+	}
+	return JsonResponse(response_data, safe=False)
+
+def adminEditTax(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+
+	if not request.user.has_perm('BI.advertising_access'):
+		return render(request, "advertising.html", {"access": "deny", "message": "Access denied!", "menu": views.get_sidebar(request)})
+
+	data = json.loads(request.body.decode('utf-8'))
+	tax = AdminTax.objects.get(pk=data['id'])
+	tax.name = data['name']
+	tax.description = data['description']
+	tax.amount = data['amount']
+	tax.assigned_gl = data['assigned_gl']
+	tax.format = data['format']
+	tax.gl_code_id = data['gl_code']
+	tax.start_date = data['start_date']
+	tax.end_date = data['end_date']
+	tax.active = data['active']
+	tax.status = data['status']
+	success = True
+	try:
+		tax.save()
+	except Exception as e:
+		print(f"error: ", e)
+		success = False
+	return JsonResponse({"success": success}, status=200)
 
 def adminPricingSaveRateGroup(request, groupId):
 	if request is None or not request.user.is_authenticated:

@@ -627,9 +627,11 @@
                   <div class="form-group mgb-3">
                     <label for="prod-type">Product Type:</label>
                     <select name="additional_count" id="prod-type" class="form-control">
-                      <option value="1">Magazine</option>
-                      <option value="2">newspaper</option>
-                      <option value="3">Digital</option>
+                      <option value="lines">Lines</option>
+                      <option value="words">Words</option>
+                      <option value="units">Units</option>
+                      <option value="digital">Digital</option>
+                      <option value="inches">Inches</option>
                     </select>
                   </div>
                 </form>
@@ -745,9 +747,11 @@
                     <div class="form-group mgb-3">
                       <label for="prod-type">Product Type:</label>
                       <select name="additional_count" id="prod-type" class="form-control">
-                        <option value="1">Magazine</option>
-                        <option value="2">newspaper</option>
-                        <option value="3">Digital</option>
+                        <option value="lines">Lines</option>
+                        <option value="words">Words</option>
+                        <option value="units">Units</option>
+                        <option value="digital">Digital</option>
+                        <option value="inches">Inches</option>
                       </select>
                     </div>
                     <div class="table-container">
@@ -809,7 +813,26 @@
     let form = $('#new-rate-info-form');
     var formData = new FormData(form[0]);
     let data = {};
-    
+    let currentDate = new Date();
+
+    let year = currentDate.getFullYear();
+    let month = String(currentDate.getMonth() + 1).padStart(2, '0');  // Months are 0-based, so add 1
+    let day = String(currentDate.getDate()).padStart(2, '0');
+
+    let formattedDate = `${year}-${month}-${day}`;
+    data['ad_type'] = '0';
+    data['assigned_groups'] = false;
+    data['charge_for'] = true;
+    data['default_gl_code'] = '0';
+    data['extra_groups'] = '[]';
+    data['lines_ad_status'] = 'on';
+    data['lines_charge_for'] = 'all';
+    data['lines_insertion_status'] = 'on';
+    data['measurement_type'] = 'lines';
+    data['name'] = '';
+    data['override_privileges'] = true;
+    data['pricing'] = true;
+    data['tax_category'] = 'No Tax';
     for (const [key, value] of formData) {
         data[key] = value;
     }
@@ -901,6 +924,21 @@
     }
     var hrefUrl = `{% url 'adminPricingEditRateGroup' groupId=999 %}`
     var hrefUrl = hrefUrl.replace('999', id);
+    if(!data['start_date']) {
+      data['start_date'] = formattedDate;
+    }
+    if(!data['end_date']) {
+      data['end_date'] = formattedDate;
+    }
+    data['base_cost'] = data['base_cost'] == '' ? '0' : data['base_cost'];
+    data['base_count'] = data['base_count'] == '' ? '0' : data['base_count'];
+    data['additional_cost'] = data['additional_cost'] == '' ? '0' : data['additional_cost'];
+    data['additional_count'] = data['additional_count'] == '' ? '0' : data['additional_count'];
+    data['insertion_count'] = data['insertion_count'] == '' ? '0' : data['insertion_count'];
+    data['insertion_max'] = data['insertion_max'] == '' ? '0' : data['insertion_max'];
+    data['insertion_min'] = data['insertion_min'] == '' ? '0' : data['insertion_min'];
+    data['line_for_ad_max'] = data['line_for_ad_max'] == '' ? '0' : data['line_for_ad_max'];
+    data['line_for_ad_min'] = data['line_for_ad_min'] == '' ? '0' : data['line_for_ad_min'];
     fetch(`${id}/create-rate`, {
       method: "POST",
       credentials: "same-origin",

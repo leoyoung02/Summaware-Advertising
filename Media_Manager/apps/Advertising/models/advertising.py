@@ -462,6 +462,23 @@ class Region(models.Model):
     status = models.IntegerField(default=1)
     class Meta:
         db_table = 'advertising_region'
+
+class AdminTax(models.Model):
+    name = models.TextField()
+    description = models.TextField(null=True)
+    format = models.CharField(max_length=255)
+    assigned_gl = models.CharField(max_length=255)
+    amount = models.IntegerField(default=0)
+    gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
+    class Meta:
+        db_table = 'advertising_tax'
+
+    def __str__(self):
+        return self.description
 # ------- MODEL METHODS -------
 def getSalesPersonFullName(salesrep_id):
     """

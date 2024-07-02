@@ -41,30 +41,85 @@
         </tr>
       </thead>
       <tbody>
+        {% for tax in taxs %}
         <tr>
-          <td>0001</td>
-          <td>Tax 01</td>
-          <td><a href="#">See Description</a></td>
-          <td>00/00/0000</td>
-          <td></td>
-          <td>Percentage</td>
-          <td>Default</td>
+          <td>{{tax.id}}</td>
+          <td>{{tax.name}}</td>
+          <td>{{tax.description}}</td>
+          <td>{{tax.start_date}}</td>
+          <td>{{tax.end_date}}</td>
+          <td>{{tax.format}}</td>
+          <td>{{tax.assigned_gl}}</td>
           <td>
             <div class="tax-switch-container">
               <div class="switch-field">
-                <input type="radio" id="0001-tax-radio-one" name="0001-tax-switch-one" value="active" checked />
-                <label for="0001-tax-radio-one">Active</label>
-                <input type="radio" id="0001-tax-radio-two" name="0001-tax-switch-one" value="inactive" />
-                <label for="0001-tax-radio-two">Inactive</label>
+                <input type="radio" id="{{tax.id}}-tax-radio-one" name="{{tax.id}}-tax-switch-one" value="active" {{tax.active|yesno:"checked, unchecked"}} />
+                <label for="{{tax.id}}-tax-radio-one">Active</label>
+                <input type="radio" id="{{tax.id}}-tax-radio-two" name="{{tax.id}}-tax-switch-one" value="inactive" {{tax.active|yesno:"unchecked, checked"}} />
+                <label for="{{tax.id}}-tax-radio-two">Inactive</label>
               </div>
             </div>
           </td>
           <td>
-            <span class="mgr-1" onclick="document.getElementById('editTax').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
+            <span class="mgr-1" onclick="editAdjustment(`{{ tax.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
             <span><i class="fa fa-solid fa-envelope-open"></i></span>
           </td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
+  <script>
+    function editAdjustment(id) {
+      document.getElementById('editTax').style.cssText = 'display: block; opacity: 1; visibility: visible;'
+      let data = {'id': id}
+      fetch("pricing/tax-detail", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // parse the JSON from the response
+      })
+      .then((data) => {
+          var tax = JSON.parse(data['tax']);
+          tax = tax[0].fields;
+          console.log(tax);
+          localStorage.setItem('edit-tax-id', data['id']);
+          localStorage.setItem('edit-tax-active', tax.active);
+          localStorage.setItem('edit-tax-status', tax.status);
+          document.getElementById('edit-tax-name').value = tax.name;
+          document.getElementById('edit-tax-description').value = tax.description;
+          document.getElementById('edit-tax-start-date').value = tax.start_date;
+          document.getElementById('edit-tax-end-date').value = tax.end_date;
+          document.getElementById('edit-tax-amount').value = tax.amount;
+          document.getElementById('edit-tax-gl-code').value = tax.gl_code;
+          if(tax.format == 'flat-rate') {
+            document.getElementById('0001-edit-tax-format-radio-one').checked = true;
+          } else {
+            document.getElementById('0001-edit-tax-format-radio-two').checked = true;
+          }
+          if(tax.assigned_gl == 'default') {
+            document.getElementById('0001-edit-assigned-gl-radio-one').checked = true;
+          } else {
+            document.getElementById('0001-edit-assigned-gl-radio-two').checked = true;
+          }
+          if(tax.active) {
+            document.getElementById('0001-edit-tax-status-radio-one').checked = true;
+          } else {
+            document.getElementById('0001-edit-tax-status-radio-two').checked = true;
+          }
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+  </script>
 </div>

@@ -533,7 +533,22 @@
       for (const [key, value] of formData) {
           data[key] = value;
       }
-
+      data['address'] = '';
+      data['calendar_type'] = 'repeat';
+      data['city'] = '';
+      data['end_date'] = '';
+      data['gl_code'] = '0';
+      data['gl_override'] = 'No';
+      data['name'] = '';
+      data['parent_id'] = '0';
+      data['product_name'] = '';
+      data['product_type'] = '';
+      data['repeat'] = '0';
+      data['run_days'] = '[]';
+      data['schedule_type'] = '1';
+      data['start_date'] = '';
+      data['state'] = '0';
+      data['zip_code'] = '';
       form = $('#new-publication-scheduling-form');
       formData = new FormData(form[0]);
       for (const [key, value] of formData) {
