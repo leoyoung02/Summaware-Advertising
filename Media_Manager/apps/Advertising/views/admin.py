@@ -156,11 +156,16 @@ def adminAdsCreateAdType(request):
 		success = False
 	
 	return JsonResponse({'success': success, "errors": []}, status=200)
+
 def adminFinancial(request):
 	# Check if user is logged in, if not, redirect  to login screen
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
-	return render(request, 'admin/financial/admin-financial.html')
+	fiscalyears = AdminFiscalYear.objects.all()
+	context = {
+		'fiscalyears': fiscalyears
+	}
+	return render(request, 'admin/financial/admin-financial.html', context)
 
 def adminFinancialFiscal(request):
 	# Check if user is logged in, if not, redirect  to login screen
@@ -265,7 +270,7 @@ def adminCreateTax(request):
 	try:
 		new_tax.save()
 	except Exception as e:
-		print(f"error:", e)
+		print(e)
 		success = False
 	return JsonResponse({"success": success}, status=200)
 
@@ -303,7 +308,51 @@ def adminEditTax(request):
 	try:
 		tax.save()
 	except Exception as e:
-		print(f"error: ", e)
+		print(e)
+		success = False
+	return JsonResponse({"success": success}, status=200)
+
+def adminCreateFiscalYear(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+	
+	data = json.loads(request.body.decode('utf-8'))
+	new_fiscalyear = AdminFiscalYear(name=data['name'], start_date=data['start_date'], end_date=data['end_date'], active=data['active'], status=data['status'])
+	success = True
+	try:
+		new_fiscalyear.save()
+	except Exception as e:
+		print(e)
+		success = False
+	return JsonResponse({"success": success}, status=200)
+
+def adminFiscalYearDetail(request):
+
+	data = json.loads(request.body.decode('utf-8'))
+	fiscalyear = AdminFiscalYear.objects.get(pk=data['id'])
+
+	response_data = {
+			'id': fiscalyear.id,
+			'fiscalyear': serializers.serialize('json', [fiscalyear]),
+	}
+	return JsonResponse(response_data, safe=False)
+
+def adminEditFiscalYear(request):
+	if request is None or not request.user.is_authenticated:
+		return redirect(login_redirect + "advertising")
+	
+	data = json.loads(request.body.decode('utf-8'))
+	fiscalyear = AdminFiscalYear.objects.get(pk=data['id'])
+	fiscalyear.name=data['name']
+	fiscalyear.start_date=data['start_date']
+	fiscalyear.end_date=data['end_date']
+	fiscalyear.active=data['active']
+	fiscalyear.status=data['status']
+	success = True
+	try:
+		fiscalyear.save()
+	except Exception as e:
+		print(e)
 		success = False
 	return JsonResponse({"success": success}, status=200)
 

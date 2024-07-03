@@ -44,26 +44,28 @@
               </tr>
             </thead>
             <tbody>
+              {% for data in fiscalyears %}
               <tr>
-                <td>0001</td>
-                <td><a href="{% url 'adminFinancialFiscal' %}" target="_blank">Fiscal Year name goes here</a></td>
-                <td>00/00/0000</td>
-                <td>00/00/0000</td>
+                <td>{{data.id}}</td>
+                <td><a href="{% url 'adminFinancialFiscal' %}" target="_blank">{{data.name}}</a></td>
+                <td>{{data.start_date}}</td>
+                <td>{{data.end_date}}</td>
                 <td>
                   <div class="fiscal-switch-container">
                     <div class="switch-field">
-                      <input type="radio" id="0001-fiscal-radio-one" name="0001-fiscal-switch-one" value="active" checked />
-                      <label for="0001-fiscal-radio-one">Active</label>
-                      <input type="radio" id="0001-fiscal-radio-two" name="0001-fiscal-switch-one" value="inactive" />
-                      <label for="0001-fiscal-radio-two">Inactive</label>
+                      <input type="radio" id="{{data.id}}-fiscal-radio-one" name="{{data.id}}-fiscal-switch-one" value="active" {{data.active | yesno:"checked, unchecked"}} />
+                      <label for="{{data.id}}-fiscal-radio-one">Active</label>
+                      <input type="radio" id="{{data.id}}-fiscal-radio-two" name="{{data.id}}-fiscal-switch-one" value="inactive" {{data.active | yesno:"unchecked, checked"}} />
+                      <label for="{{data.id}}-fiscal-radio-two">Inactive</label>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="pe-5" onclick="document.getElementById('editFiscalYear').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
+                  <span class="pe-5" onclick="editFiscalYear(`{{ data.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
                   <span><i class="fa fa-solid fa-envelope-open"></i></span>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -74,4 +76,40 @@
       </div>
     </div>
   </div>
+  <script>
+    function editFiscalYear(id) {
+      document.getElementById('editFiscalYear').style.cssText = 'display: block; opacity: 1; visibility: visible;';
+      let data = {'id': id}
+      fetch("financial/fiscalyear-detail", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json(); // parse the JSON from the response
+      })
+      .then((data) => {
+          var fiscalyear = JSON.parse(data['fiscalyear']);
+          fiscalyear = fiscalyear[0].fields;
+          console.log(fiscalyear);
+          localStorage.setItem('edit-fiscalyear-id', data['id']);
+          localStorage.setItem('edit-fiscalyear-active', fiscalyear.active);
+          localStorage.setItem('edit-fiscalyear-status', fiscalyear.status);
+          document.getElementById('edit-fiscalyear-name').value = fiscalyear.name;
+          document.getElementById('edit-fiscalyear-start-date').value = fiscalyear.start_date;
+          document.getElementById('edit-fiscalyear-end-date').value = fiscalyear.end_date;
+          document.getElementById('edit-fiscalyear-active').textContent = fiscalyear.active ? "Close Year" : "Open Year";
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+  </script>
 </div>

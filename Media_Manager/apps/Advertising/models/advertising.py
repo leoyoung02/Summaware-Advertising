@@ -479,6 +479,18 @@ class AdminTax(models.Model):
 
     def __str__(self):
         return self.description
+    
+class AdminFiscalYear(models.Model):
+    name = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
+    class Meta:
+        db_table = 'advertising_adminfiscalyear'
+
+    def __str__(self):
+        return self.name
 # ------- MODEL METHODS -------
 def getSalesPersonFullName(salesrep_id):
     """

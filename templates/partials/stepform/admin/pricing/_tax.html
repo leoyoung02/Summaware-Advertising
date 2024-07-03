@@ -61,7 +61,7 @@
             </div>
           </td>
           <td>
-            <span class="mgr-1" onclick="editAdjustment(`{{ tax.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
+            <span class="mgr-1" onclick="editTax(`{{ tax.id }}`)"><i class="fa fa-solid fa-pencil"></i></span>
             <span><i class="fa fa-solid fa-envelope-open"></i></span>
           </td>
         </tr>
@@ -70,7 +70,7 @@
     </table>
   </div>
   <script>
-    function editAdjustment(id) {
+    function editTax(id) {
       document.getElementById('editTax').style.cssText = 'display: block; opacity: 1; visibility: visible;'
       let data = {'id': id}
       fetch("pricing/tax-detail", {
