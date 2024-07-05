@@ -563,6 +563,14 @@ def adminSavePublication(request, id):
 	success = True
 	try:
 		pub.save()
+		if data['calendar_type'] == 'non-repeating':
+			schedules = AdminPublicationSchedule.objects.filter(adminpublication=pub)
+			for schedule in schedules:
+				schedule.delete()
+			for schedule in data['schedules']:
+				new_schedule = AdminPublicationSchedule(product_name = schedule['product_name'], product_type = schedule['product_type'], start_date = schedule['start_date'], end_date = schedule['end_date'],
+																						gl_override = schedule['gl_override'], gl_code_id = int(schedule['gl_code']), adminpublication = pub)
+				new_schedule.save()
 		rategroups = PubRategroup.objects.filter(adminpublication=pub)
 		for rategroup in rategroups:
 			rategroup.delete()
@@ -596,6 +604,7 @@ def adminSavePublication(request, id):
 			new_pub_section = PubSection(section = section, adminpublication = pub)
 			new_pub_section.save()
 	except Exception as e:
+		print(e)
 		success = False
 	return JsonResponse({'success': success}, status = 200)
 def adminCreatePublication(request):
@@ -603,13 +612,20 @@ def adminCreatePublication(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + '/')
 	data = json.loads(request.body.decode('utf-8'))
+	print(data)
 	new_publication = AdminPublication(name = data['name'], address = data['address'], city = data['city'], state_id = int(data['state']), zip_code=data['zip_code'],
 																		location = '', parent_id = data['parent_id'], product_name = data['product_name'], gl_override = data['gl_override'],account = 'Times Leader',
 																		gl_code_id = int(data['gl_code']), start_date = data['start_date'], end_date = data['end_date'], created_by = data['created_by'], run_days = data['run_days'],
 																		calendar_type = data['calendar_type'], product_type = data['product_type'], schedule_type = data['schedule_type'], repeat = data['repeat'])
 	success = True
+	print(new_publication)
 	try:
 		new_publication.save()
+		if data['calendar_type'] == 'non-repeating':
+			for schedule in data['schedules']:
+				new_schedule = AdminPublicationSchedule(product_name = schedule['product_name'], product_type = schedule['product_type'], start_date = schedule['start_date'], end_date = schedule['end_date'],
+																						gl_override = schedule['gl_override'], gl_code_id = int(schedule['gl_code']), adminpublication = new_publication)
+				new_schedule.save()
 		rategroup_ids = json.loads(data['rategroup_id'])
 		for id in rategroup_ids:
 			rategroup = RateGroup.objects.get(pk=id)
@@ -631,6 +647,7 @@ def adminCreatePublication(request):
 			new_pub_section = PubSection(section = section, adminpublication = new_publication)
 			new_pub_section.save()
 	except Exception as e:
+		print(e)
 		success = False
 	return JsonResponse({'success': success}, status = 200)
 def adminEditPublication(request, id):
@@ -678,6 +695,7 @@ def adminEditPublication(request, id):
 	unsigned_sections = [{'id': pa.id, 'name': pa.name} for pa in unsigned]
 	run_days = json.loads(pub.run_days)
 	daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat']
+	schedules = AdminPublicationSchedule.objects.filter(adminpublication = id)
 	context = {
         "access": "allow",
         "message": "",
@@ -693,8 +711,9 @@ def adminEditPublication(request, id):
 				"assigned_sections": assigned_sections,	
 				"unsigned_sections": unsigned_sections,
 				"pub": pub,
-        'days_of_week': daysOfWeek,
+        "days_of_week": daysOfWeek,
 				"run_days": run_days,
+				"schedules": schedules,
 				"start_date": pub.start_date.isoformat(),
 				"end_date": pub.end_date.isoformat()
     }

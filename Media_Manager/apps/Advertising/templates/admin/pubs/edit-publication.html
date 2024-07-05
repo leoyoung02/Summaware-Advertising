@@ -274,76 +274,81 @@
           </form>
 
           <div class="non-repeating {% if pub.calendar_type == 'repeat' %}hide{% else %}active{% endif %}">
-          <div class="row">
-            <div class="col-md-12 col-lg-6">
-              <div class="non-repeating-container">
-                <form method="post" id="non-repeating-form">
-                  <div class="row mgb-3">
-                    <div class="col-md-12 col-lg-6">
-                      <div class="form-group">
-                        <label for="">Name:</label>
-                        <input type="text" name="product_name" id="" class="form-control" value="{{pub.product_name}}"/>
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                      <label for="">Product Type:</label>
-                      <select name="product_type" id="" class="form-control">
-                        <option value="magazine" {% if pub.product_type == 'magazine' %} selected {% endif %}>Magazine</option>
-                        <option value="newspaper" {% if pub.product_type == 'newspaper' %} selected {% endif %}>Newspaper</option>
-                        <option value="digital" {% if pub.product_type == 'digital' %} selected {% endif %}>Digital</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="row mgb-3">
-                    <div class="col-md-12 col-lg-6">
-                      <div>
-                        <label for="gl-override">GL Override (optional)</label>
-                      </div>
-                      <div class="toggle-switch-container">
-                        <div class="switch-field">
-                          <input type="radio" id="non-repeat-gl-override-radio-one" name="gl_override" value="Yes" {% if pub.gl_override == 'Yes' %} checked {% endif %} />
-                          <label for="non-repeat-gl-override-radio-one">Yes</label>
-                          <input type="radio" id="non-repeat-gl-override-radio-two" name="gl_override" value="No" {% if pub.gl_override == 'No' %} checked {% endif %} />
-                          <label for="non-repeat-gl-override-radio-two">No</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                      <label for="">GL Code:</label>
-                      <select name="gl_code" id="gl_code" class="form-control" {% if pub.gl_override == 'No' %} disabled {% endif %}>
-                        {% for gl_code in gl_codes %}
-                        <option value="{{gl_code.id}}" {% if pub.gl_code_id == gl_code.id %}selected{% endif %}>{{gl_code.code}}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="row mgb-3">
-                    <div class="col-md-12 col-lg-6">
-                      <div class="form-group">
-                        <label for="">Start Date:</label>
-                        <input type="date" name="start_date" id="" class="form-control" value="{{start_date}}" />
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                      <div class="form-group">
-                        <label for="">End Date (optional):</label>
-                        <input type="date" name="end_date" id="" class="form-control" value="{{end_date}}"/>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="col-md-12 col-lg-6">
-              <button class="start-schedule-button">
+            <div class="mgb-1">
+              <button class="start-schedule-button" onclick="createNewSchedule()">
                 <i class="fa fa-solid fa-plus"></i>
                 <p>Start another schedule</p>
               </button>
             </div>
+            <div class="row non-repeating-parent">
+              {% for schedule in schedules %}
+              <div class="col-md-12 col-lg-6">
+                <div class="non-repeating-container">
+                  <button class="delete-schedule-btn" onclick="addDeleteFunctionality(event)">
+                    <i class="fa fa-solid fa-trash"></i>
+                  </button>
+                  <form method="post" class="non-repeating-schedule-form">
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">Name:</label>
+                          <input type="text" name="product_name" id="" class="form-control" value="{{schedule.product_name}}"/>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">Product Type:</label>
+                        <select name="product_type" id="" class="form-control">
+                          <option value="magazine" {% if schedule.product_type == 'magazine' %} selected {% endif %}>Magazine</option>
+                          <option value="newspaper" {% if schedule.product_type == 'newspaper' %} selected {% endif %}>Newspaper</option>
+                          <option value="digital" {% if schedule.product_type == 'digital' %} selected {% endif %}>Digital</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div>
+                          <label for="gl-override">GL Override (optional)</label>
+                        </div>
+                        <div class="toggle-switch-container">
+                          <div class="switch-field">
+                            <input type="radio" id="{{schedule.id}}-non-repeat-gl-override-radio-one" name="gl_override" value="Yes" {% if schedule.gl_override == 'Yes' %} checked {% endif %} />
+                            <label for="{{schedule.id}}-non-repeat-gl-override-radio-one">Yes</label>
+                            <input type="radio" id="{{schedule.id}}-non-repeat-gl-override-radio-two" name="gl_override" value="No" {% if schedule.gl_override == 'No' %} checked {% endif %} />
+                            <label for="{{schedule.id}}-non-repeat-gl-override-radio-two">No</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">GL Code:</label>
+                        <select name="gl_code" id="gl_code" class="form-control" {% if schedule.gl_override == 'No' %} disabled {% endif %}>
+                          {% for gl_code in gl_codes %}
+                          <option value="{{gl_code.id}}" {% if schedule.gl_code_id == gl_code.id %}selected{% endif %}>{{gl_code.code}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mgb-3">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">Start Date:</label>
+                          <input type="date" name="start_date" id="" class="form-control" value="{{schedule.start_date}}" />
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">End Date (optional):</label>
+                          <input type="date" name="end_date" id="" class="form-control" value="{{schedule.end_date}}"/>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
           </div>
-        </div>
           
         </div>
         <div class="btn-container content-even mgt-5">
@@ -475,6 +480,13 @@
   </div>
   <script>
     function savePublication(index, id, active, status) {
+      let currentDate = new Date();
+
+      let year = currentDate.getFullYear();
+      let month = String(currentDate.getMonth() + 1).padStart(2, '0');  // Months are 0-based, so add 1
+      let day = String(currentDate.getDate()).padStart(2, '0');
+
+      let formattedDate = `${year}-${month}-${day}`;
       let form = $('#edit-publication-info-form');
       var formData = new FormData(form[0]);
       let data = {};
@@ -489,12 +501,22 @@
       }
       data['schedule_type'] = document.querySelector('.schedule-select-btn.js-active').getAttribute('data-index');
       if(data['calendar_type'] == 'non-repeating') {
-        form = $('#non-repeating-form');
-        formData = new FormData(form[0]);
-        for (const [key, value] of formData) {
-            data[key] = value;
-        }
-        data['run_days'] = '';
+        const schedule_elements = document.querySelectorAll('.non-repeating-container');
+        var schedules = [];
+        schedule_elements.forEach(schedule => {
+          const form = schedule.querySelector('.non-repeating-schedule-form');
+          const formData = new FormData(form);
+          let schedule_data = {};
+
+          for (const [key, value] of formData.entries()) {
+              schedule_data[key] = value;
+          }
+
+          if(!schedule_data['start_date']) schedule_data['start_date'] = formattedDate;
+          if(!schedule_data['end_date']) schedule_data['end_date'] = formattedDate;
+          schedules.push(schedule_data);
+        });
+        data['schedules'] = schedules;
         data['repeat'] = 0;
         data['schedule_type'] = 1;
       }
@@ -544,6 +566,10 @@
         run_days.push(day_id[3]);
       });
       data['run_days'] = JSON.stringify(run_days);
+      if(!data['gl_code']) data['gl_code'] = 1;
+      if(!data['repeat']) data['repeat'] = 0;
+      if(!data['start_date']) data['start_date'] = formattedDate;
+      if(!data['end_date']) data['end_date'] = formattedDate;
       console.log(data);
       var hrefUrl = `{% url 'adminGeneral' %}`
       fetch(`${id}/save`, {
@@ -588,6 +614,81 @@
         document.querySelector('.non-repeating-container #gl_code').disabled = true;
       }
     })
+    function createNewSchedule() {
+      const scheduleParent = document.querySelector('.non-repeating-parent');
+      const schedules = document.querySelectorAll('.non-repeating-container');
+      var schedule_count = schedules.length;
+      const newScheduleBlock = `
+            <div class="col-md-12 col-lg-6">
+              <div class="non-repeating-container">
+                <button class="delete-schedule-btn" onclick="addDeleteFunctionality(event)">
+                  <i class="fa fa-solid fa-trash"></i>
+                </button>
+                <form method="post" class="non-repeating-schedule-form">
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">Name:</label>
+                        <input type="text" name="product_name" id="" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <label for="">Product Type:</label>
+                      <select name="product_type" id="" class="form-control">
+                        <option value="magazine">Magazine</option>
+                        <option value="newspaper">Newspaper</option>
+                        <option value="digital">Digital</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div>
+                        <label for="gl-override">GL Override (optional)</label>
+                      </div>
+                      <div class="toggle-switch-container">
+                        <div class="switch-field">
+                          <input type="radio" id="${schedule_count}-non-repeat-gl-override-radio-one" name="gl_override" value="Yes" checked />
+                          <label for="${schedule_count}-non-repeat-gl-override-radio-one">Yes</label>
+                          <input type="radio" id="${schedule_count}-non-repeat-gl-override-radio-two" name="gl_override" value="No" />
+                          <label for="${schedule_count}-non-repeat-gl-override-radio-two">No</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <label for="">GL Code:</label>
+                      <select name="gl_code" id="" class="form-control">
+                        {% for gl_code in gl_codes %}
+                        <option value="{{gl_code.id}}">{{gl_code.code}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mgb-3">
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">Start Date:</label>
+                        <input type="date" name="start_date" id="" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                      <div class="form-group">
+                        <label for="">End Date (optional):</label>
+                        <input type="date" name="end_date" id="" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>`;
+      scheduleParent.insertAdjacentHTML('beforeend', newScheduleBlock);
+    }
+    
+    function addDeleteFunctionality(event) {
+        event.target.closest('.col-md-12.col-lg-6').remove();
+    }
   </script>
 </div>
 

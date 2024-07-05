@@ -217,6 +217,18 @@ class AdminPublication(models.Model):
     class Meta:
         db_table = 'advertising_adminpublication'
 
+class AdminPublicationSchedule(models.Model):
+    adminpublication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=255)
+    product_type = models.CharField(max_length=255)
+    gl_override = models.CharField(max_length=255)
+    gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    class Meta:
+        db_table = 'advertising_adminpublication_schedule'
+
 class PubAdjustment(models.Model):
     adminadjustment = models.ForeignKey('AdminAdjustment', on_delete=CASCADE)
     adminpublication = models.ForeignKey('AdminPublication', on_delete=models.CASCADE)
