@@ -1912,20 +1912,7 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
   position: relative;
 }
-.c-card:after {
-  position: absolute;
-  content: '';
-  background-image: url('../images/step-form-border.png');
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 247px;
-  top: 0;
-  left: 0;
-  background-position: center;
-  background-size: cover;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
+
 .c-card .progress-icons {
   width: 70%;
   /* border: 1px solid rgb(234, 234, 234); */

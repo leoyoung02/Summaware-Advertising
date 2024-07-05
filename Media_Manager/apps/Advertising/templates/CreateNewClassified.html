@@ -3,9 +3,9 @@
 {% load static %}
 
 {% block endjs %}
-<script src="{% static "dist/js/advertising/SearchPublic.js" %}"></script>
-<script src="{% static "admin/js/event-calendar.js" %}"></script>
-<script src="{% static "dist/js/advertising/ClassfiedsNew.js" %}"></script>
+<script src="{% static 'dist/js/advertising/SearchPublic.js' %}"></script>
+<script src="{% static 'admin/js/event-calendar.js' %}"></script>
+<script src="{% static 'dist/js/advertising/ClassfiedsNew.js' %}"></script>
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="advertising-back-image">
-    <img src="{% static "svg/campaign_back_img.svg" %}">
+    <img src="{% static 'svg/campaign_back_img.svg' %}">
 </div>
 
 <div id="content">
@@ -146,7 +146,7 @@
                     </button>
                 </div>
 
-                <img src="{% static "svg/Ellipse 9 (1).svg" %}" style="width: 100%;">
+                <img src="{% static 'svg/Ellipse 9 (1).svg' %}" style="width: 100%;">
             </div>
 
             <div class="col-md-12 hide" id="section3">
@@ -154,7 +154,7 @@
 
                 <div class="flex-row c-p-adFormat">
                     <button class="btn btn-primary bg-primary c-filter" onclick="filterAdFormats()">
-                        <img src={% static "svg/Vector (1).svg" %}>
+                        <img src="{% static 'svg/Vector (1).svg' %}">
                         Filter
                     </button>
 
@@ -177,7 +177,7 @@
                                 </div>
 
                                 <div class="flex-row content-left c-ml-10" onclick="selectStar({{adType.id}})">
-                                    <img id="star_{{adType.id}}" src="{% static "svg/Star-white.svg" %}"
+                                    <img id="star_{{adType.id}}" src="{% static 'svg/Star-white.svg' %}"
                                     style="height: 18px;">&nbsp;
 
                                     <h4 class="c-favorite" style="line-height: 20px;">Add to Favorites</h4>
@@ -189,7 +189,7 @@
                             </div>
 
                             <div id="favoriteIcon_{{adType.id}}" class="text-center pub-mark">
-                                <img src="{% static "svg/Vector (2).svg" %}" style="height: 15px; margin-top:8px;">
+                                <img src="{% static 'svg/Vector (2).svg' %}" style="height: 15px; margin-top:8px;">
                             </div>
                         </div>
                         {% endfor %}
@@ -213,7 +213,7 @@
                     </button>
                 </div>
 
-                <img src="{% static "svg/Ellipse 9 (1).svg" %}" style="width: 100%;">
+                <img src="{% static 'svg/Ellipse 9 (1).svg' %}" style="width: 100%;">
             </div>
 
             <div class="col-md-12 hide" id="section4">
@@ -234,7 +234,7 @@
                     </button>
                 </div>
 
-                <img class="mt-2" src="{% static "svg/Ellipse 9 (1).svg" %}" style="width: 100%;">
+                <img class="mt-2" src="{% static 'svg/Ellipse 9 (1).svg' %}" style="width: 100%;">
 
                 <select id="publication_data" style="display: none">
                     {% for publication in publications %}
@@ -356,7 +356,7 @@
                     </button>
                 </div>
 
-                <img class="mt-2 campaign-summary-back" src="{% static "svg/Ellipse 9 (1).svg" %}">
+                <img class="mt-2 campaign-summary-back" src="{% static 'svg/Ellipse 9 (1).svg' %}">
             </div>
 
             <div class="col-md-12 hide" id="section6">
@@ -364,7 +364,7 @@
                     <div class="success-label">Ad Campaign Created!</div>
 
                     <div id="favoriteIcon1" class="mt-2 adsuccess-mark">
-                        <img src="{% static "svg/Vector (2).svg" %}" style="height: 140px; margin-top: 35px;">
+                        <img src="{% static 'svg/Vector (2).svg' %}" style="height: 140px; margin-top: 35px;">
                     </div>
                 </div>
 
@@ -378,7 +378,7 @@
                     <button class="btn btn-primary bg-primary" onclick="" style="width: 25%;">Print Receipt</button>
                 </div>
 
-                <img class="mt-2" src="{% static "svg/Ellipse 9 (1).svg" %}" style="width: 100%;">
+                <img class="mt-2" src="{% static 'svg/Ellipse 9 (1).svg' %}" style="width: 100%;">
             </div>
         </div>
     </div>
@@ -581,7 +581,7 @@
                 </div>
 
                 <div class="modal-footer-img">
-                    <img src="{% static "svg/Ellipse 9 (1).svg" %}" style="width: 100%;">
+                    <img src="{% static 'svg/Ellipse 9 (1).svg' %}" style="width: 100%;">
                 </div>
             </div>
         </div>
