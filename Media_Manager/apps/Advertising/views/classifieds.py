@@ -18,7 +18,8 @@ logger = logging.getLogger(__name__)
 from .... import views
 
 # import the necessary models needed
-from ..models.advertising import Account, SalesPerson, AccountType, MarketCode, IndustryCode
+from ..models.companies import GLCode
+from ..models.advertising import Account, SalesPerson, AccountType, MarketCode, IndustryCode, AllStates
 from ..models.publications import Publication, PublicationRunDay, getRunDays
 from ..models.classifieds import ClassifiedAd, ClassifiedGraphic, Classification, ClassifiedAdjustment, ClassifiedRate, \
     ClassifiedRatePublication, ClassifiedPublication, ClassifiedStyling, getClassifiedRates, ClassifiedPublicationRate, \
@@ -103,7 +104,7 @@ def create_advertiser(request):
 
     salesPersonQuery = SalesPerson.objects.all()
     salesPersonList = serializers.serialize('json', salesPersonQuery)
-
+    states = AllStates.objects.all()
     context = {
         "accountTypes": accountTypeQuery,
         "accountTypeList": accountTypeList,
@@ -111,6 +112,7 @@ def create_advertiser(request):
         "marketCodeList": marketCodeList,
         "salesPersons": salesPersonQuery,
         "salesPersonList": salesPersonList,
+        "states": states,
         "advertising" : "yes"
     }
 
@@ -1142,7 +1144,7 @@ def create_classified_rate(request):
         publications = getPublicationAccess(request.user.username)
         adTypes = ClassifiedAdType.objects.all()
         adPublications = Publication.objects.all()
-
+        glcodes = GLCode.objects.all()
         context = {
             "access": "allow",
             "message": "",
@@ -1152,6 +1154,7 @@ def create_classified_rate(request):
             "adTypes": adTypes,
             "adPublications": adPublications,
             "accounts": [row.account for row in AccountAccess.objects.filter(user=request.user.id)],
+            "glcodes": glcodes,
             "advertising": "yes"
         }
 

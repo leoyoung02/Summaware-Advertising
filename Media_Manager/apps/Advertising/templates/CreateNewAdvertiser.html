@@ -75,10 +75,9 @@
 
                             <select id="state" class="advertiser-item-input">
                                 <option disabled selected value="0">Select</option>
-                                <option value="State1">State1</option>
-                                <option value="State2">State2</option>
-                                <option value="State3">State3</option>
-                                <option value="State4">State4</option>
+                                {% for state in states %}
+                                <option value="{{state.id}}">{{state.name}}-{{state.abbreviation}}</option>
+                                {% endfor %}
                             </select>
                         </div>
 

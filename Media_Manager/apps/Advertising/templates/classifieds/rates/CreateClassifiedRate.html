@@ -100,9 +100,9 @@
 
                         <select id="gl-code" class="advertiser-item-input">
                             <option disabled selected value="0">Select</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            {% for glcode in glcodes %}
+                            <option value="{{glcode.id}}">{{glcode.code}}</option>
+                            {% endfor %}
                         </select>
                     </div>
 
