@@ -1,3 +1,292 @@
+// Disable list item inputs in deadlines
+
+document.addEventListener('DOMContentLoaded', function () {
+  const listItems = document.querySelectorAll('.list-group-item');
+
+  listItems.forEach(item => {
+    const onRadio = item.querySelector('input[type="radio"][value="on"]');
+    const offRadio = item.querySelector('input[type="radio"][value="off"]');
+    const inputs = item.querySelectorAll('.form-control');
+
+    function toggleInputs() {
+      if (offRadio.checked) {
+        inputs.forEach(input => (input.disabled = true));
+      } else {
+        inputs.forEach(input => (input.disabled = false));
+      }
+    }
+
+    onRadio.addEventListener('change', toggleInputs);
+    offRadio.addEventListener('change', toggleInputs);
+
+    // Initial state
+    toggleInputs();
+  });
+});
+
+// DOW Selector
+
+document.addEventListener('DOMContentLoaded', function () {
+  const checkboxes = document.querySelectorAll('.dow-picker-option input[type="checkbox"]');
+  const scheduleButtonsContainer = document.querySelector('.deadline-schedule-btns');
+
+  function updateSelectedDays() {
+    // Clear existing buttons
+    scheduleButtonsContainer.innerHTML = '';
+
+    // Create and add buttons for each selected day
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        const label = checkbox.nextElementSibling;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'schedule-select-btn deadlines-schedule-btn';
+        button.textContent = label.innerText;
+        scheduleButtonsContainer.appendChild(button);
+      }
+    });
+
+    // Add js-active class to the first button
+    const firstButton = scheduleButtonsContainer.querySelector('.schedule-select-btn');
+    if (firstButton) {
+      firstButton.classList.add('js-active');
+    }
+
+    // Reattach event listeners for the new buttons
+    attachButtonListeners();
+  }
+
+  function attachButtonListeners() {
+    const buttons = scheduleButtonsContainer.querySelectorAll('.deadlines-schedule-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        // Remove js-active class from all buttons
+        buttons.forEach(btn => btn.classList.remove('js-active'));
+        // Add js-active class to the clicked button
+        this.classList.add('js-active');
+      });
+    });
+  }
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      if (this.checked) {
+        this.closest('.dow-picker-option').classList.add('checked');
+      } else {
+        this.closest('.dow-picker-option').classList.remove('checked');
+      }
+      updateSelectedDays();
+    });
+  });
+
+  // Initial update in case some checkboxes are already checked
+  updateSelectedDays();
+});
+
+// End DOW Selector
+
+// Start Another Schedule Button
+
+document.addEventListener('DOMContentLoaded', function () {
+  const scheduleBtn = document.querySelector('.start-schedule-button');
+  const scheduleParent = document.querySelector('.non-repeating-parent');
+
+  function addDeleteFunctionality(button) {
+    button.addEventListener('click', function () {
+      this.closest('.col-md-12.col-lg-6').remove();
+    });
+  }
+
+  scheduleBtn.addEventListener('click', function () {
+    const newScheduleBlock = `
+                <div class="col-md-12 col-lg-6">
+                  <div class="non-repeating-container">
+                    <button class="delete-schedule-btn">
+                      <i class="fa fa-solid fa-trash"></i>
+                    </button>
+                    <div class="row">
+                      <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                          <label for="">Name:</label>
+                          <input type="text" name="product_name" id="" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">Product Type:</label>
+                        <select name="product_type" id="" class="form-control">
+                          <option value="magazine">Magazine</option>
+                          <option value="newspaper">Newspaper</option>
+                          <option value="digital">Digital</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 col-lg-6">
+                        <div>
+                          <label for="gl-override">GL Override (optional)</label>
+                        </div>
+                        <div class="toggle-switch-container">
+                          <div class="switch-field">
+                            <input type="radio" id="non-repeat-gl-override-radio-one" name="gl_override" value="Yes" checked />
+                            <label for="non-repeat-gl-override-radio-one">Yes</label>
+                            <input type="radio" id="non-repeat-gl-override-radio-two" name="gl_override" value="No" />
+                            <label for="non-repeat-gl-override-radio-two">No</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-6">
+                        <label for="">GL Code:</label>
+                        <select name="gl_code" id="" class="form-control">
+                          {% for gl_code in gl_codes %}
+                          <option value="{{gl_code.id}}">{{gl_code.code}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mgt-1">
+                      <div class="col-md-12 col-lg-4">
+                        <div class="form-group">
+                          <label for="">Publish Date:</label>
+                          <input type="date" name="start_date" id="" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-8">
+                        <div class="content-even">
+                          <div class="form-group w50 mgr-1">
+                            <label for="">Publish Deadline:</label>
+                            <input type="date" name="end_date" id="" class="form-control" />
+                          </div>
+                          <div class="w50 content-even mgt-1">
+                            <div class="w50"><input type="text" name="" id="" class="form-control"></div>
+                            <div class="px-05">at</div>
+                            <div class="w50">
+                              <select name="" id="" class="form-control">
+                                <option>AM</option>
+                                <option>PM</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="content-end mgb-1">
+                      <button class="btn btn-link">
+                        <strong>+ Add Date &amp; Deadline</strong>
+                      </button>
+                    </div>
+                    <div class="chosen-dates">
+                      <span>Chosen Days &amp; Deadlines</span>
+                      <div class="table-container mt-3">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Publish Date</th>
+                              <th scope="col">Publish Deadline</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="inactive">
+                              <td>03/05/2024</td>
+                              <td>03/05/2024 at 12:00PM</td>
+                              <td>
+                                <i class="fa fa-solid fa-trash"></i></span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>`;
+    scheduleParent.insertAdjacentHTML('beforeend', newScheduleBlock);
+
+    const newDeleteButton = scheduleParent.querySelector('.col-md-12.col-lg-6:last-child .delete-schedule-btn');
+    addDeleteFunctionality(newDeleteButton);
+  });
+
+  document.querySelectorAll('.delete-schedule-btn').forEach(button => {
+    addDeleteFunctionality(button);
+  });
+});
+
+// End Another Schedule Button
+
+// Publication Scheduling Repeat / Non Repeat Toggle
+
+document.addEventListener('DOMContentLoaded', function () {
+  const repeatRadio = document.getElementById('calendar-radio-one');
+  const nonRepeatRadio = document.getElementById('calendar-radio-two');
+  const repeatingCalendar = document.querySelector('.repeating-calendar');
+  const nonRepeatingCalendar = document.querySelector('.non-repeating');
+  const repeatDeadlines = document.querySelector('.repeat-deadlines-container');
+  const productDeadlines = document.querySelector('.product-deadlines-container');
+
+  repeatRadio.addEventListener('change', function () {
+    if (repeatRadio.checked) {
+      repeatingCalendar.classList.add('active');
+      repeatingCalendar.classList.remove('hide');
+      nonRepeatingCalendar.classList.add('hide');
+      nonRepeatingCalendar.classList.remove('active');
+      repeatDeadlines.classList.add('active');
+      repeatDeadlines.classList.remove('hide');
+      productDeadlines.classList.add('hide');
+      productDeadlines.classList.remove('active');
+    }
+  });
+
+  nonRepeatRadio.addEventListener('change', function () {
+    if (nonRepeatRadio.checked) {
+      nonRepeatingCalendar.classList.add('active');
+      nonRepeatingCalendar.classList.remove('hide');
+      repeatingCalendar.classList.add('hide');
+      repeatingCalendar.classList.remove('active');
+      repeatDeadlines.classList.add('hide');
+      repeatDeadlines.classList.remove('active');
+      productDeadlines.classList.add('active');
+      productDeadlines.classList.remove('hide');
+    }
+  });
+});
+
+// End Publication Scheduling Repeat / Non Repeat Toggle
+
+// Publication Schedule Toggle
+
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.scheduling-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function () {
+      // Remove js-active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('js-active'));
+      // Add js-active class to the clicked button
+      this.classList.add('js-active');
+    });
+  });
+});
+
+// End Publication Schedule Toggle
+
+// Publication Deadline Schedule Toggle
+
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.deadlines-schedule-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function () {
+      // Remove js-active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('js-active'));
+      // Add js-active class to the clicked button
+      this.classList.add('js-active');
+    });
+  });
+});
+
+// End Publication Deadline Schedule Toggle
+
 function toggleSearchContainer() {
   var searchContainer = document.getElementById('search-container');
   if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
@@ -63,55 +352,7 @@ const findParent = (elem, parentClass) => {
 
   return currentNode;
 };
-document.addEventListener('DOMContentLoaded', function () {
-  const repeatRadio = document.getElementById('calendar-radio-one');
-  const nonRepeatRadio = document.getElementById('calendar-radio-two');
-  const repeatingCalendar = document.querySelector('.repeating-calendar');
-  const nonRepeatingCalendar = document.querySelector('.non-repeating');
 
-  repeatRadio.addEventListener('change', function () {
-    if (repeatRadio.checked) {
-      repeatingCalendar.classList.add('active');
-      repeatingCalendar.classList.remove('hide');
-      nonRepeatingCalendar.classList.add('hide');
-      nonRepeatingCalendar.classList.remove('active');
-    }
-  });
-
-  nonRepeatRadio.addEventListener('change', function () {
-    if (nonRepeatRadio.checked) {
-      nonRepeatingCalendar.classList.add('active');
-      nonRepeatingCalendar.classList.remove('hide');
-      repeatingCalendar.classList.add('hide');
-      repeatingCalendar.classList.remove('active');
-    }
-  });
-});
-document.addEventListener('DOMContentLoaded', function () {
-  const checkboxes = document.querySelectorAll('.dow-picker-option input[type="checkbox"]');
-
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
-      if (this.checked) {
-        this.closest('.dow-picker-option').classList.add('checked');
-      } else {
-        this.closest('.dow-picker-option').classList.remove('checked');
-      }
-    });
-  });
-});
-document.addEventListener('DOMContentLoaded', function () {
-  const buttons = document.querySelectorAll('.schedule-select-btn');
-
-  buttons.forEach(button => {
-    button.addEventListener('click', function () {
-      // Remove js-active class from all buttons
-      buttons.forEach(btn => btn.classList.remove('js-active'));
-      // Add js-active class to the clicked button
-      this.classList.add('js-active');
-    });
-  });
-});
 //get active button step number
 const getActiveStep = elem => {
   return Array.from(DOMstrings.stepsBtns).indexOf(elem);
