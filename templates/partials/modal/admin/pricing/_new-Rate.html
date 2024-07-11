@@ -57,7 +57,7 @@
                 <div class="col-md-12 col-lg-6">
                   <div class="form-group mb-4">
                     <label for=""><strong>Ad Type:</strong></label>
-                    <select name="ad_type" id="" class="form-control">
+                    <select name="ad_type" id="" class="form-control" multiple>
                       {% for adtype in adtypes %}
                         <option value="{{adtype.id}}">{{adtype.name}}</option>
                       {% endfor %}
