@@ -8,9 +8,15 @@
 
   <div class="multisteps-form__content">
     <div class="">
-      <div class="content-end">
-        <button class="btn btn-secondary mgr-1" onclick="document.getElementById('templateDownload').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
-        <button class="btn btn-dl-template" onclick="document.getElementById('uploadCSV').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-up"></i> Upload CSV Files</button>
+      <div class="content-between">
+        <div class="file-btns d-flex">
+          <button class="btn btn-secondary mgr-1" onclick="document.getElementById('templateDownload').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-down"></i> Download Templates</button>
+          <button class="btn btn-dl-template" onclick="document.getElementById('uploadCSV').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-arrow-up"></i> Upload CSV Files</button>
+        </div>
+
+        <div class="save-container">
+          <button class="btn btn-secondary-light">Save Changes</button>
+        </div>
       </div>
 
       <div class="text-container text-center mgx-3">
