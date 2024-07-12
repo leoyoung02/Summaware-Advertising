@@ -39,6 +39,7 @@
           <div class="row mgb-3">
             <div class="col-lg-6 col-md-12">
               <div class="form-group mb-5">
+                <span class="aster">*</span>
                 <label for="product-mag">Digital Product Name:</label>
                 <input type="text" id="product-mag" class="form-control" required />
               </div>
@@ -47,6 +48,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
+                      <span class="aster">*</span>
                       <label for="format">Select Format:</label>
                       <select id="format" class="form-control" required>
                         <option value="format1">format1</option>
@@ -56,6 +58,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <span class="aster">*</span>
                       <label for="ad-type">Ad Type:</label>
                       <select id="ad-type" class="form-control" required>
                         {% for adtype in adtypes %}
@@ -70,10 +73,12 @@
               <div class="form-group mb-5">
                 <div class="row mb-5">
                   <div class="col-md-6">
+                    <span class="aster">*</span>
                     <label for="height">Height:</label>
                     <input type="text" id="height" class="form-control" required />
                   </div>
                   <div class="col-md-6">
+                    <span class="aster">*</span>
                     <label for="width">Width</label>
                     <input type="text" id="width" class="form-control" required />
                   </div>
