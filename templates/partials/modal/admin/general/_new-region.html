@@ -65,7 +65,7 @@
           // Check if the lastTr is a <tr> element
           if (lastTr.tagName === 'TR') {
               // Get the ID of the last rate element from the last <tr> element
-              var lastRateId = lastTr.querySelector('td:first-child').textContent;
+              var lastRateId = lastTr.querySelector('input[name$="-region-switch-one"]').name.split('-')[0];
           }
           var newRow = `
           <tr>
@@ -76,15 +76,15 @@
             <td>
               <div class="toggle-switch-container">
                 <div class="switch-field">
-                  <input type="radio" id="${Number(lastRateId) + 1}-region-radio-one" name="${Number(lastRateId) + 1}-region-switch-one" value="active" checked />
-                  <label for="${Number(lastRateId) + 1}-region-radio-one">Active</label>
-                  <input type="radio" id="${Number(lastRateId) + 1}-region-radio-two" name="${Number(lastRateId) + 1}-region-switch-one" value="inactive" />
-                  <label for="${Number(lastRateId) + 1}-region-radio-two">Inactive</label>
+                  <input type="radio" id="${res.id}-region-radio-one" name="${res.id}-region-switch-one" value="active" checked />
+                  <label for="${res.id}-region-radio-one">Active</label>
+                  <input type="radio" id="${res.id}-region-radio-two" name="${res.id}-region-switch-one" value="inactive" />
+                  <label for="${res.id}-region-radio-two">Inactive</label>
                 </div>
               </div>
             </td>
             <td>
-              <span class="mr-1" onclick="document.getElementById('editRegion').style.cssText = 'display: block; opacity: 1; visibility: visible;'"><i class="fa fa-solid fa-pencil"></i></span>
+              <span class="mr-1" onclick="editRegion('${res.id}')"><i class="fa fa-solid fa-pencil"></i></span>
               <span><i class="fa fa-solid fa-envelope-open"></i></span>
             </td>
           </tr>`

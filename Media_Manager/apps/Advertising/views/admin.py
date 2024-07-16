@@ -120,10 +120,10 @@ def adminAdsAdTypeDetail(request):
 	data = json.loads(request.body.decode('utf-8'))
 	adtype = AdminAdType.objects.get(pk=data['id'])
 	pub_adtypes = PubAdType.objects.filter(adminadtype=adtype.id).select_related('adminpublication')
-	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adtypes]
+	assigned_publications = [{'id': pa.adminpublication.id, 'name': pa.adminpublication.name} for pa in pub_adtypes]
 	pub_ids = []
 	for pub_adtype in pub_adtypes:
-		pub_ids.append(pub_adtype.publication.id)
+		pub_ids.append(pub_adtype.adminpublication.id)
 
 	pub_adtypes = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adtypes] 
@@ -177,10 +177,10 @@ def adminAdjustmentDetail(request):
 	data = json.loads(request.body.decode('utf-8'))
 	adjustment = AdminAdjustment.objects.get(pk=data['id'])
 	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment.id).select_related('adminpublication')
-	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_adjustments]
+	assigned_publications = [{'id': pa.adminpublication.id, 'name': pa.adminpublication.name} for pa in pub_adjustments]
 	pub_ids = []
 	for pub_adjustment in pub_adjustments:
-		pub_ids.append(pub_adjustment.publication.id)
+		pub_ids.append(pub_adjustment.adminpublication.id)
 
 	pub_adjustments = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in pub_adjustments] 
@@ -216,27 +216,30 @@ def adminEditAdjustment(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	adjustment = AdminAdjustment.objects.get(pk=data['id'])
-	adjustment.name = data['name']
-	adjustment.code = data['code']
-	adjustment.apply_level = data['apply_level']
-	adjustment.gl_code_id = data['gl_code']
-	adjustment.type = data['type']
-	adjustment.value_type = data['value_type']
-	adjustment.value = data['value']
-	adjustment.section_id = data['section']
-	adjustment.prompt_for_value = data['prompt_for_value']
 	adjustment.active = data['active']
-	adjustment.status = data['status']
-	adjustment.save()
-	pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment)
-	for pub_adjustment in pub_adjustments:
-		pub_adjustment.delete()
+	if 'status_only' in data:
+		adjustment.save()
+	else:
+		adjustment.name = data['name']
+		adjustment.code = data['code']
+		adjustment.apply_level = data['apply_level']
+		adjustment.gl_code_id = data['gl_code']
+		adjustment.type = data['type']
+		adjustment.value_type = data['value_type']
+		adjustment.value = data['value']
+		adjustment.section_id = data['section']
+		adjustment.prompt_for_value = data['prompt_for_value']
+		adjustment.status = data['status']
+		adjustment.save()
+		pub_adjustments = PubAdjustment.objects.filter(adminadjustment=adjustment)
+		for pub_adjustment in pub_adjustments:
+			pub_adjustment.delete()
 
-	pub_ids = json.loads(data['publication_id'])
-	for id in pub_ids:
-		publication = AdminPublication.objects.get(pk=id)
-		new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, adminpublication=publication)
-		new_pub_adjustment.save()
+		pub_ids = json.loads(data['publication_id'])
+		for id in pub_ids:
+			publication = AdminPublication.objects.get(pk=id)
+			new_pub_adjustment = PubAdjustment(adminadjustment=adjustment, adminpublication=publication)
+			new_pub_adjustment.save()
 
 	return JsonResponse({"errors": []}, status=200)
 
@@ -478,7 +481,7 @@ def adminPricingEditRateGroup(request, groupId):
 	rates = Rate.objects.filter(id__in=rate_ids)
 	assigned_publications = []
 	unsigned_publications = publications
-	adtypes = AdType.objects.all()
+	adtypes = AdminAdType.objects.all()
 	glcodes = GLCode.objects.all()
 	extra_groups = RateGroup.objects.exclude(id=groupId)
 	pub_rategroups = PubRategroup.objects.filter(rategroup=rategroup.id).select_related('adminpublication')
@@ -696,6 +699,10 @@ def adminEditPublication(request, id):
 	run_days = json.loads(pub.run_days)
 	daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat']
 	schedules = AdminPublicationSchedule.objects.filter(adminpublication = id)
+	start_date = pub.start_date.isoformat()
+	end_date = None
+	if pub.end_date:
+		end_date = pub.end_date.isoformat()
 	context = {
         "access": "allow",
         "message": "",
@@ -714,8 +721,8 @@ def adminEditPublication(request, id):
         "days_of_week": daysOfWeek,
 				"run_days": run_days,
 				"schedules": schedules,
-				"start_date": pub.start_date.isoformat(),
-				"end_date": pub.end_date.isoformat()
+				"start_date": start_date,
+				"end_date": end_date
     }
 	return render(request, 'admin/pubs/edit-publication.html', context)
 def adminNewPublication(request):
@@ -806,29 +813,36 @@ def adminSaveMagazine(request, id):
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	product = MagazineProduct.objects.get(pk=id)
-	product.product_mag = data['product_mag']
-	product.measurement_type = data['measurement_type']
-	product.fold_orientation = data['fold_orientation']
-	product.height = data['height']
-	product.width = data['width']
-	product.columns = data['columns']
-	product.column_width = data['column_width']
-	product.page_width = data['page_width']
-	product.page_height = data['page_height']
-	product.page_border = data['page_border']
-	product.gutter_size = data['gutter_size']
 	success = True
-	try:
-		product.save()
-		sizes = MagazineSize.objects.filter(product = product)
-		for size in sizes:
-			size.delete()
-		for id in data['sizes']:
-			size = StandardSize.objects.get(pk = id)
-			new_product_size = MagazineSize(product = product, size = size)
-			new_product_size.save()
-	except Exception as e:
-		success = False
+	if 'status_only' in data:
+		product.active = data['active']
+		try:
+			product.save()
+		except Exception as e:
+			success = False
+	else:
+		product.product_mag = data['product_mag']
+		product.measurement_type = data['measurement_type']
+		product.fold_orientation = data['fold_orientation']
+		product.height = data['height']
+		product.width = data['width']
+		product.columns = data['columns']
+		product.column_width = data['column_width']
+		product.page_width = data['page_width']
+		product.page_height = data['page_height']
+		product.page_border = data['page_border']
+		product.gutter_size = data['gutter_size']
+		try:
+			product.save()
+			sizes = MagazineSize.objects.filter(product = product)
+			for size in sizes:
+				size.delete()
+			for id in data['sizes']:
+				size = StandardSize.objects.get(pk = id)
+				new_product_size = MagazineSize(product = product, size = size)
+				new_product_size.save()
+		except Exception as e:
+			success = False
 	return JsonResponse({'success': success}, status = 200)
 
 def adminNewNewspaper(request):
@@ -895,29 +909,36 @@ def adminSaveNewspaper(request, id):
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	product = NewspaperProduct.objects.get(pk=id)
-	product.product_mag = data['product_mag']
-	product.measurement_type = data['measurement_type']
-	product.fold_orientation = data['fold_orientation']
-	product.height = data['height']
-	product.width = data['width']
-	product.columns = data['columns']
-	product.column_width = data['column_width']
-	product.page_width = data['page_width']
-	product.page_height = data['page_height']
-	product.page_border = data['page_border']
-	product.gutter_size = data['gutter_size']
 	success = True
-	try:
-		product.save()
-		sizes = NewspaperSize.objects.filter(product = product)
-		for size in sizes:
-			size.delete()
-		for id in data['sizes']:
-			size = StandardSize.objects.get(pk = id)
-			new_product_size = NewspaperSize(product = product, size = size)
-			new_product_size.save()
-	except Exception as e:
-		success = False
+	if 'status_only' in data:
+		product.active = data['active']
+		try:
+			product.save()
+		except Exception as e:
+			success = False
+	else:
+		product.product_mag = data['product_mag']
+		product.measurement_type = data['measurement_type']
+		product.fold_orientation = data['fold_orientation']
+		product.height = data['height']
+		product.width = data['width']
+		product.columns = data['columns']
+		product.column_width = data['column_width']
+		product.page_width = data['page_width']
+		product.page_height = data['page_height']
+		product.page_border = data['page_border']
+		product.gutter_size = data['gutter_size']
+		try:
+			product.save()
+			sizes = NewspaperSize.objects.filter(product = product)
+			for size in sizes:
+				size.delete()
+			for id in data['sizes']:
+				size = StandardSize.objects.get(pk = id)
+				new_product_size = NewspaperSize(product = product, size = size)
+				new_product_size.save()
+		except Exception as e:
+			success = False
 	return JsonResponse({'success': success}, status = 200)
 
 def adminNewDigital(request):
@@ -978,23 +999,30 @@ def adminSaveDigital(request, id):
 	body = request.body.decode('utf-8')
 	data = json.loads(body)
 	product = DigitalProduct.objects.get(pk=id)
-	product.product_mag = data['product_mag']
-	product.format = data['format']
-	product.adminadtype_id = data['adminadtype']
-	product.height = data['height']
-	product.width = data['width']
 	success = True
-	try:
-		product.save()
-		sizes = DigitalSize.objects.filter(product = product)
-		for size in sizes:
-			size.delete()
-		for id in data['sizes']:
-			size = StandardSize.objects.get(pk = id)
-			new_product_size = DigitalSize(product = product, size = size)
-			new_product_size.save()
-	except Exception as e:
-		success = False
+	if 'status_only' in data:
+		product.active = data['active']
+		try:
+			product.save()
+		except Exception as e:
+			success = False
+	else:
+		product.product_mag = data['product_mag']
+		product.format = data['format']
+		product.adminadtype_id = data['adminadtype']
+		product.height = data['height']
+		product.width = data['width']
+		try:
+			product.save()
+			sizes = DigitalSize.objects.filter(product = product)
+			for size in sizes:
+				size.delete()
+			for id in data['sizes']:
+				size = StandardSize.objects.get(pk = id)
+				new_product_size = DigitalSize(product = product, size = size)
+				new_product_size.save()
+		except Exception as e:
+			success = False
 	return JsonResponse({'success': success}, status = 200)
 
 def adminCreateStandardSize(request):
@@ -1023,7 +1051,7 @@ def adminCreateRegion(request):
 			new_pub_region.save()
 	except Exception as e:
 		success = False
-	return JsonResponse({"success":success, "errors": []}, status=200)
+	return JsonResponse({"success":success, "id": new_region.id, "errors": []}, status=200)
 def adminEditRegion(request):
 	if request is None or not request.user.is_authenticated:
 		return redirect(login_redirect + "advertising")
@@ -1054,10 +1082,10 @@ def adminRegionDetail(request):
 	data = json.loads(request.body.decode('utf-8'))
 	region = Region.objects.get(pk=data['id'])
 	pub_regions = PubRegion.objects.filter(region=region.id).select_related('adminpublication')
-	assigned_publications = [{'id': pa.publication.id, 'name': pa.publication.name} for pa in pub_regions]
+	assigned_publications = [{'id': pa.adminpublication.id, 'name': pa.adminpublication.name} for pa in pub_regions]
 	pub_ids = []
 	for pub_region in pub_regions:
-		pub_ids.append(pub_region.publication.id)
+		pub_ids.append(pub_region.adminpublication.id)
 
 	unsigned = AdminPublication.objects.exclude(id__in=pub_ids)
 	unsigned_publications = [{'id': pa.id, 'name': pa.name} for pa in unsigned] 
@@ -1090,15 +1118,23 @@ def adminEditMarketCode(request):
 
 	data = json.loads(request.body.decode('utf-8'))
 	marketcode = AdminMarketCode.objects.get(pk=data['id'])
-	marketcode.name = data['name']
-	marketcode.code = data['code']
-	marketcode.active = data['active']
-	marketcode.status = data['status']
 	success = True
-	try:
-		marketcode.save()
-	except Exception as e:
-		success = False
+	if 'status_only' in data:
+		marketcode.active = data['active']
+		try:
+			marketcode.save()
+		except Exception as e:
+			success = False
+	else:
+		marketcode.name = data['name']
+		marketcode.code = data['code']
+		marketcode.active = data['active']
+		marketcode.status = data['status']
+		success = True
+		try:
+			marketcode.save()
+		except Exception as e:
+			success = False
 	return JsonResponse({"success":success, "errors": []}, status=200)
 def adminMarketCodeDetail(request):
 

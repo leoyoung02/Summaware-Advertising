@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.d-flex {
+  display: flex;
+}
 .color-primary {
   color: #f26722;
 }

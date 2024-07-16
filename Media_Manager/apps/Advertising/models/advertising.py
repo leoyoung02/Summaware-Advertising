@@ -359,6 +359,8 @@ class MagazineProduct(models.Model):
     page_height = models.IntegerField()
     page_border = models.IntegerField()
     gutter_size = models.IntegerField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'advertising_magazine_products'
@@ -378,6 +380,8 @@ class NewspaperProduct(models.Model):
     page_height = models.IntegerField()
     page_border = models.IntegerField()
     gutter_size = models.IntegerField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'advertising_newspaper_products'
@@ -391,6 +395,8 @@ class DigitalProduct(models.Model):
     adminadtype = models.ForeignKey('AdminAdType', on_delete=models.CASCADE)
     height = models.IntegerField()
     width = models.IntegerField()
+    active = models.BooleanField(default=True)
+    status = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'advertising_digital_products'
@@ -480,7 +486,7 @@ class AdminTax(models.Model):
     description = models.TextField(null=True)
     format = models.CharField(max_length=255)
     assigned_gl = models.CharField(max_length=255)
-    amount = models.IntegerField(default=0)
+    amount = models.FloatField(default=0)
     gl_code = models.ForeignKey('GLCode', on_delete=models.CASCADE, default=None)
     start_date = models.DateField()
     end_date = models.DateField()

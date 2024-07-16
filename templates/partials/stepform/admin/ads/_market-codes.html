@@ -106,5 +106,39 @@
           console.log(error);
       });
     }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all radio buttons with name ending in '-adjustment-switch-one'
+      const radioButtons = document.querySelectorAll('input[name$="-mcode-switch-one"]');
+      
+      // Add change event listener to each radio button
+      radioButtons.forEach(function(radioButton) {
+        radioButton.addEventListener('change', function(event) {
+          handleRadioChange(event);
+        });
+      });
+
+      // Function to handle the change event
+      function handleRadioChange(event) {
+        const selectedValue = event.target.value;
+        const adjustmentId = event.target.name.split('-')[0]; // Extract the adjustment ID from the name attribute
+        let data = {};
+        data['id'] = adjustmentId;
+        data['active'] = selectedValue == 'active' ? true : false;
+        data['status_only'] = true;
+        fetch("ads/edit-marketcode", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              "Accept": "application/json",
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          console.log('Acitvate changed');
+        })
+        // You can perform any other actions here, such as sending an AJAX request to update the server
+      }
+    });
   </script>
 </div>

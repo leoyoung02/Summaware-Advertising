@@ -90,10 +90,10 @@
               <td>
                 <div class="toggle-switch-container">
                   <div class="switch-field">
-                    <input type="radio" id="{{newspaper.id}}-prodcut-radio-one" name="{{newspaper.id}}-prodcut-switch-one" value="active" checked />
-                    <label for="{{newspaper.id}}-prodcut-radio-one">Active</label>
-                    <input type="radio" id="{{newspaper.id}}-prodcut-radio-two" name="{{newspaper.id}}-prodcut-switch-one" value="inactive" />
-                    <label for="{{newspaper.id}}-prodcut-radio-two">Inactive</label>
+                    <input type="radio" id="{{newspaper.id}}-newspaper-product-radio-one" name="{{newspaper.id}}-product-switch-one" value="active" {{newspaper.active | yesno:"checked, unchecked"}} />
+                    <label for="{{newspaper.id}}-newspaper-product-radio-one">Active</label>
+                    <input type="radio" id="{{newspaper.id}}-newspaper-product-radio-two" name="{{newspaper.id}}-product-switch-one" value="inactive" {{newspaper.active | yesno:"unchecked, checked"}} />
+                    <label for="{{newspaper.id}}-newspaper-product-radio-two">Inactive</label>
                   </div>
                 </div>
               </td>
@@ -113,10 +113,10 @@
               <td>
                 <div class="toggle-switch-container">
                   <div class="switch-field">
-                    <input type="radio" id="{{digital.id|add:total_newspapers}}-prodcut-radio-one" name="{{digital.id|add:total_newspapers}}-prodcut-switch-one" value="active" checked />
-                    <label for="{{digital.id|add:total_newspapers}}-prodcut-radio-one">Active</label>
-                    <input type="radio" id="{{digital.id|add:total_newspapers}}-prodcut-radio-two" name="{{digital.id|add:total_newspapers}}-prodcut-switch-one" value="inactive" />
-                    <label for="{{digital.id|add:total_newspapers}}-prodcut-radio-two">Inactive</label>
+                    <input type="radio" id="{{digital.id}}-digital-product-radio-one" name="{{digital.id}}-digital-product-switch-one" value="active" {{digital.active | yesno:"checked, unchecked"}} />
+                    <label for="{{digital.id}}-digital-product-radio-one">Active</label>
+                    <input type="radio" id="{{digital.id}}-digital-product-radio-two" name="{{digital.id}}-digital-product-switch-one" value="inactive" {{digital.active | yesno:"unchecked, checked"}} />
+                    <label for="{{digital.id}}-digital-product-radio-two">Inactive</label>
                   </div>
                 </div>
               </td>
@@ -136,10 +136,10 @@
               <td>
                 <div class="toggle-switch-container">
                   <div class="switch-field">
-                    <input type="radio" id="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-radio-one" name="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-switch-one" value="active" checked />
-                    <label for="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-radio-one">Active</label>
-                    <input type="radio" id="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-radio-two" name="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-switch-one" value="inactive" />
-                    <label for="{{magazine.id|add:total_newspapers|add:total_digitals}}-prodcut-radio-two">Inactive</label>
+                    <input type="radio" id="{{magazine.id}}-magazine-product-radio-one" name="{{magazine.id}}-magazine-product-switch-one" value="active" {{magazine.active | yesno:"checked, unchecked"}} />
+                    <label for="{{magazine.id}}-magazine-product-radio-one">Active</label>
+                    <input type="radio" id="{{magazine.id}}-magazine-product-radio-two" name="{{magazine.id}}-magazine-product-switch-one" value="inactive" {{magazine.active | yesno:"unchecked, checked"}} />
+                    <label for="{{magazine.id}}-magazine-product-radio-two">Inactive</label>
                   </div>
                 </div>
               </td>
@@ -178,5 +178,43 @@
       })
       clickedElement.classList.add('active');
     }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all radio buttons with name ending in '-adjustment-switch-one'
+      const radioButtons = document.querySelectorAll('input[name$="-product-switch-one"]');
+      
+      // Add change event listener to each radio button
+      radioButtons.forEach(function(radioButton) {
+        radioButton.addEventListener('change', function(event) {
+          handleRadioChange(event);
+        });
+      });
+
+      // Function to handle the change event
+      function handleRadioChange(event) {
+        const selectedValue = event.target.value;
+        const productId = event.target.id.split('-')[0]; // Extract the adjustment ID from the name attribute
+        const productType = event.target.id.split('-')[1];
+        let data = {};
+        data['active'] = selectedValue == 'active' ? true : false;
+        data['status_only'] = true;
+        fetch(`/advertising/adadmin/financial/edit-${productType}/${productId}/save`, {
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": getCookie('csrftoken'),
+                "Accept": "application/json",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            $.toastr.success('Saved Success');
+        })
+        .catch(error => {
+            $.toastr.error("Saved failure");
+        });
+        // You can perform any other actions here, such as sending an AJAX request to update the server
+      }
+    });
   </script>
 </div>

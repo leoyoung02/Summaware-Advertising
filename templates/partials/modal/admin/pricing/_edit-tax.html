@@ -97,13 +97,13 @@
     </form>
     <div class="btn-container text-center">
       <button class="btn btn-gray" onclick="document.getElementById('editTax').style.display='none'">Discard Changes</button>
-      <button class="btn btn-gray" onclick="saveChange(event, 1)">Archive</button>
-      <button class="btn btn-secondary" onclick="saveChange(event, 2)">Save Changes</button>
+      <button class="btn btn-gray" onclick="saveTax(event, 1)">Archive</button>
+      <button class="btn btn-secondary" onclick="saveTax(event, 2)">Save Changes</button>
     </div>
   </div>
   
   <script>
-    function saveChange(e, index) {
+    function saveTax(e, index) {
       e.preventDefault();
       let form = $('#edit-tax-form');
       var formData = new FormData(form[0]);

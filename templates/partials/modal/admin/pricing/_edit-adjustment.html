@@ -98,13 +98,13 @@
     {% include "components/item_select.html" with item_type="publications" available_items=publications id="edit-adjustment" %}
 
     <div class="btn-container text-center">
-      <button class="btn btn-gray" onclick="saveChange(1)">Archive</button>
-      <button class="btn btn-danger" id="adminadjustment-active" onclick="saveChange(2)">Deactivate</button>
-      <button class="btn btn-secondary" onclick="saveChange(3)">Save Changes</button>
+      <button class="btn btn-gray" onclick="saveAdjustment(1)">Archive</button>
+      <button class="btn btn-danger" id="adminadjustment-active" onclick="saveAdjustment(2)">Deactivate</button>
+      <button class="btn btn-secondary" onclick="saveAdjustment(3)">Save Changes</button>
     </div>
   </div>
   <script>
-    function saveChange(index) {
+    function saveAdjustment(index) {
       let form = $('#edit-adjustment-form');
       var formData = new FormData(form[0]);
       let data = {};

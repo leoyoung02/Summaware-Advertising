@@ -569,7 +569,7 @@
       if(!data['gl_code']) data['gl_code'] = 1;
       if(!data['repeat']) data['repeat'] = 0;
       if(!data['start_date']) data['start_date'] = formattedDate;
-      if(!data['end_date']) data['end_date'] = formattedDate;
+      if(!data['end_date']) data['end_date'] = null;
       console.log(data);
       var hrefUrl = `{% url 'adminGeneral' %}`
       fetch(`${id}/save`, {
