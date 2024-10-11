@@ -20,6 +20,10 @@
         <div class="row mgb-3">
           <div class="col-md-5">
             <div class="form-group">
+              <p class="text-muted mx-2 mx-md-2 mgx-2">Enter Your Section Name, Code Then select publications you want the Section assigned to</p>
+            </div>
+
+            <div class="form-group">
               <label for="">Name:</label>
               <input type="text" class="form-control" name="" id="" />
             </div>
@@ -35,7 +39,11 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="">Default Rates:</label>
-                  <select type="text" class="form-control" name="" id=""></select>
+                  <select type="text" class="form-control" name="default_rate" id="">
+                    {% for subrate in subrates %}
+                      <option value="{{subrate.id}}">{{subrate.name}}</option>
+                    {% endfor %}
+                  </select>
                 </div>
               </div>
             </div>
@@ -44,7 +52,7 @@
         </div>
 
         <div class="btn-container text-center">
-          <button class="btn btn-secondary">Create</button>
+          <button class="btn btn-secondary" onclick="create()">Create</button>
         </div>
       </div>
     </div>
@@ -113,4 +121,42 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function create() {
+    //   let form = $('#new-adminadtype-form');
+    //   var formData = new FormData(form[0]);
+    //   let data = {};
+      
+    //   for (const [key, value] of formData) {
+    //       data[key] = value;
+    //   }
+    //   var selectElement = document.getElementById('new-adtype-lstBox2');
+    //   var values = [];
+    //   for (var i = 0; i < selectElement.options.length; i++) {
+    //       values.push(selectElement.options[i].value);
+    //   }
+    //   data['publication_id'] = JSON.stringify(values);
+    //   fetch("ads/create-adtype", {
+    //     method: "POST",
+    //     credentials: "same-origin",
+    //     headers: {
+    //         "X-CSRFToken": "{{ csrf_token }}",
+    //         "Accept": "application/json",
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data),
+    //   })
+    //   .then(response => response.json())
+    //   .then((response) => {
+    //     // window.location.href = `{% url 'adminAds' %}`
+    //     if(response.success) {
+    //       $.toastr.success('New AdType created succesfully');
+    //     }
+    //     else {
+    //       $.toastr.error('Creating AdType failed');
+    //     }
+    //   })
+    }
+  </script>
 </div>

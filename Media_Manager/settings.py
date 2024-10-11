@@ -23,11 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'z=h&_fygqs3y_xo&ddw!#yam+3z!y4#@*)r6$+^3nyns2@gv=@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ADMIN_ENABLED = False
 
-ALLOWED_HOSTS = ['linux.midtc.com']
+ALLOWED_HOSTS = ['linux.midtc.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Media_Manager.apps.Accounting',
-    #'Media_Manager.apps.Admin',
+    'Media_Manager.apps.Admin',
     'Media_Manager.apps.Advertising',
     'Media_Manager.apps.BI',
     'Media_Manager.apps.Circulation',
@@ -74,8 +74,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/var/www/Dev_Media_Manager',
-            #['/var/www/Dev_Media_Manager/templates', '/var/www/Dev_Media_Manager/Media_Manager/', '.', './templates/'],
+            # '/var/www/Dev_Media_Manager',
+            '.',
         ],
         #'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
@@ -103,9 +103,9 @@ DATABASES = {
     #}
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-    	'NAME': 'dev_bi_admin', #summaware_demo
-    	'USER': 'admin',
-    	'PASSWORD': 'Midtc@2230',
+    	'NAME': 'addb', #summaware_demo
+    	'USER': 'root',
+    	'PASSWORD': '',
     	'HOST': 'localhost',
     	'PORT': '',
         'OPTIONS': {"init_command":"SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED", },
@@ -173,22 +173,22 @@ STATIC_ROOT = '/var/www/Dev_Media_Manager/static/'
 
 #STATIC_ROOT =  os.path.dirname(os.path.realpath(__file__))#os.path.join(BASE_DIR, 'static')
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-	'handlers': {
-        'console': {
-            'level':'INFO',
-            'class':'logging.FileHandler',
-            'filename': '/var/www/Dev_Media_Manager/tmp/logs/test.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers':['console'],
-        },
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+# 	'handlers': {
+#         'console': {
+#             'level':'INFO',
+#             'class':'logging.FileHandler',
+#             'filename': '/var/www/Dev_Media_Manager/tmp/logs/test.log',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers':['console'],
+#         },
+#     }
+# }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'

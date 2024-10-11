@@ -2914,6 +2914,11 @@
   width: 50%;
 }
 
+.mgx-2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 body {
   background-color: #f3f3f3;
 }

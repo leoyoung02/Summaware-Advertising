@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from ..models.advertising import *
 from ..models.orders import *
 from ..models.rates import *
+from ..models.classifieds import *
 from ..models.publications import *
 from ..models.companies import *
 from .... import views
@@ -74,12 +75,14 @@ def adminAds(request):
 	pub_adtypes = PubAdType.objects.all()
 	adtypes = AdminAdType.objects.all()
 	rates = Rate.objects.all()
+	subrates = ClassifiedRate.objects.all()
 	publications = AdminPublication.objects.all()
 	marketcodes = AdminMarketCode.objects.all()
 	context = {
 		'pub_adtypes': pub_adtypes,
 		'adtypes': adtypes,
 		'rates': rates,
+		'subrates': subrates,
 		'marketcodes': marketcodes,
 		'publications': publications
 	}
